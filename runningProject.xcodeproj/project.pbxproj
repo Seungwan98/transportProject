@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		60802F3F2C1638EE00C541A5 /* Pods_runningProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A97DD7207BC96ED722B0A507 /* Pods_runningProject.framework */; };
 		60C392212C0993DF00465156 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C392202C0993DF00465156 /* App.swift */; };
 		60C392252C0993E000465156 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 60C392242C0993E000465156 /* Assets.xcassets */; };
 		60C392282C0993E000465156 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 60C392272C0993E000465156 /* Preview Assets.xcassets */; };
@@ -17,7 +18,6 @@
 		60CB783A2C12DE6400BEA49B /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60CB78392C12DE6400BEA49B /* Model.swift */; };
 		60CB783C2C134D9800BEA49B /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60CB783B2C134D9800BEA49B /* ApiClient.swift */; };
 		60CB78412C13534A00BEA49B /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 60CB78402C13534A00BEA49B /* ComposableArchitecture */; };
-		773501F6645648DF0CC55CBF /* Pods_runningProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A97DD7207BC96ED722B0A507 /* Pods_runningProject.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,8 +42,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60802F3F2C1638EE00C541A5 /* Pods_runningProject.framework in Frameworks */,
 				60CB78412C13534A00BEA49B /* ComposableArchitecture in Frameworks */,
-				773501F6645648DF0CC55CBF /* Pods_runningProject.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
