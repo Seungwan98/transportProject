@@ -21,14 +21,14 @@ struct RootFeature {
        
        }
     
-    var body: some Reducer<State, Action> {
+    var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
 
             case let .path(action):
                 switch action {
                 case .element(id: _, action: .bus(.onAppear)):
-                    state.path.append(.busScene())
+                    state.path.append(.busScene(BusFeature.State()))
                     return .none
                 default:
                     return .none
@@ -36,6 +36,8 @@ struct RootFeature {
          
             }
             
+        }.forEach(\.path, action: \.path){
+            Path()
         }
         
     }
@@ -45,6 +47,7 @@ struct RootFeature {
 extension RootFeature {
     @Reducer
     struct Path {
+        
         @ObservableState
         enum State: Equatable {
             case busScene(BusFeature.State = .init())

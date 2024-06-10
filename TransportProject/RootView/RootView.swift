@@ -2,7 +2,7 @@ import SwiftUI
 import ComposableArchitecture
 
 struct RootView: View {
-    // ⭐️ 0️⃣
+    
     @State var store: StoreOf<RootFeature>
 
     init(store: StoreOf<RootFeature>) {
@@ -56,6 +56,7 @@ struct RootView: View {
             case .busScene:
                 if let store = store.scope(state: \.busScene, action: \.bus){
                     BusView(store: store)
+                    
                 }
             }
         }
