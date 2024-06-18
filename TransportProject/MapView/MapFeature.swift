@@ -11,30 +11,28 @@ import Combine
 import SwiftUI
 
 @Reducer
-struct BusFeature {
+struct MapFeature {
     @Dependency(\.apiClient) var apiClient
 
     
     @ObservableState
     struct State: Equatable {
-        static func == (lhs: BusFeature.State, rhs: BusFeature.State) -> Bool {
+        static func == (lhs: MapFeature.State, rhs: MapFeature.State) -> Bool {
             return lhs.result.count == rhs.result.count
         }
-        var routeid: String = ""
-        var result: [Item] = []
-        var routeId: String = ""
+        let routeId : String
+        var result : [Route] = []
         
     }
-    enum Action: Equatable {
-        static func == (lhs: BusFeature.Action, rhs: BusFeature.Action) -> Bool {
-            return true
-        }
-        
-        
+    enum Action {
+     
+    
        
-        case onAppear(String)
+        case onAppear
         case requestAPI(String)
-        case result(BusDTO)
+        
+        //향후 DTO로 수정
+        case result(RouteDTO)
         case tappedList(String)
     }
     
@@ -42,16 +40,24 @@ struct BusFeature {
 
     func reduce(into state: inout State, action: Action) -> Effect<Action> {
         switch(action){
-        case .onAppear(let test):
-            return .none
+        case .onAppear:
+            
+            return .run { [ id = state.routeId ] send in
+                let data = try await self.apiClient.fetchRoute(id)
+                
+                await send(.result(data))
+                
+            }
+                            
             
         case .requestAPI(let data):
             return .run{ send in
-                let data = try await apiClient.fetchBus(Int(data) ?? 0)
+                let data = try await apiClient.fetchRoute(data)
                 await send(.result(data))
             }
         case .result(let model):
-            state.result = model.response.body.items.item
+            print("\(model) routeModel")
+            state.result = model.routeResponse.routeBody.routes.route
             return .none
 
         case .tappedList(_):

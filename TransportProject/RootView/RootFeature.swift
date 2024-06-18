@@ -27,9 +27,12 @@ struct RootFeature {
 
             case let .path(action):
                 switch action {
-                case .element(id: _, action: .bus(.onAppear)):
-                    state.path.append(.busScene(BusFeature.State()))
+                case .element(id: _, action: .bus(.tappedList(let routeId))):
+             
+                    state.path.append(.detailScene(MapFeature.State(routeId: routeId)))
                     return .none
+          
+              
                 default:
                     return .none
                 }
@@ -51,15 +54,20 @@ extension RootFeature {
         @ObservableState
         enum State: Equatable {
             case busScene(BusFeature.State = .init())
+            case detailScene(MapFeature.State)
         }
         
         enum Action {
             case bus(BusFeature.Action)
+            case detail(MapFeature.Action)
 
         }
         var body: some ReducerOf<Self> {
             Scope(state: \.busScene , action: \.bus ) {
                 BusFeature()
+            } 
+            Scope(state: \.detailScene , action: \.detail ) {
+                MapFeature()
             }
         }
         

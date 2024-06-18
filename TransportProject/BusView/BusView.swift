@@ -17,16 +17,20 @@ struct BusView : View {
     }
     
     var body: some View {
+        
         WithViewStore(store, observe: { $0 }){ viewStore in
        
                 List {
                     
                     ForEach( viewStore.state.result , id: \.self.id ) { item in
-                        NavigationLink {
-                            
-                        } label: {
-                            Text("\(item.routeno.target)  \(item.routetp)")
+                      
+                       
+                        Text("\(item.routeno.target)  \(item.routetp)").onTapGesture {
+                            print("tapped")
+                            viewStore.send(.tappedList(item.routeid))
                         }
+                        
+      
                                             
                     }
                 }.listStyle(.plain)
@@ -40,10 +44,10 @@ struct BusView : View {
     }
 }
 
-
-#Preview {
-    BusView(
-        store : Store(initialState: BusFeature.State()) {
-            BusFeature()
-        }
-    )}
+//
+//#Preview {
+//    BusView(
+//        store : Store(initialState: BusFeature.State() {
+//            BusFeature()
+//        }
+//    )}
