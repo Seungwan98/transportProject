@@ -9,7 +9,8 @@ import Foundation
 import ComposableArchitecture
 import Combine
 import SwiftUI
-
+import MapKit
+import CoreLocation
 @Reducer
 struct MapFeature {
     @Dependency(\.apiClient) var apiClient
@@ -20,8 +21,11 @@ struct MapFeature {
         static func == (lhs: MapFeature.State, rhs: MapFeature.State) -> Bool {
             return lhs.result.count == rhs.result.count
         }
-        let routeId : String
-        var result : [Route] = []
+        let routeId: String
+        var result: [IdentifiablePlace] = []
+        var location: [CLLocationCoordinate2D] = []
+        var region: MKCoordinateRegion = MKCoordinateRegion()
+        var nowLocation: CLLocationCoordinate2D = CLLocationCoordinate2D()
         
     }
     enum Action {
@@ -45,6 +49,9 @@ struct MapFeature {
             return .run { [ id = state.routeId ] send in
                 let data = try await self.apiClient.fetchRoute(id)
                 
+                
+                
+                
                 await send(.result(data))
                 
             }
@@ -56,8 +63,21 @@ struct MapFeature {
                 await send(.result(data))
             }
         case .result(let model):
-            print("\(model) routeModel")
-            state.result = model.routeResponse.routeBody.routes.route
+//            print("\(model) routeModel")
+            model.routeResponse.routeBody.routes.route.forEach { route in
+                
+                state.result.append( IdentifiablePlace.init(lat: route.gpslati, long: route.gpslong, name: route.nodenm))
+                state.location.append(CLLocationCoordinate2D.init(latitude: route.gpslati, longitude: route.gpslong) )
+            }
+            state.region = MKCoordinateRegion(center: state.location.first!, span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1))
+            
+            let manager = CLLocationManager()
+            manager.desiredAccuracy = kCLLocationAccuracyBest
+            manager.requestWhenInUseAuthorization()
+            
+            state.nowLocation = manager.location!.coordinate
+            
+            
             return .none
 
         case .tappedList(_):

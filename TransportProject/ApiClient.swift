@@ -57,7 +57,7 @@ extension ApiClient: DependencyKey {
         fetchRoute: { value in
             
             let parameters: [String: Any] = ["query": ""]
-            let url = "http://apis.data.go.kr/1613000/BusRouteInfoInqireService/getRouteAcctoThrghSttnList?serviceKey=kc0al0dugGaSv1DDTZgLAx7uCBbhBaHU2rm1srUocfltPHQEozGrfNSEoeytjDRF%2B%2BAPtzscGL2s3aMLQ70pFQ%3D%3D&pageNo=1&numOfRows=10000&_type=json&cityCode=31100&routeId=GGB219000025"
+            let url = "http://apis.data.go.kr/1613000/BusRouteInfoInqireService/getRouteAcctoThrghSttnList?serviceKey=kc0al0dugGaSv1DDTZgLAx7uCBbhBaHU2rm1srUocfltPHQEozGrfNSEoeytjDRF%2B%2BAPtzscGL2s3aMLQ70pFQ%3D%3D&pageNo=1&numOfRows=10000&_type=json&cityCode=31100&routeId=\(value)"
             
             return try await withCheckedThrowingContinuation { continuation in
                 AF.request(url, parameters: parameters).responseData { response in

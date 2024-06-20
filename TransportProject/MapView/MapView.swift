@@ -9,61 +9,68 @@ import Foundation
 import SwiftUI
 import MapKit
 import ComposableArchitecture
-struct IdentifiablePlace: Identifiable {
-    let id: UUID
-    let location: CLLocationCoordinate2D
-    init(id: UUID = UUID(), lat: Double, long: Double) {
-        self.id = id
-        self.location = CLLocationCoordinate2D(
-            latitude: lat,
-            longitude: long)
-    }
-}
+
 struct MapView : View {
     @Bindable var store: StoreOf<MapFeature>
     @State private var text = ""
-    @State private var region = MKCoordinateRegion(
-            center: CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194),
-            span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1))
+    
     
     init(store: StoreOf<MapFeature>) {
         self.store = store
     }
     
     var body: some View {
-        
         WithViewStore(store, observe: { $0 }){ viewStore in
-       
-           
-//                List {
-//                    
-////                    ForEach( viewStore.state.result , id: \.self.id ) { item in
-//////                        NavigationLink(state: RootFeature.Path.State.detailScene() ) {
-////                            Text("\(item.routeno.target)  \(item.routetp)")
-//////                        }
-////                                            
-////                    }
-//                }.listStyle(.plain)
-//                    .navigationTitle("루트 검색")
-//                    .searchable(text: $text).onSubmit(of: .search){
-//                        viewStore.send(.requestAPI(text))
-//                    }.onAppear{
-//                        viewStore.send( .onAppear )
-//                    }
-//                
-            Map( interactionModes: [.rotate, .zoom, .all] ) {
-                Marker("test1", coordinate: CLLocationCoordinate2D(latitude: 37.66924, longitude: 126.7330167))
-                Marker("test2", coordinate: CLLocationCoordinate2D(latitude: 37.66923, longitude: 126.7330167))
-                Marker("test3", coordinate: CLLocationCoordinate2D(latitude: 37.66922, longitude: 126.7330167))
+            
+            @State var region = viewStore.region
+            
+            //                List {
+            //
+            ////                    ForEach( viewStore.state.result , id: \.self.id ) { item in
+            //////                        NavigationLink(state: RootFeature.Path.State.detailScene() ) {
+            ////                            Text("\(item.routeno.target)  \(item.routetp)")
+            //////                        }
+            ////
+            ////                    }
+            //                }.listStyle(.plain)
+            //                    .navigationTitle("루트 검색")
+            //                    .searchable(text: $text).onSubmit(of: .search){
+            //                        viewStore.send(.requestAPI(text))
+            //                    }.onAppear{
+            //                        viewStore.send( .onAppear )
+            //                    }
+            //
+            
+            Map {
                 
-                Annotation("annotation" , coordinate: CLLocationCoordinate2D(latitude: 37.66924, longitude: 126.7330167)){
-                    Text("annotation")
+                
+                
+                ForEach(viewStore.state.result) { place in
+                    Annotation(place.name, coordinate: place.location) {
+                       
+                        Button(action: {
+                            print("place \(place.name)")
+
+                        }) {
+                            Image(systemName: "tram")
+                                .resizable() // 이미지 크기 조정 가능
+                                .frame(width: 10, height: 10)
+                            
+                        }.frame(width: 20, height: 20 ).foregroundColor(.white).background(.blue).clipShape(Circle())
+                     
+                    }
+                    
+                    
                 }
                 
+                MapPolyline(coordinates: viewStore.state.location).stroke(.blue, lineWidth: 2)
+                
+            }.onAppear {
+                
+                viewStore.send(.onAppear)
                 
             }
             
-    
         }
     }
 }
@@ -71,7 +78,7 @@ struct MapView : View {
 
 #Preview {
     MapView(
-        store : Store(initialState: MapFeature.State(routeId: "")) {
+        store : Store(initialState: MapFeature.State(routeId: "", nowLocation: CLLocationCoordinate2D())) {
             MapFeature()
         }
     )}
