@@ -9,9 +9,9 @@ import Foundation
 struct RouteDTO: Codable {
     let routeResponse: RouteResponse
     enum CodingKeys: String, CodingKey {
-            case routeResponse = "response"
-      
-        }
+        case routeResponse = "response"
+        
+    }
 }
 
 // MARK: - Response
@@ -20,10 +20,10 @@ struct RouteResponse: Codable {
     let routeBody: RouteBody
     
     enum CodingKeys: String, CodingKey {
-            case routeHeader = "header"
-            case routeBody = "body"
-      
-        }
+        case routeHeader = "header"
+        case routeBody = "body"
+        
+    }
 }
 
 // MARK: - Body
@@ -36,9 +36,9 @@ struct RouteBody: Codable {
         case numOfRows = "numOfRows"
         case pageNo = "pageNo"
         case totalCount = "totalCount"
-
-      
-        }
+        
+        
+    }
     
 }
 
@@ -46,10 +46,10 @@ struct RouteBody: Codable {
 struct Routes: Codable {
     let route: [Route]
     enum CodingKeys: String, CodingKey {
-            case route = "item"
+        case route = "item"
         
-      
-        }
+        
+    }
 }
 
 // MARK: - Item

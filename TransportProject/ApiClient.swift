@@ -40,11 +40,11 @@ extension ApiClient: DependencyKey {
                             continuation.resume(returning: result)
                             
                         } catch {
-                     
-                                print("Error decoding JSON: \(error)")
-                                continuation.resume(throwing: error)
-                                
-                         
+                            
+                            print("Error decoding JSON: \(error)")
+                            continuation.resume(throwing: error)
+                            
+                            
                             
                         }
                     case .failure(let error):
@@ -70,11 +70,11 @@ extension ApiClient: DependencyKey {
                             continuation.resume(returning: result)
                             
                         } catch {
-                     
-                                print("Error decoding JSON: \(error)")
-                                continuation.resume(throwing: error)
-                                
-                         
+                            
+                            print("Error decoding JSON: \(error)")
+                            continuation.resume(throwing: error)
+                            
+                            
                             
                         }
                     case .failure(let error):
@@ -84,7 +84,7 @@ extension ApiClient: DependencyKey {
             }
             
         }
-    
-    
+        
+        
     )
 }

@@ -32,7 +32,7 @@ struct BusFeature {
         
         
        
-        case onAppear(String)
+        case onAppear
         case requestAPI(String)
         case result(BusDTO)
         case tappedList(String)
@@ -41,17 +41,18 @@ struct BusFeature {
     
 
     func reduce(into state: inout State, action: Action) -> Effect<Action> {
-        switch(action){
-        case .onAppear(let test):
+        switch action {
+        case .onAppear:
             return .none
             
         case .requestAPI(let data):
-            return .run{ send in
+            return .run { send in
                 let data = try await apiClient.fetchBus(Int(data) ?? 0)
                 await send(.result(data))
             }
         case .result(let model):
             state.result = model.response.body.items.item
+            
             return .none
 
         case .tappedList(_):

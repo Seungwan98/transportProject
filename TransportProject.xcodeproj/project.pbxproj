@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		605FA8A22C2474E200E32E19 /* IdentifiablePlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605FA8A12C2474E200E32E19 /* IdentifiablePlace.swift */; };
 		605FA8A62C24B57500E32E19 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605FA8A52C24B57500E32E19 /* SceneDelegate.swift */; };
+		605FA8AF2C2861D000E32E19 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 605FA8AE2C2861D000E32E19 /* .swiftlint.yml */; };
+		605FA8B22C2888CE00E32E19 /* CLLocation+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605FA8B12C2888CE00E32E19 /* CLLocation+.swift */; };
+		605FA8B62C288C0100E32E19 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 605FA8B52C288C0100E32E19 /* .gitignore */; };
 		60802F3F2C1638EE00C541A5 /* Pods_runningProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A97DD7207BC96ED722B0A507 /* Pods_runningProject.framework */; };
 		6093DB0C2C1B5CEB0078CAC6 /* MapFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6093DB0B2C1B5CEB0078CAC6 /* MapFeature.swift */; };
 		6093DB0F2C1B5D0B0078CAC6 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6093DB0E2C1B5D0B0078CAC6 /* MapView.swift */; };
@@ -28,6 +31,9 @@
 /* Begin PBXFileReference section */
 		605FA8A12C2474E200E32E19 /* IdentifiablePlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifiablePlace.swift; sourceTree = "<group>"; };
 		605FA8A52C24B57500E32E19 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		605FA8AE2C2861D000E32E19 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		605FA8B12C2888CE00E32E19 /* CLLocation+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocation+.swift"; sourceTree = "<group>"; };
+		605FA8B52C288C0100E32E19 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		6093DB0B2C1B5CEB0078CAC6 /* MapFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapFeature.swift; sourceTree = "<group>"; };
 		6093DB0E2C1B5D0B0078CAC6 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		6093DB112C1B5DE90078CAC6 /* RouteDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteDTO.swift; sourceTree = "<group>"; };
@@ -68,6 +74,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		605FA8B02C2888B600E32E19 /* Custom */ = {
+			isa = PBXGroup;
+			children = (
+				605FA8B12C2888CE00E32E19 /* CLLocation+.swift */,
+			);
+			path = Custom;
+			sourceTree = "<group>";
+		};
 		6093DB0D2C1B5CFA0078CAC6 /* MapView */ = {
 			isa = PBXGroup;
 			children = (
@@ -89,6 +103,8 @@
 		60C392142C0993DF00465156 = {
 			isa = PBXGroup;
 			children = (
+				605FA8B52C288C0100E32E19 /* .gitignore */,
+				605FA8AE2C2861D000E32E19 /* .swiftlint.yml */,
 				60C3921F2C0993DF00465156 /* TransportProject */,
 				60C3921E2C0993DF00465156 /* Products */,
 				A6143D73D02C3FDAEE073E51 /* Pods */,
@@ -107,6 +123,7 @@
 		60C3921F2C0993DF00465156 /* TransportProject */ = {
 			isa = PBXGroup;
 			children = (
+				605FA8B02C2888B600E32E19 /* Custom */,
 				60CB78422C16226800BEA49B /* Info.plist */,
 				60C392242C0993E000465156 /* Assets.xcassets */,
 				605FA8A52C24B57500E32E19 /* SceneDelegate.swift */,
@@ -164,6 +181,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 60C3922B2C0993E000465156 /* Build configuration list for PBXNativeTarget "TransportProject" */;
 			buildPhases = (
+				605FA8AD2C28609200E32E19 /* SwiftLint Script */,
 				6CE8E9B96C8B4EAD8930939B /* [CP] Check Pods Manifest.lock */,
 				60C392192C0993DF00465156 /* Sources */,
 				60C3921A2C0993DF00465156 /* Frameworks */,
@@ -223,6 +241,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				605FA8B62C288C0100E32E19 /* .gitignore in Resources */,
+				605FA8AF2C2861D000E32E19 /* .swiftlint.yml in Resources */,
 				60C392282C0993E000465156 /* Preview Assets.xcassets in Resources */,
 				60C392252C0993E000465156 /* Assets.xcassets in Resources */,
 			);
@@ -231,6 +251,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		605FA8AD2C28609200E32E19 /* SwiftLint Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "SwiftLint Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
 		6CE8E9B96C8B4EAD8930939B /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -277,6 +315,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				605FA8B22C2888CE00E32E19 /* CLLocation+.swift in Sources */,
 				60CB783C2C134D9800BEA49B /* ApiClient.swift in Sources */,
 				60C392322C0AFAB300465156 /* RootFeature.swift in Sources */,
 				60CB78342C12CBE600BEA49B /* RootView.swift in Sources */,
@@ -428,6 +467,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = /Users/seungwan/xcode/TransportProject/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location Test";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -461,6 +501,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = /Users/seungwan/xcode/TransportProject/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location Test";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

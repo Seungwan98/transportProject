@@ -9,16 +9,16 @@ import SwiftUI
 import ComposableArchitecture
 
 
-struct StartView : View {
+struct StartView: View {
     var store: StoreOf<StartFeature>
     
-    init(store: StoreOf<StartFeature>){
+    init(store: StoreOf<StartFeature>) {
         self.store = store
     }
     var body: some View {
         
         
-        NavigationStack() {
+        NavigationStack {
             VStack {
                 Text("이용하시는 서비스를").font(.system(size: 36).bold()).offset(x: 10)
                 Text("선택해주세요").font(.system(size: 36).bold()).offset(x: 10)
@@ -27,7 +27,7 @@ struct StartView : View {
              
                 Button(action: {
                     
-                }) {
+                }) label: {
                     Image(systemName: "car")
                         .resizable() // 이미지 크기 조정 가능
                         .frame(width: 50, height: 50)
