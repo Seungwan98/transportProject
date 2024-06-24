@@ -11,10 +11,11 @@ import Combine
 import SwiftUI
 import MapKit
 import CoreLocation
+import BackgroundTasks
 @Reducer
 struct MapFeature {
     @Dependency(\.apiClient) var apiClient
-    
+    // var locationManager: LocationManager = LocationManager()
     
     @ObservableState
     struct State: Equatable {
@@ -94,6 +95,7 @@ struct MapFeature {
                         lowestDistance = distance
                         startPosition = $0
                     }
+             
                 }
                 
                 state.cameraPosition = MapCameraPosition.region(MKCoordinateRegion(center: startPosition.location, span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)))
@@ -119,4 +121,5 @@ struct MapFeature {
             
         }
     }
+   
 }

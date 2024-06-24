@@ -5,7 +5,7 @@
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
 		<string>com.yourapp.locationUpdate</string>
-		<string>com.yourapp.locationUpdate</string>
+		<string>com.yourapp.notification</string>
 	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>
@@ -14,7 +14,10 @@
 	</dict>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>fetch</string>
 		<string>location</string>
+		<string>processing</string>
+		<string>remote-notification</string>
 	</array>
 </dict>
 </plist>
