@@ -1,8 +1,8 @@
 import SwiftUI
 import ComposableArchitecture
-
+import BackgroundTasks
 struct RootView: View {
-    
+    @EnvironmentObject var locationManager: LocationManager
     @State var store: StoreOf<RootFeature>
     
     init(store: StoreOf<RootFeature>) {
@@ -10,6 +10,14 @@ struct RootView: View {
     }
     
     var body: some View {
+        VStack {
+                   if let location = locationManager.currentLocation {
+                       Text("Latitude: \(location.coordinate.latitude)")
+                       Text("Longitude: \(location.coordinate.longitude)")
+                   } else {
+                       Text("Fetching location...")
+                   }
+               }
         
         NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
             VStack {
@@ -28,6 +36,7 @@ struct RootView: View {
                 
                 
                 Button(action: {
+                   
                     
                 }, label: {
                     Image(systemName: "tram")
@@ -45,7 +54,7 @@ struct RootView: View {
                     
                 }).frame(width: 100, height: 100 ).foregroundColor(.white).background(.blue).clipShape(Circle())
                 
-               
+                
                 Spacer()
             }
             
@@ -66,7 +75,10 @@ struct RootView: View {
             }
         }
     }
+  
 }
+
+
 #Preview {
     RootView(
         store: Store(initialState: RootFeature.State()) {

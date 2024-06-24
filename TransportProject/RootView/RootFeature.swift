@@ -12,8 +12,10 @@ import SwiftUI
 
 @Reducer
 struct RootFeature {
+    
     @ObservableState
     struct State: Equatable {
+        
         var path = StackState<Path.State>()
     }
     enum Action {

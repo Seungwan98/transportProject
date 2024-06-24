@@ -29,6 +29,20 @@ struct MapView: View {
             
             Map(position: $store.cameraPosition) {
             
+ 
+                Annotation("현재위치", coordinate: viewStore.state.userLocation) {
+                    
+                    Button(action: {
+                
+                        
+                    }, label: {
+                        Image(systemName: "tram")
+                            .resizable() // 이미지 크기 조정 가능
+                            .frame(width: 200, height: 200)
+                        
+                    }).frame(width: 20, height: 20 ).foregroundColor(.white).background(.blue).clipShape(Circle())
+                    
+                }
                 
                 ForEach( viewStore.state.result ) { place in
                     Annotation(place.name, coordinate: place.location) {

@@ -25,6 +25,8 @@ struct MapFeature {
         var result: [IdentifiablePlace] = []
         var locations: [CLLocationCoordinate2D] = []
         var cameraPosition: MapCameraPosition = MapCameraPosition.automatic
+        var userLocation: CLLocationCoordinate2D = CLLocationCoordinate2D.init()
+        var destination: IdentifiablePlace = IdentifiablePlace(lat: 0, long: 0, name: "")
         
         
     }
@@ -53,9 +55,6 @@ struct MapFeature {
                 return .run { [ id = state.routeId ] send in
                     let data = try await self.apiClient.fetchRoute(id)
                     
-                    
-                    
-                    
                     await send(.result(data))
                     
                 }
@@ -79,19 +78,27 @@ struct MapFeature {
                 manager.desiredAccuracy = kCLLocationAccuracyBest
                 manager.requestAlwaysAuthorization()
                 
-                state.cameraPosition = MapCameraPosition.region( MKCoordinateRegion(center: state.locations.first!, span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)))
+                state.userLocation = CLLocationCoordinate2D.init(latitude: manager.location?.coordinate.latitude ?? 0, longitude: manager.location?.coordinate.longitude ?? 0)
+                state.cameraPosition = MapCameraPosition.region( MKCoordinateRegion(center: state.userLocation, span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)))
                 
                 
                 return .none
                 
             case .detination(let destination):
-                
-                state.result.map {
+                var lowestDistance: CLLocationDistance = Double.infinity
+                var startPosition: IdentifiablePlace = IdentifiablePlace(lat: 0, long: 0, name: "")
+                _ = state.result.map {
                     
-                    $0.location.distance(from: )
-                    
+                    let distance = $0.location.distance(from: state.userLocation)
+                    if distance < lowestDistance {
+                        lowestDistance = distance
+                        startPosition = $0
+                    }
                 }
                 
+                state.cameraPosition = MapCameraPosition.region(MKCoordinateRegion(center: startPosition.location, span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)))
+                state.destination = destination
+
                 return .none
                 
             case .resultText(let resultText):
