@@ -36,8 +36,8 @@ struct RootView: View {
                 
                 
                 Button(action: {
-                 print("tapped")
-                 
+                    print("tapped")
+                    
                     
                 }, label: {
                     Image(systemName: "tram")
@@ -76,7 +76,7 @@ struct RootView: View {
             }
         }
     }
-   
+    
     
     
     

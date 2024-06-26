@@ -21,7 +21,7 @@ struct BusFeature {
             return lhs.result.count == rhs.result.count
         }
         var routeid: String = ""
-        var result: [Item] = []
+        var result: [BusItem] = []
         var routeId: String = ""
         
     }
@@ -35,7 +35,7 @@ struct BusFeature {
         case onAppear
         case requestAPI(String)
         case result(BusDTO)
-        case tappedList(String)
+        case tappedList(BusItem)
     }
     
     

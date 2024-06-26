@@ -1,8 +1,8 @@
-//import UIKit
-//import BackgroundTasks
-//import CoreLocation
+// import UIKit
+// import BackgroundTasks
+// import CoreLocation
 //
-//class AppDelegate: NSObject, UIApplicationDelegate {
+// class AppDelegate: NSObject, UIApplicationDelegate {
 //    var locationManager: LocationManager?
 //    
 //    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -45,6 +45,6 @@
 //        }
 //        task.setTaskCompleted(success: true)
 //    }
-//}
+//  }
 //
 

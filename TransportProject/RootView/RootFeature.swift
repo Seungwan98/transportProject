@@ -29,9 +29,9 @@ struct RootFeature {
                 
             case let .path(action):
                 switch action {
-                case .element(id: _, action: .bus(.tappedList(let routeId))):
+                case .element(id: _, action: .bus(.tappedList(let busItem))):
                     
-                    state.path.append(.detailScene(MapFeature.State(routeId: routeId)))
+                    state.path.append(.detailScene(MapFeature.State(busItem: busItem)))
                     return .none
                     
                     

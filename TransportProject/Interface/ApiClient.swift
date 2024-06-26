@@ -12,7 +12,7 @@ import Alamofire
 @DependencyClient
 struct ApiClient {
     var fetchBus: (Int) async throws -> BusDTO
-    var fetchRoute: (String) async throws -> RouteDTO
+    var fetchRoute: (String) async throws -> BusRouteDTO
     
 }
 
@@ -65,7 +65,7 @@ extension ApiClient: DependencyKey {
                     case .success(let data):
                         do {
                             let decoder = JSONDecoder()
-                            let result = try decoder.decode(RouteDTO.self, from: data)
+                            let result = try decoder.decode(BusRouteDTO.self, from: data)
                             print("데이타 리절트 \(result)")
                             continuation.resume(returning: result)
                             

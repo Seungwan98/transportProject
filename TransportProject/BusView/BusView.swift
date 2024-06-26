@@ -26,8 +26,7 @@ struct BusView: View {
                     
                     
                     Text("\(item.routeno.target)  \(item.routetp)").onTapGesture {
-                        print("tapped")
-                        viewStore.send(.tappedList(item.routeid))
+                        viewStore.send(.tappedList(item))
                     }
                     
                     

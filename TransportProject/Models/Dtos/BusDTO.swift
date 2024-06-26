@@ -24,14 +24,14 @@ struct Body: Codable {
 
 // MARK: - Items
 struct Items: Codable {
-    var item: [Item]
+    var item: [BusItem]
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         item = []
-        if let singleVenue = try? values.decode(Item.self, forKey: CodingKeys.item) {
+        if let singleVenue = try? values.decode(BusItem.self, forKey: CodingKeys.item) {
             // if a single venue decoded append it to array
             item.append(singleVenue)
-        } else if let multiVenue = try? values.decode([Item].self, forKey: CodingKeys.item) {
+        } else if let multiVenue = try? values.decode([BusItem].self, forKey: CodingKeys.item) {
             // if a multi venue decoded, set it as venue
             item = multiVenue
         }
@@ -41,7 +41,7 @@ struct Items: Codable {
 }
 
 // MARK: - Item
-struct Item: Codable, Identifiable {
+struct BusItem: Codable, Identifiable {
     var id: String {
         self.routeid
     }

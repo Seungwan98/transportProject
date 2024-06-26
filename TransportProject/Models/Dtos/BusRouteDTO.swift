@@ -6,7 +6,7 @@
 import Foundation
 
 // MARK: - RouteDTO
-struct RouteDTO: Codable {
+struct BusRouteDTO: Codable {
     let routeResponse: RouteResponse
     enum CodingKeys: String, CodingKey {
         case routeResponse = "response"
