@@ -7,7 +7,11 @@
 import MapKit
 import Foundation
 import SwiftUI
-struct IdentifiablePlace: Identifiable {
+struct IdentifiablePlace: Identifiable, Equatable {
+    static func == (lhs: IdentifiablePlace, rhs: IdentifiablePlace) -> Bool {
+        lhs.way == rhs.way && lhs.name == rhs.name
+    }
+    
     let id: UUID
     let location: CLLocationCoordinate2D
     let name: String
@@ -22,6 +26,12 @@ struct IdentifiablePlace: Identifiable {
         self.name = name
         self.way = way
         
+    }
+    
+    func changeToBlue() -> IdentifiablePlace {
+        var new = IdentifiablePlace.init(lat: self.location.latitude, long: self.location.longitude, name: self.name, way: self.way)
+        new.color = .blue
+        return new
     }
 
 }

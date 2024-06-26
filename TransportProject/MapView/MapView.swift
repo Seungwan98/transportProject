@@ -11,12 +11,14 @@ import MapKit
 import ComposableArchitecture
 
 struct MapView: View {
+    
     @Bindable var store: StoreOf<MapFeature>
     @State private var text = ""
     @State private var resultText = ""
     
     @State private var showAlert = false
     @State private var place = ""
+    
     
     
     @State private var resultRoute: IdentifiablePlace = IdentifiablePlace(lat: 0, long: 0, name: "", way: "")
@@ -31,12 +33,14 @@ struct MapView: View {
      
         
         WithViewStore(store, observe: { $0 }) { viewStore in
-            if viewStore.state.alarm {
-                Text("true")
-
-            }
+//            if viewStore.state.alarm {
+//                Text("true")
+//
+//            }
     
-          
+            Text(
+                "\(viewStore.state.locationManager.resultPositions.first?.latitude ?? 12) lat "
+            )
             
             Map(position: $store.cameraPosition) {
                 
@@ -116,12 +120,4 @@ struct MapView: View {
     //        )}
 }
 
-struct ContentView: View {
-    var body: some View {
-        VStack { //VStack => 수직 스택
-            
-            Text("adkjhadkjahdkj")
-        }
-    }
-}
 

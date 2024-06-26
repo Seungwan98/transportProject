@@ -15,6 +15,7 @@ import BackgroundTasks
 @Reducer
 struct MapFeature {
     @Dependency(\.apiClient) var apiClient
+    @Dependency(\.locationManaging) var locationManaging
     
     
     @ObservableState
@@ -37,6 +38,10 @@ struct MapFeature {
         var startPosition: IdentifiablePlace = IdentifiablePlace(lat: 0, long: 0, name: "", way: "")
         var destination: IdentifiablePlace = IdentifiablePlace(lat: 0, long: 0, name: "", way: "")
         var showAlert = false
+        
+        var befPosition = CLLocationCoordinate2D()
+        var aftPosition = CLLocationCoordinate2D()
+        
         
     }
     enum Action: BindableAction {
@@ -82,9 +87,9 @@ struct MapFeature {
                     
                     if route.nodenm != state.busItem.endnodenm {
                         if findEnd {
-                            name = "\n\(state.busItem.endnodenm) 방면 "
+                            name = "\n\(state.busItem.startnodenm) 방면 "
                         } else {
-                            name  = "\n\(state.busItem.startnodenm) 방면 "
+                            name  = "\n\(state.busItem.endnodenm) 방면 "
                             
                         }
                     } else {
@@ -137,26 +142,90 @@ struct MapFeature {
                 }
                 
             case .updateWay:
-              
+                
                 
                 
                 if !state.destination.name.isEmpty && !state.startPosition.name.isEmpty {
-                    state.locationManager.startLocation(destination: state.destination.location)
                     //                    state.cameraPosition = MapCameraPosition.region(MKCoordinateRegion(center: betaPosition.location, span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)))
+                    
+                    var behind = true
+                    var startIndex: Int?
+                    var lastIndex: Int?
+                    
+                    for (index, value) in state.result.enumerated() {
+                        
+                        
+                        
+                        if behind && value.name == state.destination.name {
+                            lastIndex = index
+                            break
+                        }
+                        
+                        if value.name == state.startPosition.name {
+                            behind = true
+                            startIndex = index
+                        }
+                        
+                    }
+                    
+                    var lastResult = state.result
+                    if let startIndex = startIndex, let lastIndex = lastIndex {
+                        
+                        
+                        state.result = Array(state.result[startIndex...lastIndex]).map {
+                            $0.changeToBlue()
+                        }
+                        state.locations = state.result.map {
+                            
+                            return $0.location
+                        }
+                        
+                    } else {
+                        
+                        lastResult = lastResult.map {
+                            $0.changeToBlue()
+                        }
+                        
+                        
+                        
+                        
+                        
+                        state.result = lastResult
+                        
+                    }
+                    
+                    self.locationManaging.startLocation(positions: state.result.map {
+                        $0.location
+                    })
+                    
                 }
                 
                 
+//                
+//                self.locationManaging.$alarm.sink { value in
+//                    print("sink\(value)")
+//                }.store(in: &state.anyCancellable)
                 
-                //                state.locationManager.$alarm.sink { value in
-                //                    print("sink\(value)")
+                
+                
+                //                state.locationManager.$resultPositions.sink { value in
+                //                    state.befPosition.latitude =  value.first?.latitude ?? 0
+                //                    state.befPosition.longitude =  value.first?.longitude ?? 0
                 //                }.store(in: &state.anyCancellable)
+                //
                 
                 
                 
+              
+               
                 
-                
-                
-                return .none
+                return .run { send in
+                    
+//                    locationManaging.updateHandler {
+//                        send(.resultText(""))
+//
+//                    }
+                }
                 
             case .resultText(let resultText):
                 let resultRoutes = state.result.filter {
@@ -177,5 +246,7 @@ struct MapFeature {
             
         }
     }
+    
+    
     
 }
