@@ -11,34 +11,32 @@ import UserNotifications
 import BackgroundTasks
 import ComposableArchitecture
 import Combine
+import SwiftUI
 
 
-protocol LocationManaging {
-    func getResult() async throws -> [CLLocationCoordinate2D]
-    func startLocation(positions: [CLLocationCoordinate2D])
-    var updateHandler: (([CLLocationCoordinate2D]) -> Void)? { get set }
-}
+//protocol LocationManaging {
+//    var resultPositions: [CLLocationCoordinate2D] { get set }
+//    func startLocation(positions: [CLLocationCoordinate2D])
+//
+//}
+//
+//
+//extension DependencyValues {
+//    var locationManaging: LocationManaging {
+//        get { self[LocationManageKey.self] }
+//        set { self[LocationManageKey.self] = newValue }
+//    }
+//    private enum LocationManageKey: DependencyKey {
+//        static var liveValue: LocationManaging = LocationManager()
+//    }
+//}
+class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
 
-
-extension DependencyValues {
-    var locationManaging: LocationManaging {
-        get { self[LocationManageKey.self] }
-        set { self[LocationManageKey.self] = newValue }
-    }
-    private enum LocationManageKey: DependencyKey {
-        static var liveValue: LocationManaging = LocationManager()
-    }
-}
-class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject, LocationManaging {
-    var updateHandler: (([CLLocationCoordinate2D]) -> Void)?
-    
-    func getResult() async throws -> [CLLocationCoordinate2D] {
-        return resultPositions
-    }
-    
-    
    
+ 
     
+    var store: MapFeature.Action?
+    private var anyCancelled = Set<AnyCancellable>()
     private var locationManager: CLLocationManager
     @Published var currentLocation: CLLocation?
     @Published var alarm: Bool = false
@@ -56,38 +54,45 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject, Lo
         locationManager.allowsBackgroundLocationUpdates = true
         
         
+
         
         
     }
     
+
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("Locationdistance")
         guard let location = locations.last, let destination = self.destination, locations.last?.coordinate != nil, let positions = self.positions else { return }
-        currentLocation = location
-        
+        self.currentLocation = location
+        print("LocationDistance")
         self.alarm.toggle()
         var lowest = Double.infinity
+        var finalIndex = 0
         for i in 1..<positions.count {
             let firstvalue = positions[i-1]
             let secondvalue = positions[i]
             let distance = self.calDist(x1: firstvalue.latitude, y1: firstvalue.longitude, x2: secondvalue.latitude, y2: secondvalue.longitude, a: location.coordinate.latitude, b: location.coordinate.longitude  )
             if lowest > distance {
                 lowest = distance
-                
-                print("\(distance) distance")
-                self.resultPositions[0] = firstvalue
-                self.resultPositions[1] = secondvalue
-                
+                finalIndex = i
+                                
             }
         }
+        var resultPositions = [CLLocationCoordinate2D]()
+        resultPositions.append(positions[finalIndex - 1])
+        resultPositions.append(positions[finalIndex])
+        self.resultPositions = resultPositions
+
+
         
         if destination.distance(from: location.coordinate) < 50 {
             
             scheduleNotification()
-            
-            
-        }
-        updateHandler?(self.resultPositions)
 
+        }
+
+        
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -96,7 +101,10 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject, Lo
     func startLocation(positions: [CLLocationCoordinate2D]) {
         self.destination = positions.last
         self.positions = positions
+        print("\(positions) positions")
+        
         print("startLocation")
+    
         locationManager.startUpdatingLocation()
     }
     func stopLocation() {
@@ -114,6 +122,8 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject, Lo
         content.title = "Local Notification\(String(describing: self.currentLocation?.coordinate.latitude))"
         content.body = ""
         content.sound = .default
+        
+        
         // Create a trigger for the notification (every 2 minutes)
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         
@@ -160,4 +170,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject, Lo
         let distance = area / AB
         return distance
     }
+    
 }
+
+

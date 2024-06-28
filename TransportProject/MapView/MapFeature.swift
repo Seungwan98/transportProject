@@ -15,7 +15,9 @@ import BackgroundTasks
 @Reducer
 struct MapFeature {
     @Dependency(\.apiClient) var apiClient
-    @Dependency(\.locationManaging) var locationManaging
+//    @Dependency(\.locationManaging) var locationManaging
+  
+ 
     
     
     @ObservableState
@@ -29,7 +31,7 @@ struct MapFeature {
         var cameraPosition: MapCameraPosition = MapCameraPosition.automatic
         var userLocation: CLLocationCoordinate2D = CLLocationCoordinate2D.init()
         
-        var locationManager = LocationManager()
+        
         var alarm: Bool = false
         var anyCancellable = Set<AnyCancellable>()
         
@@ -41,12 +43,14 @@ struct MapFeature {
         
         var befPosition = CLLocationCoordinate2D()
         var aftPosition = CLLocationCoordinate2D()
-        
+        var resultPositions = false
+     
+        var locationManager: LocationManager?
         
     }
     enum Action: BindableAction {
         case binding(BindingAction<State>)
-        case onAppear
+        case onAppear(LocationManager)
         
         
         
@@ -58,15 +62,18 @@ struct MapFeature {
         
         case position(IdentifiablePlace, Bool)
         case updateWay
+        case updateAftPosition(Bool)
     }
     
     
     
     var body: some ReducerOf<Self> {
+        
         BindingReducer()
         Reduce { state, action in
             switch action {
-            case .onAppear:
+            case .onAppear(let locationManager):
+                state.locationManager = locationManager
                 
                 return .run { [ id = state.busItem.routeid  ] send in
                     let data = try await self.apiClient.fetchRoute(id)
@@ -180,52 +187,85 @@ struct MapFeature {
                             return $0.location
                         }
                         
+                        state.locationManager?.startLocation(positions: state.result.map {
+                            $0.location
+                        })
+                        
                     } else {
                         
+                        // 초기화 해야 함
                         lastResult = lastResult.map {
                             $0.changeToBlue()
                         }
                         
-                        
-                        
-                        
-                        
+                        // 이전 전체 경로
                         state.result = lastResult
                         
                     }
                     
-                    self.locationManaging.startLocation(positions: state.result.map {
-                        $0.location
-                    })
+                    
+                    
+                    
+                    
+                    //                    self.locationManaging.startLocation(positions: state.result.map {
+                    //                        $0.location
+                    //                    })
+                    //                    state.locationManager.startLocation(positions: state.result.map {
+                    //                        $0.location
+                    //                    })
                     
                 }
                 
                 
-//                
-//                self.locationManaging.$alarm.sink { value in
-//                    print("sink\(value)")
-//                }.store(in: &state.anyCancellable)
                 
                 
                 
-                //                state.locationManager.$resultPositions.sink { value in
-                //                    state.befPosition.latitude =  value.first?.latitude ?? 0
-                //                    state.befPosition.longitude =  value.first?.longitude ?? 0
-                //                }.store(in: &state.anyCancellable)
+                
                 //
+                //
+                //                self.locationManaging.resultPositions.publisher.sink {
+                //                    print($0)
+                //                }.store(in: &state.anyCancellable)
+                //                state.locationManager.$resultPositions.sink(
+                //                        receiveCompletion: {
+                //                          print("Received completion", $0)
+                //                        },
+                //                        receiveValue: {
+                //                            print("Received value", $0.first!.latitude)
+                //                        }).store(in: &state.anyCancellable)
                 
                 
                 
-              
-               
                 
-                return .run { send in
+                
+                
+                return .none
                     
-//                    locationManaging.updateHandler {
-//                        send(.resultText(""))
-//
-//                    }
-                }
+                    
+//                    .run { @MainActor
+//                    [locationManager = state.locationManager] send in
+//                    
+//                    let cancellable = locationManager.$alarm.sink(
+//                        receiveCompletion: {
+//                            
+//                            print("Received completion", $0)
+//                        },
+//                        receiveValue: {
+//                            print("alarm", $0)
+                            
+//                            send(.updateAftPosition($0))
+//                            
+//                        })
+//                    
+//                }
+                
+                
+            case .updateAftPosition(let newPosition):
+                print("\(newPosition)  newPosition")
+                state.alarm = newPosition
+                
+                return .none
+                
                 
             case .resultText(let resultText):
                 let resultRoutes = state.result.filter {

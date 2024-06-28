@@ -9,10 +9,14 @@ import Foundation
 import SwiftUI
 import MapKit
 import ComposableArchitecture
+import Combine
 
 struct MapView: View {
     
+    @StateObject var locationManager: LocationManager = LocationManager()
     @Bindable var store: StoreOf<MapFeature>
+    
+    
     @State private var text = ""
     @State private var resultText = ""
     
@@ -25,23 +29,20 @@ struct MapView: View {
     
     
     
-    init(store: StoreOf<MapFeature>) {
+    init(store: StoreOf<MapFeature> ) {
         self.store = store
+  
     }
     
     var body: some View {
      
         
         WithViewStore(store, observe: { $0 }) { viewStore in
-//            if viewStore.state.alarm {
-//                Text("true")
-//
-//            }
+
     
             Text(
-                "\(viewStore.state.locationManager.resultPositions.first?.latitude ?? 12) lat "
+                "\(self.locationManager.alarm) lat "
             )
-            
             Map(position: $store.cameraPosition) {
                 
                 UserAnnotation()
@@ -102,7 +103,7 @@ struct MapView: View {
                 
             }.onAppear {
                 
-                viewStore.send(.onAppear)
+                viewStore.send(.onAppear(self.locationManager))
                 
             }.searchable(text: $text, placement: .navigationBarDrawer(displayMode: .automatic)).onSubmit( of: .search ) {
                 viewStore.send(.resultText(text))
