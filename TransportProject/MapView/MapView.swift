@@ -21,7 +21,6 @@ struct MapView: View {
     @State private var resultText = ""
     
     @State private var showAlert = false
-    @State private var place = ""
     
     
     
@@ -31,18 +30,20 @@ struct MapView: View {
     
     init(store: StoreOf<MapFeature> ) {
         self.store = store
-  
+        
     }
     
     var body: some View {
-     
+        
         
         WithViewStore(store, observe: { $0 }) { viewStore in
-
-    
+            
+            
             Text(
-                "\(self.locationManager.alarm) lat "
+                
+                "\(self.locationManager.resultPositions.first?.name ?? "") -> \(self.locationManager.resultPositions.last?.name ?? "") "
             )
+            
             Map(position: $store.cameraPosition) {
                 
                 UserAnnotation()
@@ -51,8 +52,8 @@ struct MapView: View {
                 
                 
                 ForEach( viewStore.state.result ) { place in
-                  
-                
+                    
+                    
                     
                     Annotation(place.name + place.way, coordinate: place.location) {
                         
@@ -67,28 +68,36 @@ struct MapView: View {
                             
                             
                             
+                            
                         }, label: {
                             Image(systemName: "tram")
                                 .resizable() // 이미지 크기 조정 가능
                                 .frame(width: 10, height: 10)
                             
-                        }).frame(width: 20, height: 20 ).foregroundColor(.white).background(place.color).clipShape(Circle()).alert("\(self.place) 선택", isPresented: $showAlert) {
+                        }).frame(width: 20, height: 20 ).foregroundColor(.white).background(place.color).clipShape(Circle()).alert("\(place.name + place.way) \(self.showAlert) 선택", isPresented: $showAlert) {
                             Button("목적지") {
+                                self.showAlert = false
+                                print("목적지")
                                 
-                                showAlert.toggle()
                                 viewStore.send(.position(self.resultRoute, true))
+
                                 
                             }
                             Button("출발지") {
-                                
-                                showAlert.toggle()
+                                print("출발지")
+                                self.showAlert = false
+
                                 viewStore.send(.position(self.resultRoute, false))
+
                                 
                             }
-                            Button("취소", role: .cancel) {}
+                            Button("취소", role: .cancel) {
+
+                                
+                            }
                         } message: {
                             Text("선택해주세요")
-//                            Text("\(self.resultRoute.name) 을/를 \(self.place)로 선택 하시겠습니까?")
+                            //                            Text("\(self.resultRoute.name) 을/를 \(self.place)로 선택 하시겠습니까?")
                         }
                         
                     }
@@ -113,12 +122,10 @@ struct MapView: View {
     }
     
     
-    //    #Preview {
-    //        MapView(
-    //            store: Store(initialState: MapFeature.State(busItem: BusItem.init(endnodenm: "", endvehicletime: <#T##Endvehicletime?#>, routeid: <#T##String#>, routeno: <#T##Endvehicletime#>, routetp: <#T##String#>, startnodenm: <#T##String#>, startvehicletime: <#T##String?#>), cameraPosition: MapCameraPosition.region(MKCoordinateRegion())  )) {
-    //                MapFeature()
-    //            }
-    //        )}
+    //        #Preview {
+    //            MapView(
+    //                store: Store(initialState: MapFeature.State(busItem: BusItem.init(endnodenm: "", endvehicletime: nil, routeid: "", routeno: Endvehicletime(from: Decoder()), routetp: "", startnodenm: "", startvehicletime: ""), cameraPosition: MapCameraPosition.region(MKCoordinateRegion())  )) {
+    //                    MapFeature()
+    //                }
+    //            )}
 }
-
-

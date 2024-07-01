@@ -14,9 +14,11 @@ struct BusView: View {
     
     init(store: StoreOf<BusFeature>) {
         self.store = store
+        
     }
     
     var body: some View {
+        
         
         WithViewStore(store, observe: { $0 }) { viewStore in
             

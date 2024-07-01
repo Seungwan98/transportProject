@@ -14,36 +14,37 @@ import Combine
 import SwiftUI
 
 
-//protocol LocationManaging {
-//    var resultPositions: [CLLocationCoordinate2D] { get set }
-//    func startLocation(positions: [CLLocationCoordinate2D])
-//
-//}
-//
-//
-//extension DependencyValues {
-//    var locationManaging: LocationManaging {
-//        get { self[LocationManageKey.self] }
-//        set { self[LocationManageKey.self] = newValue }
-//    }
-//    private enum LocationManageKey: DependencyKey {
-//        static var liveValue: LocationManaging = LocationManager()
-//    }
-//}
-class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
+protocol LocationManaging {
+    var resultPositions: [CLLocationCoordinate2D] { get set }
+    func startLocation(positions: [CLLocationCoordinate2D])
+    
+}
 
-   
- 
+
+extension DependencyValues {
+    var locationManaging: LocationManaging {
+        get { self[LocationManageKey.self] }
+        set { self[LocationManageKey.self] = newValue }
+    }
+    private enum LocationManageKey: DependencyKey {
+        static var liveValue: LocationManaging = LocationManager() as! LocationManaging
+    }
+}
+class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
+    
+    
+    
     
     var store: MapFeature.Action?
     private var anyCancelled = Set<AnyCancellable>()
     private var locationManager: CLLocationManager
     @Published var currentLocation: CLLocation?
     @Published var alarm: Bool = false
-    @Published var resultPositions = [CLLocationCoordinate2D(), CLLocationCoordinate2D()]
+    @Published var resultPositions = [IdentifiablePlace]()
+    
     
     private var destination: CLLocationCoordinate2D?
-    private var positions: [CLLocationCoordinate2D]?
+    private var positions: [IdentifiablePlace]?
     override init() {
         
         locationManager = CLLocationManager()
@@ -54,12 +55,12 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
         locationManager.allowsBackgroundLocationUpdates = true
         
         
-
+        
         
         
     }
     
-
+    
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("Locationdistance")
@@ -70,41 +71,41 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
         var lowest = Double.infinity
         var finalIndex = 0
         for i in 1..<positions.count {
-            let firstvalue = positions[i-1]
-            let secondvalue = positions[i]
+            let firstvalue = positions[i-1].location
+            let secondvalue = positions[i].location
             let distance = self.calDist(x1: firstvalue.latitude, y1: firstvalue.longitude, x2: secondvalue.latitude, y2: secondvalue.longitude, a: location.coordinate.latitude, b: location.coordinate.longitude  )
             if lowest > distance {
                 lowest = distance
                 finalIndex = i
-                                
+                
             }
         }
-        var resultPositions = [CLLocationCoordinate2D]()
+        var resultPositions = [IdentifiablePlace]()
         resultPositions.append(positions[finalIndex - 1])
         resultPositions.append(positions[finalIndex])
         self.resultPositions = resultPositions
-
-
+        
+        
         
         if destination.distance(from: location.coordinate) < 50 {
             
             scheduleNotification()
-
+            
         }
-
+        
         
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Failed to get location: \(error.localizedDescription)")
     }
-    func startLocation(positions: [CLLocationCoordinate2D]) {
-        self.destination = positions.last
+    func startLocation(positions: [IdentifiablePlace]) {
+        self.destination = positions.last?.location
         self.positions = positions
-        print("\(positions) positions")
+       // print("\(positions) positions")
         
-        print("startLocation")
-    
+      //  print("startLocation")
+        
         locationManager.startUpdatingLocation()
     }
     func stopLocation() {
@@ -172,5 +173,3 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
     }
     
 }
-
-

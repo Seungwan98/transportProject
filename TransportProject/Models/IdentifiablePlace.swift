@@ -33,5 +33,12 @@ struct IdentifiablePlace: Identifiable, Equatable {
         new.color = .blue
         return new
     }
+    func changeToGray() -> IdentifiablePlace {
+        var new = IdentifiablePlace.init(lat: self.location.latitude, long: self.location.longitude, name: self.name, way: self.way)
+        new.color = .gray
+        return new
+    }
+    
+   
 
 }

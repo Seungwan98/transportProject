@@ -35,16 +35,12 @@ struct RootView: View {
                 
                 
                 
-                Button(action: {
-                    print("tapped")
-                    
-                    
-                }, label: {
+                NavigationLink(state: RootFeature.Path.State.subwayScene() ) {
                     Image(systemName: "tram")
                         .resizable() // 이미지 크기 조정 가능
                         .frame(width: 50, height: 50)
                     
-                }).frame(width: 100, height: 100 ).foregroundColor(.white).background(.blue).clipShape(Circle())
+                }.frame(width: 100, height: 100 ).foregroundColor(.white).background(.blue).clipShape(Circle())
                 
                 Button(action: {
                     
@@ -72,6 +68,10 @@ struct RootView: View {
                 if let store = store.scope(state: \.detailScene, action: \.detail) {
                     MapView(store: store)
                     
+                }
+            case .subwayScene:
+                if let store = store.scope(state: \.subwayScene, action: \.subway) {
+                    SubwayView(store: store)
                 }
             }
         }

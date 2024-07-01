@@ -34,7 +34,7 @@ struct RootFeature {
                     state.path.append(.detailScene(MapFeature.State(busItem: busItem)))
                     return .none
                     
-                    
+                
                 default:
                     return .none
                 }
@@ -56,12 +56,14 @@ extension RootFeature {
         @ObservableState
         enum State: Equatable {
             case busScene(BusFeature.State = .init())
+            case subwayScene(SubwayFeature.State = .init())
             case detailScene(MapFeature.State)
         }
         
         enum Action {
             case bus(BusFeature.Action)
             case detail(MapFeature.Action)
+            case subway(SubwayFeature.Action)
             
         }
         var body: some ReducerOf<Self> {
@@ -70,6 +72,9 @@ extension RootFeature {
             }
             Scope(state: \.detailScene, action: \.detail ) {
                 MapFeature()
+            }
+            Scope(state: \.subwayScene, action: \.subway ) {
+                SubwayFeature()
             }
         }
         

@@ -12,7 +12,7 @@ struct MyApp: App {
     @Environment(\.scenePhase) private var scenePhase
     static let store = Store(initialState: RootFeature.State() ) {
         RootFeature()
-        // ._printChanges()
+//            ._printChanges()
     }
     
     init() {
@@ -32,7 +32,7 @@ struct MyApp: App {
     }
     
     private func registerBackgroundTasks() {
-
+        
         BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.yourapp.notification", using: nil) { task in
             self.handleAppRefresh(task: task as! BGAppRefreshTask)
         }
@@ -57,6 +57,6 @@ struct MyApp: App {
         }
     }
     
-
+    
     
 }

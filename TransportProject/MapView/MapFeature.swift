@@ -32,18 +32,13 @@ struct MapFeature {
         var userLocation: CLLocationCoordinate2D = CLLocationCoordinate2D.init()
         
         
-        var alarm: Bool = false
         var anyCancellable = Set<AnyCancellable>()
         
         var isDestination = false
         
         var startPosition: IdentifiablePlace = IdentifiablePlace(lat: 0, long: 0, name: "", way: "")
         var destination: IdentifiablePlace = IdentifiablePlace(lat: 0, long: 0, name: "", way: "")
-        var showAlert = false
         
-        var befPosition = CLLocationCoordinate2D()
-        var aftPosition = CLLocationCoordinate2D()
-        var resultPositions = false
      
         var locationManager: LocationManager?
         
@@ -51,18 +46,13 @@ struct MapFeature {
     enum Action: BindableAction {
         case binding(BindingAction<State>)
         case onAppear(LocationManager)
-        
-        
-        
+  
         case requestAPI(String)
         case result(BusRouteDTO)
         case resultText(String)
-        
-        
-        
+    
         case position(IdentifiablePlace, Bool)
-        case updateWay
-        case updateAftPosition(Bool)
+        case errorAlert
     }
     
     
@@ -122,6 +112,7 @@ struct MapFeature {
                 
             case .position(let position, let isDestination):
                 
+                print("position")
                 if isDestination {
                     state.destination = position
                 } else {
@@ -140,16 +131,6 @@ struct MapFeature {
                     }
                     
                 }
-                
-                
-                
-                return .run { send in
-                    await send(.updateWay)
-                    
-                }
-                
-            case .updateWay:
-                
                 
                 
                 if !state.destination.name.isEmpty && !state.startPosition.name.isEmpty {
@@ -175,9 +156,7 @@ struct MapFeature {
                         
                     }
                     
-                    var lastResult = state.result
                     if let startIndex = startIndex, let lastIndex = lastIndex {
-                        
                         
                         state.result = Array(state.result[startIndex...lastIndex]).map {
                             $0.changeToBlue()
@@ -187,84 +166,38 @@ struct MapFeature {
                             return $0.location
                         }
                         
-                        state.locationManager?.startLocation(positions: state.result.map {
-                            $0.location
-                        })
+                        state.locationManager?.startLocation(positions: state.result)
                         
                     } else {
-                        
-                        // 초기화 해야 함
-                        lastResult = lastResult.map {
-                            $0.changeToBlue()
+                        // 경로가 존재하지 않을때.
+                        // gray로 초기화.
+                        let lastResult = state.result.map {
+                            $0.changeToGray()
                         }
-                        
+    
                         // 이전 전체 경로
                         state.result = lastResult
                         
+                        // 이전 시작점, 도착점 초기화
+//                        state.destination = IdentifiablePlace(lat: 0, long: 0, name: "", way: "")
+//                        state.startPosition = IdentifiablePlace(lat: 0, long: 0, name: "", way: "")
+
                     }
                     
+
                     
+                } else {
                     
-                    
-                    
-                    //                    self.locationManaging.startLocation(positions: state.result.map {
-                    //                        $0.location
-                    //                    })
-                    //                    state.locationManager.startLocation(positions: state.result.map {
-                    //                        $0.location
-                    //                    })
+                    print("why here")
                     
                 }
-                
-                
-                
-                
-                
-                
-                //
-                //
-                //                self.locationManaging.resultPositions.publisher.sink {
-                //                    print($0)
-                //                }.store(in: &state.anyCancellable)
-                //                state.locationManager.$resultPositions.sink(
-                //                        receiveCompletion: {
-                //                          print("Received completion", $0)
-                //                        },
-                //                        receiveValue: {
-                //                            print("Received value", $0.first!.latitude)
-                //                        }).store(in: &state.anyCancellable)
-                
-                
-                
-                
-                
+   
                 
                 return .none
-                    
-                    
-//                    .run { @MainActor
-//                    [locationManager = state.locationManager] send in
-//                    
-//                    let cancellable = locationManager.$alarm.sink(
-//                        receiveCompletion: {
-//                            
-//                            print("Received completion", $0)
-//                        },
-//                        receiveValue: {
-//                            print("alarm", $0)
-                            
-//                            send(.updateAftPosition($0))
-//                            
-//                        })
-//                    
-//                }
                 
+       
                 
-            case .updateAftPosition(let newPosition):
-                print("\(newPosition)  newPosition")
-                state.alarm = newPosition
-                
-                return .none
+        
                 
                 
             case .resultText(let resultText):
@@ -280,6 +213,8 @@ struct MapFeature {
                 
                 
                 
+            case .errorAlert:
+                return .none
             }
             
             
