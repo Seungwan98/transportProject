@@ -61,12 +61,12 @@ struct MapView: View {
                         
                         
                         Button(action: {
+                            
+                            viewStore.send(.alertButtonTapped)
+                            
                             self.resultRoute = place
-                            self.showAlert = true
 
-                            
-                            
-                            
+
                             
                             
                         }, label: {
@@ -74,31 +74,7 @@ struct MapView: View {
                                 .resizable() // 이미지 크기 조정 가능
                                 .frame(width: 10, height: 10)
                             
-                        }).frame(width: 20, height: 20 ).foregroundColor(.white).background(place.color).clipShape(Circle()).alert("\(place.name + place.way) \(self.showAlert) 선택", isPresented: $showAlert) {
-                            Button("목적지") {
-                                self.showAlert = false
-                                print("목적지")
-                                
-                                viewStore.send(.position(self.resultRoute, true))
-
-                                
-                            }
-                            Button("출발지") {
-                                print("출발지")
-                                self.showAlert = false
-
-                                viewStore.send(.position(self.resultRoute, false))
-
-                                
-                            }
-                            Button("취소", role: .cancel) {
-
-                                
-                            }
-                        } message: {
-                            Text("선택해주세요")
-                            //                            Text("\(self.resultRoute.name) 을/를 \(self.place)로 선택 하시겠습니까?")
-                        }
+                        }).frame(width: 20, height: 20 ).foregroundColor(.white).background(place.color).clipShape(Circle())
                         
                     }
                     
@@ -117,7 +93,7 @@ struct MapView: View {
             }.searchable(text: $text, placement: .navigationBarDrawer(displayMode: .automatic)).onSubmit( of: .search ) {
                 viewStore.send(.resultText(text))
             }
-        }
+        }.alert($store.scope(state: \.alert, action: \.alert))
         
     }
     

@@ -15,9 +15,9 @@ import BackgroundTasks
 @Reducer
 struct MapFeature {
     @Dependency(\.apiClient) var apiClient
-//    @Dependency(\.locationManaging) var locationManaging
-  
- 
+    //    @Dependency(\.locationManaging) var locationManaging
+    
+    
     
     
     @ObservableState
@@ -25,6 +25,8 @@ struct MapFeature {
         static func == (lhs: MapFeature.State, rhs: MapFeature.State) -> Bool {
             return lhs.result.count == rhs.result.count
         }
+        var locationManager: LocationManager?
+        
         let busItem: BusItem
         var result: [IdentifiablePlace] = []
         var locations: [CLLocationCoordinate2D] = []
@@ -39,20 +41,34 @@ struct MapFeature {
         var startPosition: IdentifiablePlace = IdentifiablePlace(lat: 0, long: 0, name: "", way: "")
         var destination: IdentifiablePlace = IdentifiablePlace(lat: 0, long: 0, name: "", way: "")
         
-     
-        var locationManager: LocationManager?
+        
+        
+        @Presents var alert: AlertState<Action.Alert>?
+        @Presents var confirmationDialog: ConfirmationDialogState<Action.ConfirmationDialog>?
         
     }
     enum Action: BindableAction {
         case binding(BindingAction<State>)
         case onAppear(LocationManager)
-  
+        
         case requestAPI(String)
         case result(BusRouteDTO)
         case resultText(String)
-    
+        
         case position(IdentifiablePlace, Bool)
-        case errorAlert
+        
+        case alert(PresentationAction<Alert>)
+        case alertButtonTapped
+        
+        @CasePathable
+        enum Alert {
+            case incrementButtonTapped
+        }
+        @CasePathable
+        enum ConfirmationDialog {
+            case incrementButtonTapped
+            case decrementButtonTapped
+        }
     }
     
     
@@ -111,6 +127,8 @@ struct MapFeature {
                 return .none
                 
             case .position(let position, let isDestination):
+                
+                
                 
                 print("position")
                 if isDestination {
@@ -174,30 +192,30 @@ struct MapFeature {
                         let lastResult = state.result.map {
                             $0.changeToGray()
                         }
-    
+                        
                         // 이전 전체 경로
                         state.result = lastResult
                         
                         // 이전 시작점, 도착점 초기화
-//                        state.destination = IdentifiablePlace(lat: 0, long: 0, name: "", way: "")
-//                        state.startPosition = IdentifiablePlace(lat: 0, long: 0, name: "", way: "")
-
+                        //                        state.destination = IdentifiablePlace(lat: 0, long: 0, name: "", way: "")
+                        //                        state.startPosition = IdentifiablePlace(lat: 0, long: 0, name: "", way: "")
+                        
                     }
                     
-
+                    
                     
                 } else {
                     
                     print("why here")
                     
                 }
-   
+                
                 
                 return .none
                 
-       
                 
-        
+                
+                
                 
                 
             case .resultText(let resultText):
@@ -211,17 +229,28 @@ struct MapFeature {
             case .binding(_):
                 return .none
                 
+            case .alert(_):
+                return .none
                 
-                
-            case .errorAlert:
+            case .alertButtonTapped:
+                print("tapped")
+                state.alert = AlertState {
+                    TextState("Alert!")
+                } actions: {
+                    ButtonState(role: .cancel) {
+                        TextState("Cancel")
+                    }
+                    ButtonState(action: .incrementButtonTapped) {
+                        TextState("Increment")
+                    }
+                } message: {
+                    TextState("This is an alert")
+                }
                 return .none
             }
-            
-            
-            
-        }
+        }.ifLet(\.$alert, action: \.alert)
+        
+        
+        
     }
-    
-    
-    
 }
