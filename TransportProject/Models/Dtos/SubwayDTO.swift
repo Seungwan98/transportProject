@@ -8,7 +8,7 @@ import Foundation
 // MARK: - SubwayDTO
 struct SubwayDTO: Codable {
     let errorMessage: ErrorMessage
-    let realtimePositionList: [SubwayModel]
+    let realtimePositionList: [realTimeList]
     
  
 }
@@ -21,7 +21,7 @@ struct ErrorMessage: Codable {
 }
 
 // MARK: - RealtimePositionList
-struct SubwayModel: Codable {
+struct realTimeList: Codable {
     let beginRow, endRow, curPage, pageRow: JSONNull?
     let totalCount, rowNum, selectedCount: Int
     let subwayID: String
@@ -37,6 +37,12 @@ struct SubwayModel: Codable {
         case statnID = "statnId"
         case statnNm, trainNo, lastRecptnDt, recptnDt, updnLine, statnTid, statnTnm, trainSttus, directAt, lstcarAt
     }
+    
+    func getModel() -> SubwayModel {
+        
+        return SubwayModel(beginRow: self.beginRow, endRow: self.endRow, curPage: self.curPage, pageRow: self.pageRow, totalCount: self.totalCount, rowNum: self.rowNum, selectedCount: self.selectedCount, subwayID: self.subwayID, subwayNm: self.subwayNm, statnID: self.statnID, statnNm: self.statnNm, trainNo: self.trainNo, lastRecptnDt: self.lastRecptnDt, recptnDt: self.recptnDt, updnLine: self.updnLine, statnTid: self.statnTid, statnTnm: self.statnTnm, trainSttus: self.trainSttus, directAt: self.directAt, lstcarAt: self.lstcarAt)
+        
+    }
 }
 
 enum SubwayNm: String, Codable {
@@ -50,9 +56,12 @@ enum SubwayNm: String, Codable {
     case the7호선 = "7호선"
     case the8호선 = "8호선"
     case the9호선 = "9호선"
+    case 경강선 = "경강선"
     case 경의중앙선 = "경의중앙선"
     case 경춘선 = "경춘선"
     case 공항철도 = "공항철도"
+    case 서해선 = "서해선"
+    case 수인분당선 = "수인분당선"
     case 신분당선 = "신분당선"
     case 우이신설선 = "우이신설선"
 }

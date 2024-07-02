@@ -86,7 +86,7 @@ extension ApiClient: DependencyKey {
         }, fetchSubway: { value in
             
             let parameters: [String: Any] = ["query": ""]
-            let url = "http://swopenapi.seoul.go.kr/api/subway/726773506b73696e37354f6e517353/json/realtimePosition/0/1000/1호선"
+            let url = "http://swopenapi.seoul.go.kr/api/subway/726773506b73696e37354f6e517353/json/realtimePosition/0/1000/\(value)"
             
             return try await withCheckedThrowingContinuation { continuation in
                 AF.request(url, parameters: parameters).responseData { response in
@@ -96,7 +96,6 @@ extension ApiClient: DependencyKey {
                             let decoder = JSONDecoder()
                             let result = try decoder.decode(SubwayDTO.self, from: data)
                             continuation.resume(returning: result)
-                            print("\(result)")
                             
                         } catch {
                             

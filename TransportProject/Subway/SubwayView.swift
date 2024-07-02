@@ -37,21 +37,26 @@ struct SubwayView: View {
             } else {
                 
                 List {
-                    ForEach(viewStore.state.resultDetail, id: \.statnID) { model in
+                    ForEach(viewStore.state.resultDetail, id: \.id) { model in
                         
                         Button(action: {
                             print(model.statnNm)
                         }) {
-                            Text("\(model.statnNm)")
+                            HStack {
+                                Text("\(model.statnNm) \(model.getWay())")
+                                Spacer()
+                                
+                                Text("\(model.recptnDt.getFormatted()) \(model.getState())")
+                                
+                            }
                         }
                         
                     }
                     
                 }.listStyle(.plain)
-                    .navigationTitle("지하철 검색")
-                //                .searchable(text: $text).onSubmit(of: .search) {
-                //                    viewStore.send(.requestAPI(text))
-                //                }
+                    .navigationTitle("지하철 검색").searchable(text: $text).onSubmit(of: .search) {
+                        //   viewStore.send(.search(text))
+                    }
             }
         }
     }

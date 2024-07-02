@@ -18,6 +18,12 @@
 		60700FD82C32D9CD007767C3 /* SubwayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60700FD72C32D9CD007767C3 /* SubwayView.swift */; };
 		60700FDA2C32DA4D007767C3 /* SubwayDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60700FD92C32DA4D007767C3 /* SubwayDTO.swift */; };
 		60700FDE2C33F129007767C3 /* DataFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60700FDD2C33F129007767C3 /* DataFormatter.swift */; };
+		60700FE02C33FEF2007767C3 /* SubwayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60700FDF2C33FEF2007767C3 /* SubwayModel.swift */; };
+		60700FE22C3467C5007767C3 /* subway.json in Resources */ = {isa = PBXBuildFile; fileRef = 60700FE12C3467C5007767C3 /* subway.json */; };
+		60700FE42C3467E1007767C3 /* JsonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60700FE32C3467E1007767C3 /* JsonManager.swift */; };
+		60700FEC2C3468BF007767C3 /* TransportProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60700FEB2C3468BF007767C3 /* TransportProjectTests.swift */; };
+		60700FF42C346BB6007767C3 /* SubwayNmDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60700FF32C346BB6007767C3 /* SubwayNmDTO.swift */; };
+		60700FF62C347CC3007767C3 /* SubwayNmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60700FF52C347CC3007767C3 /* SubwayNmModel.swift */; };
 		60802F3F2C1638EE00C541A5 /* Pods_runningProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A97DD7207BC96ED722B0A507 /* Pods_runningProject.framework */; };
 		6093DB0C2C1B5CEB0078CAC6 /* MapFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6093DB0B2C1B5CEB0078CAC6 /* MapFeature.swift */; };
 		6093DB0F2C1B5D0B0078CAC6 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6093DB0E2C1B5D0B0078CAC6 /* MapView.swift */; };
@@ -34,6 +40,16 @@
 		60CB78412C13534A00BEA49B /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 60CB78402C13534A00BEA49B /* ComposableArchitecture */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		60700FED2C3468BF007767C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 60C392152C0993DF00465156 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 60C3921C2C0993DF00465156;
+			remoteInfo = TransportProject;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		605FA8A12C2474E200E32E19 /* IdentifiablePlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifiablePlace.swift; sourceTree = "<group>"; };
 		605FA8A52C24B57500E32E19 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -46,6 +62,13 @@
 		60700FD72C32D9CD007767C3 /* SubwayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubwayView.swift; sourceTree = "<group>"; };
 		60700FD92C32DA4D007767C3 /* SubwayDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubwayDTO.swift; sourceTree = "<group>"; };
 		60700FDD2C33F129007767C3 /* DataFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFormatter.swift; sourceTree = "<group>"; };
+		60700FDF2C33FEF2007767C3 /* SubwayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubwayModel.swift; sourceTree = "<group>"; };
+		60700FE12C3467C5007767C3 /* subway.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = subway.json; sourceTree = "<group>"; };
+		60700FE32C3467E1007767C3 /* JsonManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonManager.swift; sourceTree = "<group>"; };
+		60700FE92C3468BF007767C3 /* TransportProjectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TransportProjectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		60700FEB2C3468BF007767C3 /* TransportProjectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportProjectTests.swift; sourceTree = "<group>"; };
+		60700FF32C346BB6007767C3 /* SubwayNmDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubwayNmDTO.swift; sourceTree = "<group>"; };
+		60700FF52C347CC3007767C3 /* SubwayNmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubwayNmModel.swift; sourceTree = "<group>"; };
 		6093DB0B2C1B5CEB0078CAC6 /* MapFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapFeature.swift; sourceTree = "<group>"; };
 		6093DB0E2C1B5D0B0078CAC6 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		6093DB112C1B5DE90078CAC6 /* BusRouteDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusRouteDTO.swift; sourceTree = "<group>"; };
@@ -66,6 +89,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		60700FE62C3468BF007767C3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		60C3921A2C0993DF00465156 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -118,6 +148,7 @@
 			isa = PBXGroup;
 			children = (
 				60CB783B2C134D9800BEA49B /* ApiClient.swift */,
+				60700FE32C3467E1007767C3 /* JsonManager.swift */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -129,6 +160,14 @@
 				60700FD72C32D9CD007767C3 /* SubwayView.swift */,
 			);
 			path = Subway;
+			sourceTree = "<group>";
+		};
+		60700FEA2C3468BF007767C3 /* TransportProjectTests */ = {
+			isa = PBXGroup;
+			children = (
+				60700FEB2C3468BF007767C3 /* TransportProjectTests.swift */,
+			);
+			path = TransportProjectTests;
 			sourceTree = "<group>";
 		};
 		6093DB0D2C1B5CFA0078CAC6 /* MapView */ = {
@@ -147,6 +186,9 @@
 				60CB78392C12DE6400BEA49B /* BusDTO.swift */,
 				6093DB112C1B5DE90078CAC6 /* BusRouteDTO.swift */,
 				60700FD92C32DA4D007767C3 /* SubwayDTO.swift */,
+				60700FDF2C33FEF2007767C3 /* SubwayModel.swift */,
+				60700FF32C346BB6007767C3 /* SubwayNmDTO.swift */,
+				60700FF52C347CC3007767C3 /* SubwayNmModel.swift */,
 			);
 			path = Dtos;
 			sourceTree = "<group>";
@@ -159,6 +201,7 @@
 				60C3921F2C0993DF00465156 /* TransportProject */,
 				60CB78422C16226800BEA49B /* Info.plist */,
 				60C392242C0993E000465156 /* Assets.xcassets */,
+				60700FEA2C3468BF007767C3 /* TransportProjectTests */,
 				60C3921E2C0993DF00465156 /* Products */,
 				A6143D73D02C3FDAEE073E51 /* Pods */,
 				1DBE5F00E65A815C2FD883EF /* Frameworks */,
@@ -169,6 +212,7 @@
 			isa = PBXGroup;
 			children = (
 				60C3921D2C0993DF00465156 /* TransportProject.app */,
+				60700FE92C3468BF007767C3 /* TransportProjectTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -184,6 +228,7 @@
 				60700FD42C32C6D6007767C3 /* Subway */,
 				60CB78362C12D99000BEA49B /* BusView */,
 				60CB78352C12D93300BEA49B /* RootView */,
+				60700FE12C3467C5007767C3 /* subway.json */,
 				60C392262C0993E000465156 /* Preview Content */,
 			);
 			path = TransportProject;
@@ -227,6 +272,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		60700FE82C3468BF007767C3 /* TransportProjectTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 60700FEF2C3468BF007767C3 /* Build configuration list for PBXNativeTarget "TransportProjectTests" */;
+			buildPhases = (
+				60700FE52C3468BF007767C3 /* Sources */,
+				60700FE62C3468BF007767C3 /* Frameworks */,
+				60700FE72C3468BF007767C3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				60700FEE2C3468BF007767C3 /* PBXTargetDependency */,
+			);
+			name = TransportProjectTests;
+			productName = TransportProjectTests;
+			productReference = 60700FE92C3468BF007767C3 /* TransportProjectTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		60C3921C2C0993DF00465156 /* TransportProject */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 60C3922B2C0993E000465156 /* Build configuration list for PBXNativeTarget "TransportProject" */;
@@ -260,6 +323,10 @@
 				LastSwiftUpdateCheck = 1530;
 				LastUpgradeCheck = 1530;
 				TargetAttributes = {
+					60700FE82C3468BF007767C3 = {
+						CreatedOnToolsVersion = 15.3;
+						TestTargetID = 60C3921C2C0993DF00465156;
+					};
 					60C3921C2C0993DF00465156 = {
 						CreatedOnToolsVersion = 15.3;
 					};
@@ -282,15 +349,24 @@
 			projectRoot = "";
 			targets = (
 				60C3921C2C0993DF00465156 /* TransportProject */,
+				60700FE82C3468BF007767C3 /* TransportProjectTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		60700FE72C3468BF007767C3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		60C3921B2C0993DF00465156 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60700FE22C3467C5007767C3 /* subway.json in Resources */,
 				605FA8B62C288C0100E32E19 /* .gitignore in Resources */,
 				605FA8AF2C2861D000E32E19 /* .swiftlint.yml in Resources */,
 				60C392282C0993E000465156 /* Preview Assets.xcassets in Resources */,
@@ -361,6 +437,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		60700FE52C3468BF007767C3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				60700FEC2C3468BF007767C3 /* TransportProjectTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		60C392192C0993DF00465156 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -368,6 +452,9 @@
 				605FA8B22C2888CE00E32E19 /* CLLocation+.swift in Sources */,
 				60CB783C2C134D9800BEA49B /* ApiClient.swift in Sources */,
 				60700FD82C32D9CD007767C3 /* SubwayView.swift in Sources */,
+				60700FF42C346BB6007767C3 /* SubwayNmDTO.swift in Sources */,
+				60700FF62C347CC3007767C3 /* SubwayNmModel.swift in Sources */,
+				60700FE42C3467E1007767C3 /* JsonManager.swift in Sources */,
 				606961CD2C2A7A6300B3008A /* LocationManager.swift in Sources */,
 				60C392322C0AFAB300465156 /* RootFeature.swift in Sources */,
 				60CB78342C12CBE600BEA49B /* RootView.swift in Sources */,
@@ -381,6 +468,7 @@
 				60CB78322C12BB8F00BEA49B /* BusFeature.swift in Sources */,
 				6093DB0F2C1B5D0B0078CAC6 /* MapView.swift in Sources */,
 				60C392212C0993DF00465156 /* App.swift in Sources */,
+				60700FE02C33FEF2007767C3 /* SubwayModel.swift in Sources */,
 				60700FDE2C33F129007767C3 /* DataFormatter.swift in Sources */,
 				6093DB122C1B5DE90078CAC6 /* BusRouteDTO.swift in Sources */,
 				605FA8A62C24B57500E32E19 /* SceneDelegate.swift in Sources */,
@@ -389,7 +477,53 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		60700FEE2C3468BF007767C3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 60C3921C2C0993DF00465156 /* TransportProject */;
+			targetProxy = 60700FED2C3468BF007767C3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		60700FF02C3468BF007767C3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YH4A87H8M4;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wan.TransportProjectTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TransportProject.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TransportProject";
+			};
+			name = Debug;
+		};
+		60700FF12C3468BF007767C3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YH4A87H8M4;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wan.TransportProjectTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TransportProject.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TransportProject";
+			};
+			name = Release;
+		};
 		60C392292C0993E000465156 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -584,6 +718,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		60700FEF2C3468BF007767C3 /* Build configuration list for PBXNativeTarget "TransportProjectTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				60700FF02C3468BF007767C3 /* Debug */,
+				60700FF12C3468BF007767C3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		60C392182C0993DF00465156 /* Build configuration list for PBXProject "TransportProject" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

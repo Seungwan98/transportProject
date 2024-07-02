@@ -26,7 +26,7 @@ struct SubwayFeature {
         }
         
         // 호선 리스트
-        var resultLineName: [String] = ["1호선", "2호선", "3호선", "4호선", "5호선", "6호선", "7호선", "8호선", "9호선", "경의중앙선", "경춘선", "공항철도", "신분당선", "우이신실선"]
+        var resultLineName: [String] = ["1호선", "2호선", "3호선", "4호선", "5호선", "6호선", "7호선", "8호선", "9호선", "경의중앙선", "경춘선", "공항철도", "신분당선", "우이신설선"]
         
         
         // 지하철 모델 리스트
@@ -42,6 +42,7 @@ struct SubwayFeature {
         case tappedList(String)
         
         case setResult([SubwayModel])
+        case search(String)
 
     }
     
@@ -59,9 +60,10 @@ struct SubwayFeature {
                 
                 
                 return .run { send in
-                    print("line \(line)")
                     let data = try await apiClient.fetchSubway(line)
-                    await send(.setResult(data.realtimePositionList))
+                    await send(.setResult(data.realtimePositionList.map {
+                        $0.getModel()
+                    }))
                 }
 
             
@@ -69,14 +71,15 @@ struct SubwayFeature {
                 
             case .setResult(let subwayModels):
                 print(subwayModels)
-                state.resultDetail = subwayModels
+                
+                state.resultDetail = subwayModels.sorted(by: { $1.statnNm > $0.statnNm })
                 state.isLineList = false
-
-                
-                
-
                 return .none
+                
             case .onAppear:
+                return .none
+                
+            case .search(_):
                 return .none
             }
             
