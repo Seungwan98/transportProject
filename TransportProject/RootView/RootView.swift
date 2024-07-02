@@ -10,15 +10,7 @@ struct RootView: View {
     }
     
     var body: some View {
-        VStack {
-            //                   if let location = locationManager.currentLocation {
-            //                       Text("Latitude: \(location.coordinate.latitude)")
-            //                       Text("Longitude: \(location.coordinate.longitude)")
-            //                   } else {
-            //                       Text("Fetching location...")
-            //                   }
-        }
-        
+     
         NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
             VStack {
                 Text("이용하시는 서비스를").font(.system(size: 36).bold()).offset(x: 10)

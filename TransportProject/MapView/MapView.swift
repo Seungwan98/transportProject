@@ -62,9 +62,10 @@ struct MapView: View {
                         
                         Button(action: {
                             
-                            viewStore.send(.alertButtonTapped)
                             
-                            self.resultRoute = place
+                            
+                            viewStore.send(.alertButtonTapped(place))
+                            
 
 
                             

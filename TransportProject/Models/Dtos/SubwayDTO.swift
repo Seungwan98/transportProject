@@ -8,7 +8,9 @@ import Foundation
 // MARK: - SubwayDTO
 struct SubwayDTO: Codable {
     let errorMessage: ErrorMessage
-    let realtimePositionList: [RealtimePositionList]
+    let realtimePositionList: [SubwayModel]
+    
+ 
 }
 
 // MARK: - ErrorMessage
@@ -19,7 +21,7 @@ struct ErrorMessage: Codable {
 }
 
 // MARK: - RealtimePositionList
-struct RealtimePositionList: Codable {
+struct SubwayModel: Codable {
     let beginRow, endRow, curPage, pageRow: JSONNull?
     let totalCount, rowNum, selectedCount: Int
     let subwayID: String

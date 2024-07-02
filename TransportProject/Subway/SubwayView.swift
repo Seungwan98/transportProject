@@ -21,26 +21,38 @@ struct SubwayView: View {
         
         
         WithViewStore(store, observe: { $0 }) { viewStore in
-            
-            List {
+            if viewStore.isLineList {
+                List(viewStore.resultLineName, id: \.self) { text in
+                    Button(action: {
+                        viewStore.send(.tappedList(text))
+                    }) {
+                        Text("\(text)")
+                    }
+                }.listStyle(.plain)
+                    .navigationTitle("지하철 검색")
+                //                .searchable(text: $text).onSubmit(of: .search) {
+                //                    viewStore.send(.requestAPI(text))
+                //                }
                 
-//                ForEach( viewStore.state.result, id: \.self.id ) { item in
-//                    
-//                    
-//                    Text("\(item.routeno.target)  \(item.routetp)").onTapGesture {
-//                        viewStore.send(.tappedList(item))
-//                    }
-//                    
-//                    
-//                    
-//                }
-            }.listStyle(.plain)
-                .navigationTitle("지하철 검색")
-//                .searchable(text: $text).onSubmit(of: .search) {
-//                    viewStore.send(.requestAPI(text))
-//                }
-            
-            
+            } else {
+                
+                List {
+                    ForEach(viewStore.state.resultDetail, id: \.statnID) { model in
+                        
+                        Button(action: {
+                            print(model.statnNm)
+                        }) {
+                            Text("\(model.statnNm)")
+                        }
+                        
+                    }
+                    
+                }.listStyle(.plain)
+                    .navigationTitle("지하철 검색")
+                //                .searchable(text: $text).onSubmit(of: .search) {
+                //                    viewStore.send(.requestAPI(text))
+                //                }
+            }
         }
     }
 }

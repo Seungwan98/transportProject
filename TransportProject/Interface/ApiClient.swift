@@ -13,6 +13,7 @@ import Alamofire
 struct ApiClient {
     var fetchBus: (Int) async throws -> BusDTO
     var fetchRoute: (String) async throws -> BusRouteDTO
+    var fetchSubway: (String) async throws -> SubwayDTO
     
 }
 
@@ -66,7 +67,6 @@ extension ApiClient: DependencyKey {
                         do {
                             let decoder = JSONDecoder()
                             let result = try decoder.decode(BusRouteDTO.self, from: data)
-                            print("데이타 리절트 \(result)")
                             continuation.resume(returning: result)
                             
                         } catch {
@@ -83,7 +83,37 @@ extension ApiClient: DependencyKey {
                 }
             }
             
+        }, fetchSubway: { value in
+            
+            let parameters: [String: Any] = ["query": ""]
+            let url = "http://swopenapi.seoul.go.kr/api/subway/726773506b73696e37354f6e517353/json/realtimePosition/0/1000/1호선"
+            
+            return try await withCheckedThrowingContinuation { continuation in
+                AF.request(url, parameters: parameters).responseData { response in
+                    switch response.result {
+                    case .success(let data):
+                        do {
+                            let decoder = JSONDecoder()
+                            let result = try decoder.decode(SubwayDTO.self, from: data)
+                            continuation.resume(returning: result)
+                            print("\(result)")
+                            
+                        } catch {
+                            
+                            print("Error decoding JSON: \(error)")
+                            continuation.resume(throwing: error)
+                            
+                            
+                            
+                        }
+                    case .failure(let error):
+                        print("Error: \(error)")
+                    }
+                }
+            }
+            
         }
+        
         
         
     )

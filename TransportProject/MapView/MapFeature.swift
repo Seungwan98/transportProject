@@ -44,7 +44,6 @@ struct MapFeature {
         
         
         @Presents var alert: AlertState<Action.Alert>?
-        @Presents var confirmationDialog: ConfirmationDialogState<Action.ConfirmationDialog>?
         
     }
     enum Action: BindableAction {
@@ -55,20 +54,18 @@ struct MapFeature {
         case result(BusRouteDTO)
         case resultText(String)
         
-        case position(IdentifiablePlace, Bool)
         
         case alert(PresentationAction<Alert>)
-        case alertButtonTapped
-        
+        case alertButtonTapped(IdentifiablePlace)
+        case resetAlert
         @CasePathable
         enum Alert {
-            case incrementButtonTapped
+            case position(Bool, IdentifiablePlace)
         }
-        @CasePathable
-        enum ConfirmationDialog {
-            case incrementButtonTapped
-            case decrementButtonTapped
-        }
+        
+        
+        
+        
     }
     
     
@@ -80,7 +77,6 @@ struct MapFeature {
             switch action {
             case .onAppear(let locationManager):
                 state.locationManager = locationManager
-                
                 return .run { [ id = state.busItem.routeid  ] send in
                     let data = try await self.apiClient.fetchRoute(id)
                     await send(.result(data))
@@ -126,17 +122,31 @@ struct MapFeature {
                 
                 return .none
                 
-            case .position(let position, let isDestination):
                 
                 
+            case .resultText(let resultText):
+                let resultRoutes = state.result.filter {
+                    $0.name.localizedStandardContains(resultText)
+                }
+                guard let location = resultRoutes.first?.location else {return .none}
+                state.cameraPosition = MapCameraPosition.region( MKCoordinateRegion(center: location, span: MKCoordinateSpan(latitudeDelta: 0.0001, longitudeDelta: 0.0001)))
+                return .none
                 
-                print("position")
+            case .binding(\.locationManager):
+                return .none
+                
+            case .alert(.presented(.position(let isDestination, let position))):
+                
+                
+                print("position \(position)")
                 if isDestination {
                     state.destination = position
                 } else {
                     state.startPosition = position
                     
                 }
+                
+                
                 
                 for ( index, value ) in state.result.enumerated() {
                     
@@ -196,9 +206,13 @@ struct MapFeature {
                         // 이전 전체 경로
                         state.result = lastResult
                         
-                        // 이전 시작점, 도착점 초기화
-                        //                        state.destination = IdentifiablePlace(lat: 0, long: 0, name: "", way: "")
-                        //                        state.startPosition = IdentifiablePlace(lat: 0, long: 0, name: "", way: "")
+                        //  이전 시작점, 도착점 초기화
+                        state.destination = IdentifiablePlace(lat: 0, long: 0, name: "", way: "")
+                        state.startPosition = IdentifiablePlace(lat: 0, long: 0, name: "", way: "")
+                        
+                        return .run { send in
+                            await send(.resetAlert)
+                        }
                         
                     }
                     
@@ -215,38 +229,48 @@ struct MapFeature {
                 
                 
                 
-                
-                
-                
-            case .resultText(let resultText):
-                let resultRoutes = state.result.filter {
-                    $0.name.localizedStandardContains(resultText)
-                }
-                guard let location = resultRoutes.first?.location else {return .none}
-                state.cameraPosition = MapCameraPosition.region( MKCoordinateRegion(center: location, span: MKCoordinateSpan(latitudeDelta: 0.0001, longitudeDelta: 0.0001)))
+            case .alert:
                 return .none
+                
+            case .alertButtonTapped(let position):
+                state.alert = AlertState {
+                    TextState("출발지나 목적지를 지정해주세요")
+                } actions: {
+                    
+                    ButtonState(action: .position(false, position)) {
+                        TextState("출발지")
+                    }
+                    ButtonState(action: .position(true, position)) {
+                        TextState("목적지")
+                    }
+                    ButtonState(role: .cancel) {
+                        TextState("취소")
+                    }
+                }
+                return .none
+                
+            case .resetAlert:
+                state.alert = AlertState {
+                    TextState("잘못된 경로입니다")
+                } actions: {
+                    
+                    ButtonState(role: .cancel) {
+                        TextState("확인")
+                    }
+                    
+                } message: {
+                    TextState("출발지와 목적지를 다시 선택 해주세요")
+                }
+                
+                return .none
+                
+                
+                
+                
                 
             case .binding(_):
                 return .none
                 
-            case .alert(_):
-                return .none
-                
-            case .alertButtonTapped:
-                print("tapped")
-                state.alert = AlertState {
-                    TextState("Alert!")
-                } actions: {
-                    ButtonState(role: .cancel) {
-                        TextState("Cancel")
-                    }
-                    ButtonState(action: .incrementButtonTapped) {
-                        TextState("Increment")
-                    }
-                } message: {
-                    TextState("This is an alert")
-                }
-                return .none
             }
         }.ifLet(\.$alert, action: \.alert)
         
