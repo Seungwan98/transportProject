@@ -63,7 +63,7 @@ struct RootView: View {
                 }
             case .subwayScene:
                 if let store = store.scope(state: \.subwayScene, action: \.subway) {
-                    SubwayView(store: store)
+                    SubwayListView(store: store)
                 }
             }
         }

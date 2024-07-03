@@ -12,14 +12,14 @@ final class TransportProjectTests: XCTestCase {
   
 
     func testExample() async throws {
-//        print("testExample")
-//        let fileManager = JsonManager()
-//        let arr = try await fileManager.get()
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+        //        print("testExample")
+        //        let fileManager = JsonManager()
+        //        let arr = try await fileManager.get()
+     
+        
+        
+        //  print(LocationManager().calDist(x1: 2, y1: 2, x2: 6, y2: 2, a: 1, b: 2))
+        
     }
 
 

@@ -56,14 +56,14 @@ extension RootFeature {
         @ObservableState
         enum State: Equatable {
             case busScene(BusFeature.State = .init())
-            case subwayScene(SubwayFeature.State = .init())
+            case subwayScene(SubwayListFeature.State = .init())
             case detailScene(MapFeature.State)
         }
         
         enum Action {
             case bus(BusFeature.Action)
             case detail(MapFeature.Action)
-            case subway(SubwayFeature.Action)
+            case subway(SubwayListFeature.Action)
             
         }
         var body: some ReducerOf<Self> {
@@ -74,7 +74,7 @@ extension RootFeature {
                 MapFeature()
             }
             Scope(state: \.subwayScene, action: \.subway ) {
-                SubwayFeature()
+                SubwayListFeature()
             }
         }
         

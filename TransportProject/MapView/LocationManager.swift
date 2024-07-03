@@ -14,22 +14,22 @@ import Combine
 import SwiftUI
 
 
-protocol LocationManaging {
-    var resultPositions: [CLLocationCoordinate2D] { get set }
-    func startLocation(positions: [CLLocationCoordinate2D])
-    
-}
-
-
-extension DependencyValues {
-    var locationManaging: LocationManaging {
-        get { self[LocationManageKey.self] }
-        set { self[LocationManageKey.self] = newValue }
-    }
-    private enum LocationManageKey: DependencyKey {
-        static var liveValue: LocationManaging = LocationManager() as! LocationManaging
-    }
-}
+// protocol LocationManaging {
+//    var resultPositions: [CLLocationCoordinate2D] { get set }
+//    func startLocation(positions: [CLLocationCoordinate2D])
+//
+// }
+//
+//
+// extension DependencyValues {
+//    var locationManaging: LocationManaging {
+//        get { self[LocationManageKey.self] }
+//        set { self[LocationManageKey.self] = newValue }
+//    }
+//    private enum LocationManageKey: DependencyKey {
+//        static var liveValue: LocationManaging = LocationManager() as! LocationManaging
+//    }
+// }
 class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
     
     
@@ -66,17 +66,19 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
         print("Locationdistance")
         guard let location = locations.last, let destination = self.destination, locations.last?.coordinate != nil, let positions = self.positions else { return }
         self.currentLocation = location
-        print("LocationDistance")
-        self.alarm.toggle()
+        
+        //        self.alarm.toggle()
         var lowest = Double.infinity
         var finalIndex = 0
         for i in 1..<positions.count {
             let firstvalue = positions[i-1].location
             let secondvalue = positions[i].location
-            let distance = self.calDist(x1: firstvalue.latitude, y1: firstvalue.longitude, x2: secondvalue.latitude, y2: secondvalue.longitude, a: location.coordinate.latitude, b: location.coordinate.longitude  )
+            let distance = self.shortestDistanceFromPointToLineSegment(point: Point( x: location.coordinate.longitude, y: location.coordinate.latitude), linePoint1: Point( x:secondvalue.longitude, y: secondvalue.latitude), linePoint2: Point( x: firstvalue.longitude, y: firstvalue.latitude))
+            print("dist \(distance) sub \(positions[i-1].name) , \(positions[i].name) \(location.coordinate.latitude ) , \(location.coordinate.longitude)")
             if lowest > distance {
                 lowest = distance
                 finalIndex = i
+                
                 
             }
         }
@@ -89,7 +91,8 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
         
         if destination.distance(from: location.coordinate) < 50 {
             
-            scheduleNotification()
+            guard let currentLocation = self.currentLocation else {return}
+            BackgroundManager.shared.scheduleNotification(currentLocation: currentLocation)
             
         }
         
@@ -102,9 +105,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
     func startLocation(positions: [IdentifiablePlace]) {
         self.destination = positions.last?.location
         self.positions = positions
-       // print("\(positions) positions")
         
-      //  print("startLocation")
         
         locationManager.startUpdatingLocation()
     }
@@ -118,58 +119,52 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
     
     
     
-    func scheduleNotification() {
-        let content = UNMutableNotificationContent()
-        content.title = "Local Notification\(String(describing: self.currentLocation?.coordinate.latitude))"
-        content.body = ""
-        content.sound = .default
+    
+    
+    
+    
+    //    func calDist(x1: Double, y1: Double, x2: Double, y2: Double, a: Double, b: Double) -> Double {
+    //        let area = abs((x1-a) * (y2-b) - (y1-b) * (x2-a))
+    //        let AB = sqrt((x1-x2) * (x1-x2) + (y1-y2) * (y1-y2))
+    //        let distance = area / AB
+    //        return distance
+    //    }
+    func shortestDistanceFromPointToLineSegment(point: Point, linePoint1: Point, linePoint2: Point) -> Double {
+        let (x1, y1) = (linePoint1.x, linePoint1.y)
+        let (x2, y2) = (linePoint2.x, linePoint2.y)
+        let (px, py) = (point.x, point.y)
         
-        
-        // Create a trigger for the notification (every 2 minutes)
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-        
-        // Create a request with a unique identifier
-        
-        let request = UNNotificationRequest(identifier: "com.yourapp.notification", content: content, trigger: trigger)
-        
-        // Add the request to the notification center
-        UNUserNotificationCenter.current().add(request) { error in
-            if let error = error {
-                print("Error scheduling notification: \(error.localizedDescription)")
-            }
-        }
-    }
-    private func registerBackgroundTasks() {
-        
-        BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.yourapp.notification", using: nil) { task in
-            self.handleAppRefresh(task: task as! BGAppRefreshTask)
+        // 선분의 두 끝점이 동일한 경우 (즉, 선분의 길이가 0인 경우)
+        if x1 == x2 && y1 == y2 {
+            return distanceBetweenPoints(p1: point, p2: linePoint1)
         }
         
+        // 선분의 제곱 길이 계산
+        let lineLengthSquared = (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)
         
-    }
-    
-    
-    
-    
-    private func handleAppRefresh(task: BGAppRefreshTask) {
+        // 점과 선분의 첫 번째 끝점 간의 벡터
+        let t = ((px - x1) * (x2 - x1) + (py - y1) * (y2 - y1)) / lineLengthSquared
         
-        //         scheduleAppRefresh()
-        
-        // 백그라운드 작업을 수행하는 코드
-        task.setTaskCompleted(success: true)
-        
-        
-        task.expirationHandler = {
-            // 작업이 만료된 경우 수행할 작업
-            print("App refresh task expired")
+        if t < 0.0 {
+            return distanceBetweenPoints(p1: point, p2: linePoint1)
+        } else if t > 1.0 {
+            return distanceBetweenPoints(p1: point, p2: linePoint2)
         }
+        
+        // 선분 위의 점 계산
+        let projection = Point(x: x1 + t * (x2 - x1), y: y1 + t * (y2 - y1))
+        
+        return distanceBetweenPoints(p1: point, p2: projection)
     }
-    
-    func calDist(x1: Double, y1: Double, x2: Double, y2: Double, a: Double, b: Double) -> Double {
-        let area = abs((x1-a) * (y2-b) - (y1-b) * (x2-a))
-        let AB = sqrt((x1-x2) * (x1-x2) + (y1-y2) * (y1-y2))
-        let distance = area / AB
-        return distance
+
+    // 두 점 사이의 거리 계산 함수
+    func distanceBetweenPoints(p1: Point, p2: Point) -> Double {
+        return sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y))
+    }
+
+    struct Point {
+        var x: Double
+        var y: Double
     }
     
 }
