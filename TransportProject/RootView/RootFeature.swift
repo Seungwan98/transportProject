@@ -31,10 +31,14 @@ struct RootFeature {
                 switch action {
                 case .element(id: _, action: .bus(.tappedList(let busItem))):
                     
-                    state.path.append(.detailScene(MapFeature.State(busItem: busItem)))
+                    state.path.append(.detailScene(AppleMapFeature.State(busItem: busItem)))
                     return .none
                     
-                
+                case .element(id: _, action: .subway(.pushResultView(let startPosition, let destination))):
+                    print("들옴?")
+                    state.path.append(.subwayResultScene(SubwayResultFeature.State(startPosition: startPosition, destination: destination)))
+                    return .none
+                    
                 default:
                     return .none
                 }
@@ -57,13 +61,15 @@ extension RootFeature {
         enum State: Equatable {
             case busScene(BusFeature.State = .init())
             case subwayScene(SubwayListFeature.State = .init())
-            case detailScene(MapFeature.State)
+            case detailScene(AppleMapFeature.State)
+            case subwayResultScene(SubwayResultFeature.State )
         }
         
         enum Action {
             case bus(BusFeature.Action)
-            case detail(MapFeature.Action)
+            case detail(AppleMapFeature.Action)
             case subway(SubwayListFeature.Action)
+            case subwayResult(SubwayResultFeature.Action)
             
         }
         var body: some ReducerOf<Self> {
@@ -71,11 +77,15 @@ extension RootFeature {
                 BusFeature()
             }
             Scope(state: \.detailScene, action: \.detail ) {
-                MapFeature()
+                AppleMapFeature()
             }
             Scope(state: \.subwayScene, action: \.subway ) {
                 SubwayListFeature()
             }
+            Scope(state: \.subwayResultScene, action: \.subwayResult) {
+                SubwayResultFeature()
+            }
+            
         }
         
         

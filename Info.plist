@@ -4,6 +4,7 @@
 <dict>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
+		<string>com.TransportProject.ApiFetch</string>
 		<string>com.yourapp.locationUpdate</string>
 		<string>com.yourapp.notification</string>
 	</array>

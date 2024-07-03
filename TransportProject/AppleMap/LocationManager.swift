@@ -35,16 +35,16 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
     
     
     
-    var store: MapFeature.Action?
+    var store: AppleMapFeature.Action?
     private var anyCancelled = Set<AnyCancellable>()
     private var locationManager: CLLocationManager
     @Published var currentLocation: CLLocation?
     @Published var alarm: Bool = false
-    @Published var resultPositions = [IdentifiablePlace]()
+    @Published var resultPositions = [BusPicker]()
     
     
     private var destination: CLLocationCoordinate2D?
-    private var positions: [IdentifiablePlace]?
+    private var positions: [BusPicker]?
     override init() {
         
         locationManager = CLLocationManager()
@@ -82,7 +82,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
                 
             }
         }
-        var resultPositions = [IdentifiablePlace]()
+        var resultPositions = [BusPicker]()
         resultPositions.append(positions[finalIndex - 1])
         resultPositions.append(positions[finalIndex])
         self.resultPositions = resultPositions
@@ -102,7 +102,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Failed to get location: \(error.localizedDescription)")
     }
-    func startLocation(positions: [IdentifiablePlace]) {
+    func startLocation(positions: [BusPicker]) {
         self.destination = positions.last?.location
         self.positions = positions
         
@@ -115,20 +115,6 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    //    func calDist(x1: Double, y1: Double, x2: Double, y2: Double, a: Double, b: Double) -> Double {
-    //        let area = abs((x1-a) * (y2-b) - (y1-b) * (x2-a))
-    //        let AB = sqrt((x1-x2) * (x1-x2) + (y1-y2) * (y1-y2))
-    //        let distance = area / AB
-    //        return distance
-    //    }
     func shortestDistanceFromPointToLineSegment(point: Point, linePoint1: Point, linePoint2: Point) -> Double {
         let (x1, y1) = (linePoint1.x, linePoint1.y)
         let (x2, y2) = (linePoint2.x, linePoint2.y)

@@ -11,6 +11,7 @@ import Combine
 import SwiftUI
 import MapKit
 import CoreLocation
+import Alamofire
 @Reducer
 struct SubwayListFeature {
     @Dependency(\.apiClient) var apiClient
@@ -39,15 +40,35 @@ struct SubwayListFeature {
         // 디테일 리스트 판별 변수
         var isLineList: Int = 0
         
+        // 시작점 모델
+        var startPosition: SubwayModel?
+   
         
+        // AlertState
+        @Presents var alert: AlertState<Action.Alert>?
+
     }
     enum Action {
         case onAppear
+        
         case tappedList(String)
-        case tappedDetailList(String)
+        case tappedDetailList(SubwayModel)
+        case tappedDestinationList(SubwayNmModel)
         
         case setResult([SubwayModel])
         case setDestinationResult([SubwayNmModel])
+        
+        case pushResultView(SubwayModel, SubwayNmModel)
+        
+        case errorAlert
+        case alert(PresentationAction<Alert>)
+        
+        
+        
+        @CasePathable
+        enum Alert {}
+        
+        
         
     }
     
@@ -59,24 +80,24 @@ struct SubwayListFeature {
         Reduce { state, action in
             switch action {
                 
-                
-                
-            case .tappedList(let line):
-                
-                
-                return .run { send in
-                    let data = try await apiClient.fetchSubway(line)
-                    await send(.setResult(data.realtimePositionList.map {
-                        $0.getModel()
-                    }))
+            case .errorAlert:
+                state.alert = AlertState {
+                    TextState("현재 운행중인 열차가 없습니다")
+                } actions: {
+                    
+                   
+                    ButtonState(role: .cancel) {
+                        TextState("확인")
+                    }
                 }
+
+                return .none
+            case .alert:
+                return .none
                 
-                
-                
-                
+
             case .setResult(let subwayModels):
-                //                print(subwayModels)
-                
+                print("In setResult")
                 state.resultDetail = subwayModels.sorted(by: { $1.statnNm > $0.statnNm })
                 state.isLineList = 1
                 return .none
@@ -85,36 +106,55 @@ struct SubwayListFeature {
                 
             case .onAppear:
                 return .none
- 
+                
                 
             case .setDestinationResult(let result):
                 state.resultDetail = []
                 state.resultDestination = result
                 state.isLineList = 2
-                
-                
 
-                
-                
                 
                 return .none
                 
-            case .tappedDetailList(let subwayNm):
+                
+            case .tappedList(let line):
+                
+                
                 return .run { send in
-                    let data = try await jsonManager.getModel(subwayNm)
+                    guard let data = try await apiClient.fetchSubway(line) else {
+                        
+                        return await send(.errorAlert) }
+                    
+                    await send(.setResult(data.realtimePositionList.map {
+                        $0.getModel()
+                    }))
+                }
+                
+            case .tappedDetailList(let subway):
+                state.startPosition = subway
+                return .run { send in
+                    let data = try await jsonManager.getModel(subway.subwayNm.rawValue)
                     
                     await send(.setDestinationResult(data))
                     
-//                case .tappedDestinationList(let destination):
-//                    return .
+                    
                 }
-            
                 
+            case .tappedDestinationList(let destination):
+                guard let startPosition = state.startPosition else {return .none}
+                return .run { send in
+                    
+                    
+                    await send(.pushResultView(startPosition, destination))
+                    
+                }
+                
+            case .pushResultView(let startPosition, let destination):
+                return .none
                 
             }
             
-        }
-        
+        }.ifLet(\.alert, action: \.alert)
     }
     
     

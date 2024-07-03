@@ -13,7 +13,7 @@ import MapKit
 import CoreLocation
 import BackgroundTasks
 @Reducer
-struct MapFeature {
+struct AppleMapFeature {
     @Dependency(\.apiClient) var apiClient
     //    @Dependency(\.locationManaging) var locationManaging
     
@@ -22,13 +22,13 @@ struct MapFeature {
     
     @ObservableState
     struct State: Equatable {
-        static func == (lhs: MapFeature.State, rhs: MapFeature.State) -> Bool {
+        static func == (lhs: AppleMapFeature.State, rhs: AppleMapFeature.State) -> Bool {
             return lhs.result.count == rhs.result.count
         }
         var locationManager: LocationManager?
         
         let busItem: BusItem
-        var result: [IdentifiablePlace] = []
+        var result: [BusPicker] = []
         var locations: [CLLocationCoordinate2D] = []
         var cameraPosition: MapCameraPosition = MapCameraPosition.automatic
         var userLocation: CLLocationCoordinate2D = CLLocationCoordinate2D.init()
@@ -38,8 +38,8 @@ struct MapFeature {
         
         var isDestination = false
         
-        var startPosition: IdentifiablePlace = IdentifiablePlace(lat: 0, long: 0, name: "", way: "")
-        var destination: IdentifiablePlace = IdentifiablePlace(lat: 0, long: 0, name: "", way: "")
+        var startPosition: BusPicker = BusPicker(lat: 0, long: 0, name: "", way: "")
+        var destination: BusPicker = BusPicker(lat: 0, long: 0, name: "", way: "")
         
         
         
@@ -56,11 +56,11 @@ struct MapFeature {
         
         
         case alert(PresentationAction<Alert>)
-        case alertButtonTapped(IdentifiablePlace)
+        case alertButtonTapped(BusPicker)
         case resetAlert
         @CasePathable
         enum Alert {
-            case position(Bool, IdentifiablePlace)
+            case position(Bool, BusPicker)
         }
         
         
@@ -106,7 +106,7 @@ struct MapFeature {
                     }
                     
                     
-                    state.result.append( IdentifiablePlace.init(lat: route.gpslati, long: route.gpslong, name: route.nodenm, way: name))
+                    state.result.append( BusPicker.init(lat: route.gpslati, long: route.gpslong, name: route.nodenm, way: name))
                     state.locations.append(CLLocationCoordinate2D.init(latitude: route.gpslati, longitude: route.gpslong) )
                 }
                 
@@ -207,8 +207,8 @@ struct MapFeature {
                         state.result = lastResult
                         
                         //  이전 시작점, 도착점 초기화
-                        state.destination = IdentifiablePlace(lat: 0, long: 0, name: "", way: "")
-                        state.startPosition = IdentifiablePlace(lat: 0, long: 0, name: "", way: "")
+                        state.destination = BusPicker(lat: 0, long: 0, name: "", way: "")
+                        state.startPosition = BusPicker(lat: 0, long: 0, name: "", way: "")
                         
                         return .run { send in
                             await send(.resetAlert)

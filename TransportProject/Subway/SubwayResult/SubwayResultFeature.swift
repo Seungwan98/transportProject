@@ -15,8 +15,12 @@ struct SubwayResultFeature {
 
     @ObservableState
     struct State: Equatable {
-        var startPosition = ""
-        var destination = ""
+        static func == (lhs: SubwayResultFeature.State, rhs: SubwayResultFeature.State) -> Bool {
+            return true
+        }
+        
+        var startPosition: SubwayModel?
+        var destination: SubwayNmModel?
      
         
        

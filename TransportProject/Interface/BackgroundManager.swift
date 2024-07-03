@@ -8,6 +8,7 @@
 import Foundation
 import CoreLocation
 import UserNotifications
+import BackgroundTasks
 
 
 class BackgroundManager {
@@ -33,6 +34,17 @@ class BackgroundManager {
                 print("Error scheduling notification: \(error.localizedDescription)")
             }
         }
+    }
+    
+    func scheduleApiFetch() {
+        let request = BGAppRefreshTaskRequest(identifier: "com.TransportProject.ApiFetch") // 설정한 identifier
+           request.earliestBeginDate = Date(timeIntervalSinceNow: 60 * 60) // 호출할 timeInterval을 1시간으로 설정
+
+           do {
+               try BGTaskScheduler.shared.submit(request)
+           } catch {
+               print("Could not schedule app refresh: \(error)")
+           }
     }
     
     

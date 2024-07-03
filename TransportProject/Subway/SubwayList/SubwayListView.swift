@@ -27,9 +27,9 @@ struct SubwayListView: View {
                 List(viewStore.resultLineName, id: \.self) { text in
                     Button(action: {
                         viewStore.send(.tappedList(text))
-                    }) {
+                    }, label: {
                         Text("\(text)")
-                    }
+                    })
                 }.listStyle(.plain).navigationTitle("탑승 지하철 선택")
                 //                .searchable(text: $text).onSubmit(of: .search) {
                 //                    viewStore.send(.requestAPI(text))
@@ -39,8 +39,8 @@ struct SubwayListView: View {
                     ForEach(viewStore.state.resultDetail, id: \.id) { model in
                         
                         Button(action: {
-                            viewStore.send(.tappedDetailList(model.subwayNm.rawValue))
-                        }) {
+                            viewStore.send(.tappedDetailList(model))
+                        }, label: {
                             HStack {
                                 VStack {
                                     HStack {
@@ -57,7 +57,7 @@ struct SubwayListView: View {
                                 Text("\(model.recptnDt.getFormatted()) \(model.getState())")
                                 
                             }
-                        }
+                        })
                         
                     }
                     
@@ -71,11 +71,11 @@ struct SubwayListView: View {
                     ForEach(viewStore.state.resultDestination, id: \.id) { model in
                         
                         Button(action: {
-                            print(model.statnNm)
-                        }) {
+                            viewStore.send(.tappedDestinationList(model))
+                        }, label: {
                             Text("\(model.statnNm)")
                             
-                        }
+                        })
                         
                     }
                     
@@ -88,7 +88,7 @@ struct SubwayListView: View {
                 
             }
           
-        }
+        }.alert($store.scope(state: \.alert, action: \.alert))
     }
 }
 

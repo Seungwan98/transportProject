@@ -37,6 +37,10 @@ struct MyApp: App {
             self.handleAppRefresh(task: task as! BGAppRefreshTask)
         }
         
+        BGTaskScheduler.shared.register(forTaskWithIdentifier: "example2.com", using: nil) { task in
+               self.handleAppRefreshToApi(task: task as! BGAppRefreshTask)
+           }
+        
         
     }
     
@@ -44,6 +48,19 @@ struct MyApp: App {
     
     
     private func handleAppRefresh(task: BGAppRefreshTask) {
+        
+        //         scheduleAppRefresh()
+        
+        // 백그라운드 작업을 수행하는 코드
+        task.setTaskCompleted(success: true)
+        
+        
+        task.expirationHandler = {
+            // 작업이 만료된 경우 수행할 작업
+            print("App refresh task expired")
+        }
+    }
+    private func handleAppRefreshToApi(task: BGAppRefreshTask) {
         
         //         scheduleAppRefresh()
         

@@ -7,8 +7,8 @@
 import MapKit
 import Foundation
 import SwiftUI
-struct IdentifiablePlace: Identifiable, Equatable {
-    static func == (lhs: IdentifiablePlace, rhs: IdentifiablePlace) -> Bool {
+struct BusPicker: Identifiable, Equatable {
+    static func == (lhs: BusPicker, rhs: BusPicker) -> Bool {
         lhs.way == rhs.way && lhs.name == rhs.name
     }
     
@@ -28,13 +28,13 @@ struct IdentifiablePlace: Identifiable, Equatable {
         
     }
     
-    func changeToBlue() -> IdentifiablePlace {
-        var new = IdentifiablePlace.init(lat: self.location.latitude, long: self.location.longitude, name: self.name, way: self.way)
+    func changeToBlue() -> BusPicker {
+        var new = BusPicker.init(lat: self.location.latitude, long: self.location.longitude, name: self.name, way: self.way)
         new.color = .blue
         return new
     }
-    func changeToGray() -> IdentifiablePlace {
-        var new = IdentifiablePlace.init(lat: self.location.latitude, long: self.location.longitude, name: self.name, way: self.way)
+    func changeToGray() -> BusPicker {
+        var new = BusPicker.init(lat: self.location.latitude, long: self.location.longitude, name: self.name, way: self.way)
         new.color = .gray
         return new
     }

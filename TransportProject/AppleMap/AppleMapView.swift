@@ -11,10 +11,10 @@ import MapKit
 import ComposableArchitecture
 import Combine
 
-struct MapView: View {
+struct AppleMapView: View {
     
     @StateObject var locationManager: LocationManager = LocationManager()
-    @Bindable var store: StoreOf<MapFeature>
+    @Bindable var store: StoreOf<AppleMapFeature>
     
     
     @State private var text = ""
@@ -24,11 +24,11 @@ struct MapView: View {
     
     
     
-    @State private var resultRoute: IdentifiablePlace = IdentifiablePlace(lat: 0, long: 0, name: "", way: "")
+    @State private var resultRoute: BusPicker = BusPicker(lat: 0, long: 0, name: "", way: "")
     
     
     
-    init(store: StoreOf<MapFeature> ) {
+    init(store: StoreOf<AppleMapFeature> ) {
         self.store = store
         
     }

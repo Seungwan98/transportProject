@@ -23,10 +23,10 @@ struct SubwayResultView: View {
         WithViewStore(store, observe: { $0 }) { viewStore in
             HStack {
                 Spacer()
-                Text(viewStore.startPosition).font(.largeTitle)
+                Text(viewStore.startPosition?.subwayNm.rawValue ?? "")
 
                 Spacer()
-                Text(viewStore.destination).font(.largeTitle)
+                Text(viewStore.destination?.subwayNm.rawValue ?? "")
                 Spacer()
 
             }

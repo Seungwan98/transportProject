@@ -13,7 +13,7 @@ import Alamofire
 struct ApiClient {
     var fetchBus: (Int) async throws -> BusDTO
     var fetchRoute: (String) async throws -> BusRouteDTO
-    var fetchSubway: (String) async throws -> SubwayDTO
+    var fetchSubway: (String) async throws -> SubwayDTO?
     
 }
 
@@ -100,13 +100,13 @@ extension ApiClient: DependencyKey {
                         } catch {
                             
                             print("Error decoding JSON: \(error)")
-                            continuation.resume(throwing: error)
+                            continuation.resume(returning: nil)
                             
                             
                             
                         }
                     case .failure(let error):
-                        print("Error: \(error)")
+                        continuation.resume(returning: nil)
                     }
                 }
             }
