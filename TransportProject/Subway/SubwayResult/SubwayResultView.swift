@@ -23,15 +23,17 @@ struct SubwayResultView: View {
         WithViewStore(store, observe: { $0 }) { viewStore in
             HStack {
                 Spacer()
-                Text(viewStore.startPosition?.subwayNm.rawValue ?? "")
+                Text(viewStore.nowSubwayNm).onChange(of: viewStore.nowSubwayNm) {
+                    viewStore.send(.changed)
+                }
 
                 Spacer()
-                Text(viewStore.destination?.subwayNm.rawValue ?? "")
+                Text(viewStore.nowSubwayState)
                 Spacer()
 
             }
            
-        }
+        }.onAppear {  store.send(.onAppear)  }
         
        
 
@@ -41,6 +43,10 @@ struct SubwayResultView: View {
 
 
 #Preview {
+    
+    
+    
+    
     SubwayResultView(
         store: Store(initialState: SubwayResultFeature.State()) {
             SubwayResultFeature()

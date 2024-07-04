@@ -66,15 +66,15 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
         print("Locationdistance")
         guard let location = locations.last, let destination = self.destination, locations.last?.coordinate != nil, let positions = self.positions else { return }
         self.currentLocation = location
-        
+
         //        self.alarm.toggle()
         var lowest = Double.infinity
         var finalIndex = 0
         for i in 1..<positions.count {
             let firstvalue = positions[i-1].location
             let secondvalue = positions[i].location
-            let distance = self.shortestDistanceFromPointToLineSegment(point: Point( x: location.coordinate.longitude, y: location.coordinate.latitude), linePoint1: Point( x:secondvalue.longitude, y: secondvalue.latitude), linePoint2: Point( x: firstvalue.longitude, y: firstvalue.latitude))
-            print("dist \(distance) sub \(positions[i-1].name) , \(positions[i].name) \(location.coordinate.latitude ) , \(location.coordinate.longitude)")
+            let distance = self.shortestDistanceFromPointToLineSegment(point: Point( x: location.coordinate.longitude, y: location.coordinate.latitude), linePoint1: Point( x: secondvalue.longitude, y: secondvalue.latitude), linePoint2: Point( x: firstvalue.longitude, y: firstvalue.latitude))
+            
             if lowest > distance {
                 lowest = distance
                 finalIndex = i
@@ -89,10 +89,11 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
         
         
         
-        if destination.distance(from: location.coordinate) < 50 {
+        if destination.distance(from: location.coordinate) > 50 {
             
             guard let currentLocation = self.currentLocation else {return}
-            BackgroundManager.shared.scheduleNotification(currentLocation: currentLocation)
+            print("background Location")
+            self.scheduleNotification(currentLocation: currentLocation)
             
         }
         
@@ -151,6 +152,24 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
     struct Point {
         var x: Double
         var y: Double
+    }
+    
+    func scheduleNotification(currentLocation: CLLocation) {
+        let content = UNMutableNotificationContent()
+        content.title = "Local Notification\(String(describing: currentLocation.coordinate.latitude))"
+        content.body = ""
+        content.sound = .default
+        
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+                
+        let request = UNNotificationRequest(identifier: "com.yourapp.notification", content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("Error scheduling notification: \(error.localizedDescription)")
+            }
+        }
     }
     
 }

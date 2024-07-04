@@ -12,7 +12,7 @@ struct MyApp: App {
     @Environment(\.scenePhase) private var scenePhase
     static let store = Store(initialState: RootFeature.State() ) {
         RootFeature()
-//            ._printChanges()
+        //            ._printChanges()
     }
     
     init() {
@@ -35,12 +35,11 @@ struct MyApp: App {
         
         BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.yourapp.notification", using: nil) { task in
             self.handleAppRefresh(task: task as! BGAppRefreshTask)
+        } 
+        BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.TransportProject.ApiFetch", using: nil) { task in
+            self.handleAppRefreshToApi(task: task as! BGAppRefreshTask)
         }
-        
-        BGTaskScheduler.shared.register(forTaskWithIdentifier: "example2.com", using: nil) { task in
-               self.handleAppRefreshToApi(task: task as! BGAppRefreshTask)
-           }
-        
+
         
     }
     
