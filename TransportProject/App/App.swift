@@ -7,7 +7,7 @@ import UserNotifications
 
 @main
 struct MyApp: App {
-    
+    let center = UNUserNotificationCenter.current()
     // @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @Environment(\.scenePhase) private var scenePhase
     static let store = Store(initialState: RootFeature.State() ) {
@@ -16,6 +16,7 @@ struct MyApp: App {
     }
     
     init() {
+        requestAuthNotification()
         getNotificationSettings()
         registerBackgroundTasks()
     }
@@ -72,7 +73,14 @@ struct MyApp: App {
             print("App refresh task expired")
         }
     }
-    
+    func requestAuthNotification() {
+        let notificationAuthOptions = UNAuthorizationOptions(arrayLiteral: [.alert, .badge, .sound])
+        center.requestAuthorization(options: notificationAuthOptions) { success, error in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+            }
+        }
+    }
     
     
 }
