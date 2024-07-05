@@ -62,7 +62,6 @@ struct MyApp: App {
     }
     private func handleAppRefreshToApi(task: BGAppRefreshTask) {
         
-        //         scheduleAppRefresh()
         
         // 백그라운드 작업을 수행하는 코드
         task.setTaskCompleted(success: true)

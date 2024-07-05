@@ -38,11 +38,18 @@ struct AppleMapView: View {
         
         WithViewStore(store, observe: { $0 }) { viewStore in
             
+            if self.locationManager.resultPositions.first != nil {
+                HStack(spacing: 20) {
+                    Text(self.locationManager.resultPositions.first?.name ?? "")
+                    Image(systemName: "arrow.forward")
+                    Text(self.locationManager.resultPositions.last?.name ?? "")
+
+                }
+            }
             
-            Text(
-                
-                "\(self.locationManager.resultPositions.first?.name ?? "") -> \(self.locationManager.resultPositions.last?.name ?? "") "
-            )
+            
+            
+            
             
             Map(position: $store.cameraPosition) {
                 
@@ -99,10 +106,11 @@ struct AppleMapView: View {
     }
     
     
-    //        #Preview {
-    //            MapView(
-    //                store: Store(initialState: MapFeature.State(busItem: BusItem.init(endnodenm: "", endvehicletime: nil, routeid: "", routeno: Endvehicletime(from: Decoder()), routetp: "", startnodenm: "", startvehicletime: ""), cameraPosition: MapCameraPosition.region(MKCoordinateRegion())  )) {
-    //                    MapFeature()
-    //                }
-    //            )}
+          
 }
+//#Preview {
+//    AppleMapView(
+//        store: Store(initialState: AppleMapFeature.State(busItem: BusItem(endnodenm: "", endvehicletime: nil, routeid: "", routeno: nil, routetp: "", startnodenm: "", startvehicletime: ""))) {
+//            AppleMapFeature()
+//        }
+//    )}

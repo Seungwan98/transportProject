@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SubwayNmModel: Identifiable {
+struct SubwayNmModel: Identifiable, Equatable {
     var id = UUID()
 
     let subwayID, statnID: Int

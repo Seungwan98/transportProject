@@ -24,7 +24,13 @@ struct SubwayListFeature {
     @ObservableState
     struct State: Equatable {
         static func == (lhs: SubwayListFeature.State, rhs: SubwayListFeature.State) -> Bool {
-            lhs.resultLineName.count == rhs.resultLineName.count && lhs.resultDetail.count == rhs.resultDetail.count
+            lhs.resultDetail.elementsEqual(rhs.resultDetail) &&
+            lhs.resultDestination.elementsEqual(rhs.resultDestination) &&
+            lhs.isLineList == rhs.isLineList &&
+            lhs.startPosition?.subwayID == rhs.startPosition?.subwayID
+            
+            
+            
         }
         
         // 호선 리스트
@@ -109,7 +115,6 @@ struct SubwayListFeature {
                 
                 
             case .setDestinationResult(let result):
-                state.resultDetail = []
                 state.resultDestination = result
                 state.isLineList = 2
 

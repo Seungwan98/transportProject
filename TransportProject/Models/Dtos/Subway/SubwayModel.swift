@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SubwayModel: Identifiable {
+struct SubwayModel: Identifiable, Equatable {
     var id = UUID()
     
     
@@ -18,6 +18,8 @@ struct SubwayModel: Identifiable {
     let statnID, statnNm, trainNo, lastRecptnDt: String
     let recptnDt, updnLine, statnTid, statnTnm: String
     let trainSttus, directAt, lstcarAt: String
+    
+   
     
     
     func getState() -> String {
@@ -41,9 +43,9 @@ struct SubwayModel: Identifiable {
         var result = ""
         switch updnLine {
         case "0":
-            result = "(서울방면)"
+            result = "상행"
         case "1":
-            result = "(\(statnTnm)방면)"
+            result = "하행"
       
         default:
             break

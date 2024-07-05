@@ -23,51 +23,50 @@ struct SubwayPickView: View {
         WithViewStore(store, observe: { $0 }) { viewStore in
             Spacer().frame(height: 80)
             
-            HStack {
+            HStack(alignment: .center, spacing: 30, content: {
+                
+                
+                VStack {
+                    
+                    Text("출발").font(.system(size: 20))
+                    Button(action: {
+                        print("left")
+                    }, label: {
+                        Text("천호").bold().font(.system(size: 40))
+                    })
+                    
+                }
+                
+                Image(systemName: "arrow.forward")
+                
+                
+                VStack {
+                    
+                    Text("목적").font(.system(size: 20))
+                    Button(action: {
+                        print("left")
+                    }, label: {
+                        Text("강동").bold().font(.system(size: 40))
+                    })
+                    
+                    
+                }
+                
                 
             }
-
-                HStack {
-                    Spacer()
-
-                        Button(action: {
-                            print("left")
-                        }, label: {
-                            Image(systemName: "plus")
-                                .resizable() // 이미지 크기 조정 가능
-                                .frame(width: 50, height: 50)
-                        }).padding(.horizontal, 50)
-                    
-                        .padding(.vertical, 50)
-
-                        .foregroundColor(.white)
-                        .background(.gray)
-                    Spacer()
-                    Button(action: {
-                        print("right")
-                    }, label: {
-                        Image(systemName: "plus")
-                            .resizable() // 이미지 크기 조정 가능
-                            .frame(width: 50, height: 50)
-                    }).padding(.horizontal, 50)
-                
-                    .padding(.vertical, 50)
-
-                    .foregroundColor(.white)
-                    .background(.gray)
-                    Spacer()
-
-                    }
-                    
-                  
-              Spacer()
-                    
             
-           
+            )
+                
+            
+            
+            Spacer()
+            
+            
+            
         }
         
-       
-
+        
+        
     }
 }
 
@@ -80,4 +79,4 @@ struct SubwayPickView: View {
         }
     )}
 
-        
+

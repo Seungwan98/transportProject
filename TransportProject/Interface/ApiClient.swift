@@ -14,6 +14,7 @@ struct ApiClient {
     var fetchBus: (Int) async throws -> BusDTO
     var fetchRoute: (String) async throws -> BusRouteDTO
     var fetchSubway: (String) async throws -> SubwayDTO?
+    var fetchSubwayArrive: (String) async throws -> SubwayDTO?
     
 }
 
@@ -111,6 +112,34 @@ extension ApiClient: DependencyKey {
                 }
             }
             
+        } , fetchSubwayArrive: { value in
+            
+            
+            let parameters: [String: Any] = ["query": ""]
+            let url = "http://swopenAPI.seoul.go.kr/api/subway/726773506b73696e37354f6e517353/xml/realtimeStationArrival/0/1000/\(value)"
+            
+            return try await withCheckedThrowingContinuation { continuation in
+                AF.request(url, parameters: parameters).responseData { response in
+                    switch response.result {
+                    case .success(let data):
+                        do {
+                            let decoder = JSONDecoder()
+                            let result = try decoder.decode(SubwayDTO.self, from: data)
+                            continuation.resume(returning: result)
+                            
+                        } catch {
+                            
+                            print("Error decoding JSON: \(error)")
+                            continuation.resume(returning: nil)
+                            
+                            
+                            
+                        }
+                    case .failure(let error):
+                        continuation.resume(returning: nil)
+                    }
+                }
+            }
         }
         
         
