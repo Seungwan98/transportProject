@@ -51,6 +51,8 @@ struct AppleMapView: View {
             
             
             
+            
+            
             Map(position: $store.cameraPosition) {
                 
                 UserAnnotation()
@@ -101,6 +103,18 @@ struct AppleMapView: View {
             }.searchable(text: $text, placement: .navigationBarDrawer(displayMode: .automatic)).onSubmit( of: .search ) {
                 viewStore.send(.resultText(text))
             }
+            
+            if self.locationManager.timer {
+                Button(action: {
+                    self.locationManager.timer = false
+                    
+                }, label: {
+                    
+                    Text("알람 종료")
+                    
+                }).frame(height: 50)
+            }
+            
         }.alert($store.scope(state: \.alert, action: \.alert))
         
     }

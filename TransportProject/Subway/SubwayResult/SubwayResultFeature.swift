@@ -24,6 +24,11 @@ struct SubwayResultFeature {
         var nowSubwayNm = "ㅁㅁㅁ"
         var nowSubwayState = ""
         
+        var statenNm = ""
+        var nextNm = ""
+        
+        var isOwn = false
+        
         static func == (lhs: State, rhs: State) -> Bool {
             return lhs.startPosition?.subwayID == rhs.startPosition?.subwayID &&
             lhs.destination?.subwayID == rhs.destination?.subwayID &&
@@ -37,10 +42,15 @@ struct SubwayResultFeature {
     enum Action {
         case onAppear
         
-        case setResult([SubwayModel])
+        case setResult([SubwayArriveModel])
         
         case changed
         
+        case ownSubway
+        
+        case nextSubway
+        
+        case setNewValue
         
     }
     
@@ -56,37 +66,94 @@ struct SubwayResultFeature {
             case .onAppear:
                 
                 
-                guard let subwayNmModel = state.destination, let trainNo = state.startPosition?.trainNo else {return .none}
+                guard let subwayNmModel = state.destination, let startPosition = state.startPosition else {
+                    
+                    print("startPosition is Nil")
+                    return .none}
+                state.statenNm = startPosition.statnNm
                 
-                print("guardlet")
-                return .run { send in
-                    while true {
-                        try await Task.sleep(for: .seconds(10))
-                        guard let data = try await apiClient.fetchSubway(subwayNmModel.subwayNm.rawValue) else {return}
+                
+                while true {
+                    // let isOwn = state.isOwn
+                    print("while")
+                    
+                    return .run { send in
                         
-                        await send(.setResult(data.realtimePositionList.map { $0.getModel() }.filter {
-                            
-                            return $0.trainNo == trainNo
-                            
-                        }))
+                        //   if isOwn {
+                        await send(.ownSubway)
                         
-                    }
-                    
-                    
-                    
-                }.cancellable(id: CancelID.timer)
+                        
+                        //     }
+                        
+                        //                        else {
+                        //                            await send(.nextSubway)
+                        //                        }
+                        //
+                        
+                        
+                        
+                        
+                        
+                        
+                    }.cancellable(id: CancelID.timer)
+                }
                 
             case .setResult(let models):
-                print(state.state)
-                print(models)
-                state.nowSubwayNm = (models.first?.statnNm ?? "") + (models.first?.getState() ?? "")
+                
+                state.nextNm = models.first?.statnTid ?? ""
+                state.nowSubwayNm = (models.first?.arvlMsg2 ?? "")
                 return .none
                 
                 
             case .changed:
                 BackgroundManager.shared.scheduleApiFetch(nowState: state.nowSubwayNm)
                 return .none
+            case .ownSubway:
+                
+                let statnm = state.statenNm
+                
+                let startPosition = state.startPosition
+                
+                return .run { send in
+                    guard let data = try await apiClient.fetchSubwayArrive(statnm) else {
+                        await send(.setNewValue)
+                        return }
+                    
+                    let result = data.realtimeArrivalList.map { $0.getModel() }.filter {
+                        
+                        return $0.btrainNo == startPosition?.trainNo
+                        
+                    }
+                    
+                    await send(.setResult(result))
+                    
+                }
+                
+            case .nextSubway:
+                let statnm = state.nextNm
+                let startPosition = state.startPosition
+                return .run { send in
+                    guard let data = try await apiClient.fetchSubwayArrive(statnm) else {return}
+                    
+                    let result = data.realtimeArrivalList.map { $0.getModel() }.filter {
+                        
+                        return $0.btrainNo == startPosition?.trainNo
+                        
+                    }
+                    
+                    await send(.setResult(result))
+                    
+                    
+                }
+                
+            case .setNewValue:
+                // state.isOwn.toggle()
+                state.nowSubwayNm = state.nextNm
+                return .none
             }
+            
+            
+            
             
         }
         

@@ -14,10 +14,5 @@ struct SubwayNmModel: Identifiable, Equatable {
     let statnNm: String
     let subwayNm: SubwayNm
 
-    enum CodingKeys: String, CodingKey {
-        case subwayID = "SUBWAY_ID"
-        case statnID = "STATN_ID"
-        case statnNm = "STATN_NM"
-        case subwayNm = "SUBWAY_NM"
-    }
+   
 }

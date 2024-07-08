@@ -16,11 +16,11 @@ class BackgroundManager {
     
     func scheduleNotification(currentLocation: CLLocation) {
         let content = UNMutableNotificationContent()
-        content.title = "Local Notification\(String(describing: currentLocation.coordinate.latitude))"
-        content.body = ""
-        content.sound = .default
-        
-        
+        content.title = "목적지에 도착했습니다"
+        content.body = "Local Notification\(String(describing: currentLocation.coordinate.latitude))"
+        content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "alarm.mp3"))
+
+
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
                 
         let request = UNNotificationRequest(identifier: "com.yourapp.notification", content: content, trigger: trigger)

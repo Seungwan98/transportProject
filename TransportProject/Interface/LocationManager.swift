@@ -12,6 +12,7 @@ import BackgroundTasks
 import ComposableArchitecture
 import Combine
 import SwiftUI
+import AVFAudio
 
 
 // protocol LocationManaging {
@@ -39,10 +40,11 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
     private var anyCancelled = Set<AnyCancellable>()
     private var locationManager: CLLocationManager
     @Published var currentLocation: CLLocation?
-    @Published var alarm: Bool = false
+    @Published var alarm: Bool = true
     @Published var resultPositions = [BusPicker]()
+    @Published var timer = false
     
-    
+
     private var destination: CLLocationCoordinate2D?
     private var positions: [BusPicker]?
     override init() {
@@ -61,13 +63,12 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
     }
     
     
-    
+
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("Locationdistance")
         guard let location = locations.last, let destination = self.destination, locations.last?.coordinate != nil, let positions = self.positions else { return }
         self.currentLocation = location
 
-        //        self.alarm.toggle()
         var lowest = Double.infinity
         var finalIndex = 0
         for i in 1..<positions.count {
@@ -86,15 +87,38 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
         resultPositions.append(positions[finalIndex - 1])
         resultPositions.append(positions[finalIndex])
         self.resultPositions = resultPositions
+        var audioPlayer = AVAudioPlayer()
+
+        if let path = Bundle.main.path(forResource: "alarm", ofType: "mp3") {
+              do {
+                  audioPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: path))
+
+                  audioPlayer.play()
+              } catch {
+                  print("사운드 파일을 재생할 수 없음")
+              }
+          }
         
-        
-        
-        if destination.distance(from: location.coordinate) > 50 {
-            
-            guard let currentLocation = self.currentLocation else {return}
-            print("background Location")
-            self.scheduleNotification(currentLocation: currentLocation)
-            
+        if destination.distance(from: location.coordinate) > 50 && alarm  {
+        self.timer = true
+        self.alarm = false
+          
+          let timer = Timer.scheduledTimer(withTimeInterval: 4.5, repeats: true) { [weak self] timer in
+              guard let self = self else {return}
+              if !self.timer {
+                  timer.invalidate()
+                  
+                
+              }
+           
+              guard let currentLocation = self.currentLocation else {return}
+              print("background Location")
+              self.scheduleNotification(currentLocation: currentLocation)          }
+              
+              
+             
+              
+          
         }
         
         
@@ -155,11 +179,14 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
     }
     
     func scheduleNotification(currentLocation: CLLocation) {
+        print("locaiton")
         let content = UNMutableNotificationContent()
-        content.title = "Local Notification\(String(describing: currentLocation.coordinate.latitude))"
-        content.body = ""
-        content.sound = .default
+        content.title = "목적지에 도착했습니다"
+        content.body = "Local Notification\(String(describing: currentLocation.coordinate.latitude))"
+        content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "alarm.mp3"))
         
+      
+
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
                 
