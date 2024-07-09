@@ -21,6 +21,43 @@ struct SubwayResultView: View {
         
         
         WithViewStore(store, observe: { $0 }) { viewStore in
+            
+            Spacer().frame(height: 40)
+
+            
+            HStack(alignment: .center, spacing: 30, content: {
+                
+                
+                VStack {
+                    
+                    Text("출발").font(.system(size: 20))
+                    Button(action: {
+                        print("left")
+                    }, label: {
+                        Text("천호").bold().font(.system(size: 40))
+                    })
+                    
+                }
+                
+                Image(systemName: "arrow.forward")
+                
+                
+                VStack {
+                    
+                    Text("목적").font(.system(size: 20))
+                    Button(action: {
+                        print("left")
+                    }, label: {
+                        Text("강동").bold().font(.system(size: 40))
+                    })
+                    
+                    
+                }
+                
+                
+            } )
+            Spacer().frame(height: 40)
+                   
             HStack {
                 Spacer()
                 Text(viewStore.nowSubwayNm).onChange(of: viewStore.nowSubwayNm) {
@@ -32,6 +69,7 @@ struct SubwayResultView: View {
                 Spacer()
 
             }
+            Spacer()
            
         }.onAppear {  store.send(.onAppear)  }
         

@@ -15,16 +15,19 @@ struct SubwayResultFeature {
     
     @Dependency(\.apiClient) var apiClient
     
+    private var isOwn = true
+   
+    
     @ObservableState
     struct State: Equatable {
         var state = 0
         var startPosition: SubwayModel?
         var destination: SubwayNmModel?
         
-        var nowSubwayNm = "ㅁㅁㅁ"
-        var nowSubwayState = ""
-        
-        var statenNm = ""
+        var nowSubwayNm = "시작"
+        var nowSubwayState = "끝끝"
+    
+        var startNm = ""
         var nextNm = ""
         
         var isOwn = false
@@ -64,41 +67,41 @@ struct SubwayResultFeature {
             switch action {
                 
             case .onAppear:
-                
+
                 
                 guard let subwayNmModel = state.destination, let startPosition = state.startPosition else {
-                    
                     print("startPosition is Nil")
                     return .none}
-                state.statenNm = startPosition.statnNm
+                
+                state.startNm = startPosition.statnNm
                 
                 
-                while true {
-                    // let isOwn = state.isOwn
-                    print("while")
-                    
-                    return .run { send in
+                return .run { send in
+                    while true {
+                        print("while")
+
+                        try await Task.sleep(nanoseconds: 100)
+                        if self.isOwn {
+                            await send(.ownSubway)
+                            
+                            
+                        }
                         
-                        //   if isOwn {
-                        await send(.ownSubway)
-                        
-                        
-                        //     }
-                        
-                        //                        else {
-                        //                            await send(.nextSubway)
-                        //                        }
-                        //
+                        else {
+                            await send(.nextSubway)
+                        }
                         
                         
                         
                         
                         
                         
-                    }.cancellable(id: CancelID.timer)
-                }
+                    }
+                }.cancellable(id: CancelID.timer)
+                
                 
             case .setResult(let models):
+                
                 
                 state.nextNm = models.first?.statnTid ?? ""
                 state.nowSubwayNm = (models.first?.arvlMsg2 ?? "")
@@ -110,12 +113,13 @@ struct SubwayResultFeature {
                 return .none
             case .ownSubway:
                 
-                let statnm = state.statenNm
+             
                 
                 let startPosition = state.startPosition
+                let startNm = state.startNm
                 
                 return .run { send in
-                    guard let data = try await apiClient.fetchSubwayArrive(statnm) else {
+                    guard let data = try await apiClient.fetchSubwayArrive(startNm) else {
                         await send(.setNewValue)
                         return }
                     
@@ -148,7 +152,8 @@ struct SubwayResultFeature {
                 
             case .setNewValue:
                 // state.isOwn.toggle()
-                state.nowSubwayNm = state.nextNm
+                
+                state.startNm = state.nextNm
                 return .none
             }
             
