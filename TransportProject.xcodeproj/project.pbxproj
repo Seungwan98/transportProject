@@ -24,8 +24,6 @@
 		60700FEC2C3468BF007767C3 /* TransportProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60700FEB2C3468BF007767C3 /* TransportProjectTests.swift */; };
 		60700FF42C346BB6007767C3 /* SubwayNmDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60700FF32C346BB6007767C3 /* SubwayNmDTO.swift */; };
 		60700FF62C347CC3007767C3 /* SubwayNmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60700FF52C347CC3007767C3 /* SubwayNmModel.swift */; };
-		60700FF82C34E4B9007767C3 /* SubwayPickView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60700FF72C34E4B9007767C3 /* SubwayPickView.swift */; };
-		60700FFA2C34E4D2007767C3 /* SubwayPickFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60700FF92C34E4D2007767C3 /* SubwayPickFeature.swift */; };
 		60700FFC2C34FF8C007767C3 /* SubwayResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60700FFB2C34FF8C007767C3 /* SubwayResultView.swift */; };
 		60700FFE2C34FFC0007767C3 /* SubwayResultFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60700FFD2C34FFC0007767C3 /* SubwayResultFeature.swift */; };
 		607010002C35166E007767C3 /* BackgroundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60700FFF2C35166E007767C3 /* BackgroundManager.swift */; };
@@ -79,8 +77,6 @@
 		60700FEB2C3468BF007767C3 /* TransportProjectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportProjectTests.swift; sourceTree = "<group>"; };
 		60700FF32C346BB6007767C3 /* SubwayNmDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubwayNmDTO.swift; sourceTree = "<group>"; };
 		60700FF52C347CC3007767C3 /* SubwayNmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubwayNmModel.swift; sourceTree = "<group>"; };
-		60700FF72C34E4B9007767C3 /* SubwayPickView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubwayPickView.swift; sourceTree = "<group>"; };
-		60700FF92C34E4D2007767C3 /* SubwayPickFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubwayPickFeature.swift; sourceTree = "<group>"; };
 		60700FFB2C34FF8C007767C3 /* SubwayResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubwayResultView.swift; sourceTree = "<group>"; };
 		60700FFD2C34FFC0007767C3 /* SubwayResultFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubwayResultFeature.swift; sourceTree = "<group>"; };
 		60700FFF2C35166E007767C3 /* BackgroundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundManager.swift; sourceTree = "<group>"; };
@@ -180,7 +176,6 @@
 			children = (
 				607010042C35B1B5007767C3 /* SubwayResult */,
 				607010032C35B1AC007767C3 /* SubwayList */,
-				607010022C35B19F007767C3 /* SubwayPick */,
 			);
 			path = Subway;
 			sourceTree = "<group>";
@@ -191,15 +186,6 @@
 				60700FEB2C3468BF007767C3 /* TransportProjectTests.swift */,
 			);
 			path = TransportProjectTests;
-			sourceTree = "<group>";
-		};
-		607010022C35B19F007767C3 /* SubwayPick */ = {
-			isa = PBXGroup;
-			children = (
-				60700FF72C34E4B9007767C3 /* SubwayPickView.swift */,
-				60700FF92C34E4D2007767C3 /* SubwayPickFeature.swift */,
-			);
-			path = SubwayPick;
 			sourceTree = "<group>";
 		};
 		607010032C35B1AC007767C3 /* SubwayList */ = {
@@ -545,7 +531,6 @@
 				60700FFE2C34FFC0007767C3 /* SubwayResultFeature.swift in Sources */,
 				60700FD82C32D9CD007767C3 /* SubwayListView.swift in Sources */,
 				60700FF42C346BB6007767C3 /* SubwayNmDTO.swift in Sources */,
-				60700FF82C34E4B9007767C3 /* SubwayPickView.swift in Sources */,
 				60700FFC2C34FF8C007767C3 /* SubwayResultView.swift in Sources */,
 				60700FF62C347CC3007767C3 /* SubwayNmModel.swift in Sources */,
 				60700FE42C3467E1007767C3 /* JsonManager.swift in Sources */,
@@ -564,7 +549,6 @@
 				6084BFBE2C3C63BD002FA0FC /* SettingFeature.swift in Sources */,
 				60C392212C0993DF00465156 /* App.swift in Sources */,
 				60700FE02C33FEF2007767C3 /* SubwayModel.swift in Sources */,
-				60700FFA2C34E4D2007767C3 /* SubwayPickFeature.swift in Sources */,
 				60700FDE2C33F129007767C3 /* DataFormatter.swift in Sources */,
 				6093DB122C1B5DE90078CAC6 /* BusRouteDTO.swift in Sources */,
 				605FA8A62C24B57500E32E19 /* SceneDelegate.swift in Sources */,

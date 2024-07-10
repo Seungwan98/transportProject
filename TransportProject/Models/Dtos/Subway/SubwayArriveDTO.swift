@@ -28,6 +28,7 @@ struct SubwayArriveData: Codable {
     let barvlDt, btrainNo, bstatnID, bstatnNm: String
     let recptnDt, arvlMsg2, arvlMsg3, arvlCD: String
     let lstcarAt: String
+    
 
     enum CodingKeys: String, CodingKey {
         case beginRow, endRow, curPage, pageRow, totalCount, rowNum, selectedCount
@@ -42,10 +43,23 @@ struct SubwayArriveData: Codable {
     }
 
     
-    
+
     func getModel() -> SubwayArriveModel {
-        return SubwayArriveModel.init(beginRow: self.beginRow, endRow: self.endRow, curPage: self.curPage, pageRow: self.pageRow, totalCount: self.totalCount, rowNum: self.rowNum, selectedCount: self.selectedCount, subwayID: self.subwayID, subwayNm: self.subwayNm, updnLine: self.updnLine, trainLineNm: self.trainLineNm, subwayHeading: self.subwayHeading, statnFid: self.statnFid, statnTid: self.statnTid, statnID: self.statnID, statnNm: self.statnNm, trainCo: self.trainCo, trnsitCo: self.trnsitCo, ordkey: self.ordkey, subwayList: self.subwayList, statnList: self.statnList, btrainSttus: self.btrainSttus, barvlDt: self.barvlDt, btrainNo: self.btrainNo, bstatnID: self.bstatnID, bstatnNm: self.bstatnNm, recptnDt: self.recptnDt, arvlMsg2: self.arvlMsg2, arvlMsg3: self.arvlMsg3, arvlCD: self.arvlCD, lstcarAt: self.lstcarAt)
+        
+        var statnTnm = ""
+        
+        if let name = try? JsonManager.liveValue.getForStatnId( self.statnTid ).first {
+            statnTnm = name.statnNm
+        }
+
+        
+        return SubwayArriveModel.init(beginRow: self.beginRow, endRow: self.endRow, curPage: self.curPage, pageRow: self.pageRow, totalCount: self.totalCount, rowNum: self.rowNum, selectedCount: self.selectedCount, subwayID: self.subwayID, subwayNm: self.subwayNm, updnLine: self.updnLine, trainLineNm: self.trainLineNm, subwayHeading: self.subwayHeading, statnFid: self.statnFid, statnTid: self.statnTid, statnTnm: statnTnm, statnID: self.statnID, statnNm: self.statnNm, trainCo: self.trainCo, trnsitCo: self.trnsitCo, ordkey: self.ordkey, subwayList: self.subwayList, statnList: self.statnList, btrainSttus: self.btrainSttus, barvlDt: self.barvlDt, btrainNo: self.btrainNo, bstatnID: self.bstatnID, bstatnNm: self.bstatnNm, recptnDt: self.recptnDt, arvlMsg2: self.arvlMsg2, arvlMsg3: self.arvlMsg3, arvlCD: self.arvlCD, lstcarAt: self.lstcarAt)
     }
+    
+    
+   
+    
+   
 }
 
 enum BtrainSttus: String, Codable {

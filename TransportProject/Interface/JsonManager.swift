@@ -11,7 +11,8 @@ import ComposableArchitecture
 
 @DependencyClient
 struct JsonManager {
-    var getModel: (String) async throws -> [SubwayNmModel]
+    var getForSubwayNm: (String) async throws -> [SubwayNmModel]
+    var getForStatnId: (String) throws -> [SubwayNmModel]
   
     
 }
@@ -24,13 +25,13 @@ extension DependencyValues {
 }
 extension JsonManager: DependencyKey {
     static var liveValue = Self(
-        getModel: { subwayNm in
+        getForSubwayNm: { subwayNm in
         guard let jsonPath = Bundle.main.url(forResource: "subway", withExtension: "json") else {
             
             return []  }
         // 4. 해당 위치의 파일을 Data로 초기화하기
         let data = try Data(contentsOf: jsonPath)
-        let dto = try await JSONDecoder().decode(SubwayNmDTO.self, from: data)
+        let dto = try JSONDecoder().decode(SubwayNmDTO.self, from: data)
         
             
             
@@ -41,7 +42,24 @@ extension JsonManager: DependencyKey {
             }
         
         
-    }
+        }, getForStatnId: { statnId in
+            guard let jsonPath = Bundle.main.url(forResource: "subway", withExtension: "json") else {
+                
+                return []  }
+            // 4. 해당 위치의 파일을 Data로 초기화하기
+            let data = try Data(contentsOf: jsonPath)
+            let dto = try JSONDecoder().decode(SubwayNmDTO.self, from: data)
+            
+                
+                
+                return dto.datas.filter {
+                    return String($0.statnID) == statnId
+                }.map {
+                    $0.getModel()
+                }
+            
+            
+        }
         )
     
    

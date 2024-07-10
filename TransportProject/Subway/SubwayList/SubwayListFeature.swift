@@ -138,7 +138,7 @@ struct SubwayListFeature {
             case .tappedDetailList(let subway):
                 state.startPosition = subway
                 return .run { send in
-                    let data = try await jsonManager.getModel(subway.subwayNm.rawValue)
+                    let data = try await jsonManager.getForSubwayNm(subway.subwayNm.rawValue)
                     
                     await send(.setDestinationResult(data))
                     

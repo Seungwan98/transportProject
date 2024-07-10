@@ -30,12 +30,12 @@ struct SubwayResultView: View {
                 
                 VStack {
                     
-                    Text("출발").font(.system(size: 20))
+                    Text("출발지").font(.system(size: 20))
                     Button(action: {
                         print("left")
                     }, label: {
-                        Text("천호").bold().font(.system(size: 40))
-                    })
+                        Text("\(viewStore.startStatnNm)").bold().font(.system(size: 40))
+                    }).frame(width: 150, height: 100)
                     
                 }
                 
@@ -44,31 +44,36 @@ struct SubwayResultView: View {
                 
                 VStack {
                     
-                    Text("목적").font(.system(size: 20))
+                    Text("목적지").font(.system(size: 20))
                     Button(action: {
                         print("left")
                     }, label: {
-                        Text("강동").bold().font(.system(size: 40))
-                    })
+                        Text("\(viewStore.destinationStatnNm)").bold().font(.system(size: 40))
+                    }).frame(width: 150, height: 100)
                     
                     
                 }
                 
                 
-            } )
+            })
             Spacer().frame(height: 40)
                    
             HStack {
                 Spacer()
-                Text(viewStore.nowSubwayNm).onChange(of: viewStore.nowSubwayNm) {
+                Text("\(viewStore.startNm)").onChange(of: viewStore.nowSubwayState) {
                     viewStore.send(.changed)
                 }
+                Spacer()
+
+                Text("\(viewStore.nextNm)")
 
                 Spacer()
-                Text(viewStore.nowSubwayState)
-                Spacer()
+              
 
             }
+            Spacer()
+
+            Text(viewStore.nowSubwayState)
             Spacer()
            
         }.onAppear {  store.send(.onAppear)  }

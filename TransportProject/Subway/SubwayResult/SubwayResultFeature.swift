@@ -14,28 +14,37 @@ import CoreLocation
 struct SubwayResultFeature {
     
     @Dependency(\.apiClient) var apiClient
+    @Dependency(\.jsonManager) var jsonManager
     
-    private var isOwn = true
    
-    
+
     @ObservableState
     struct State: Equatable {
         var state = 0
         var startPosition: SubwayModel?
         var destination: SubwayNmModel?
         
-        var nowSubwayNm = "시작"
-        var nowSubwayState = "끝끝"
+        var startStatnNm = "ㅁㄴㅇㅁㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇ"
+        var destinationStatnNm = "ㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇ"
+        
+        var nowSubwayState = ""
     
         var startNm = ""
         var nextNm = ""
+        var pickNm = ""
         
-        var isOwn = false
+        var timerSec = 0
+
+        
+        
         
         static func == (lhs: State, rhs: State) -> Bool {
             return lhs.startPosition?.subwayID == rhs.startPosition?.subwayID &&
             lhs.destination?.subwayID == rhs.destination?.subwayID &&
-            lhs.nowSubwayNm == rhs.nowSubwayNm &&
+            lhs.startStatnNm == rhs.startStatnNm &&
+            lhs.destinationStatnNm == rhs.destinationStatnNm &&
+           
+            lhs.nextNm == rhs.nextNm &&
             lhs.nowSubwayState == rhs.nowSubwayState
         }
         
@@ -51,77 +60,83 @@ struct SubwayResultFeature {
         
         case ownSubway
         
-        case nextSubway
         
-        case setNewValue
+                
         
     }
     
     
     enum CancelID { case timer }
     
+
     var body: some ReducerOf<Self> {
+        
         
         
         Reduce { state, action in
             switch action {
                 
             case .onAppear:
-
+                state.startStatnNm = state.startPosition?.statnNm ?? ""
+                state.pickNm = state.startStatnNm
+                state.destinationStatnNm = state.destination?.statnNm ?? ""
+                
                 
                 guard let subwayNmModel = state.destination, let startPosition = state.startPosition else {
                     print("startPosition is Nil")
                     return .none}
                 
-                state.startNm = startPosition.statnNm
                 
                 
                 return .run { send in
                     while true {
+                        
                         print("while")
 
-                        try await Task.sleep(nanoseconds: 100)
-                        if self.isOwn {
-                            await send(.ownSubway)
-                            
-                            
-                        }
+                        await send(.ownSubway)
                         
-                        else {
-                            await send(.nextSubway)
-                        }
+                        try await Task.sleep(for: .seconds(10))
+
                         
-                        
-                        
-                        
-                        
+
                         
                     }
                 }.cancellable(id: CancelID.timer)
                 
                 
             case .setResult(let models):
+                if models.isEmpty {
+                    
+                    state.pickNm = state.nextNm
+
+                } else {
+                    state.startNm = models.first?.statnNm ?? ""
+                    state.nextNm = models.first?.statnTnm ?? ""
+                    state.nowSubwayState = (models.first?.arvlMsg2 ?? "")
+
+                    
+                }
                 
+                print("\(state.startNm), \(state.nextNm), \(state.nowSubwayState)")
                 
-                state.nextNm = models.first?.statnTid ?? ""
-                state.nowSubwayNm = (models.first?.arvlMsg2 ?? "")
                 return .none
                 
                 
             case .changed:
-                BackgroundManager.shared.scheduleApiFetch(nowState: state.nowSubwayNm)
+                BackgroundManager.shared.scheduleApiFetch(nowState: state.nowSubwayState)
                 return .none
+                
+                
             case .ownSubway:
                 
-             
+                
                 
                 let startPosition = state.startPosition
-                let startNm = state.startNm
+                let pickNm = state.pickNm
+                print("\(state.startNm)")
                 
                 return .run { send in
-                    guard let data = try await apiClient.fetchSubwayArrive(startNm) else {
-                        await send(.setNewValue)
-                        return }
+                    guard let data = try await apiClient.fetchSubwayArrive(pickNm) else { return }
                     
                     let result = data.realtimeArrivalList.map { $0.getModel() }.filter {
                         
@@ -133,37 +148,14 @@ struct SubwayResultFeature {
                     
                 }
                 
-            case .nextSubway:
-                let statnm = state.nextNm
-                let startPosition = state.startPosition
-                return .run { send in
-                    guard let data = try await apiClient.fetchSubwayArrive(statnm) else {return}
-                    
-                    let result = data.realtimeArrivalList.map { $0.getModel() }.filter {
-                        
-                        return $0.btrainNo == startPosition?.trainNo
-                        
-                    }
-                    
-                    await send(.setResult(result))
-                    
-                    
-                }
                 
-            case .setNewValue:
-                // state.isOwn.toggle()
                 
-                state.startNm = state.nextNm
-                return .none
+                
+     
             }
-            
-            
-            
             
         }
         
     }
-    
-    
     
 }

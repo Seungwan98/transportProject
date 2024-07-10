@@ -15,7 +15,7 @@ struct SubwayArriveModel {
     let updnLine: UpdnLine
     let trainLineNm: String
     let subwayHeading: JSONNull?
-    let statnFid, statnTid, statnID, statnNm: String
+    let statnFid, statnTid, statnTnm, statnID, statnNm: String
     let trainCo: JSONNull?
     let trnsitCo, ordkey, subwayList, statnList: String
     let btrainSttus: BtrainSttus
