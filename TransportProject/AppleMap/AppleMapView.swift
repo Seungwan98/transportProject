@@ -13,6 +13,9 @@ import Combine
 
 struct AppleMapView: View {
     
+    @Environment(\.scenePhase) var phase
+    
+    
     @StateObject var locationManager: LocationManager = LocationManager()
     @Bindable var store: StoreOf<AppleMapFeature>
     
@@ -43,7 +46,7 @@ struct AppleMapView: View {
                     Text(self.locationManager.resultPositions.first?.name ?? "")
                     Image(systemName: "arrow.forward")
                     Text(self.locationManager.resultPositions.last?.name ?? "")
-
+                    
                 }
             }
             
@@ -75,8 +78,8 @@ struct AppleMapView: View {
                             
                             viewStore.send(.alertButtonTapped(place))
                             
-
-
+                            
+                            
                             
                             
                         }, label: {
@@ -93,14 +96,37 @@ struct AppleMapView: View {
                 
                 MapPolyline(coordinates: viewStore.state.locations).stroke(.blue, lineWidth: 2)
                 
-            }.mapControls {
-                MapUserLocationButton()
-                
-            }.onAppear {
-                
+            }.onChange(of: phase, perform: { newValue in
+                switch newValue {
+                case .background:
+                    print("appleMapBackground")
+                    UserDefaults.standard.set(true, forKey: "isBackground")
+                case .inactive:
+                    print("appleMapInActive")
+                    
+                    UserDefaults.standard.set(false, forKey: "isBackground")
+                    
+                case .active:
+                    print("appleMapActive")
+                    UserDefaults.standard.set(false, forKey: "isBackground")
+                    
+                @unknown default: break
+                    
+                }
+            })
+            .onAppear {
+                print("onAppear")
+                UserDefaults.standard.set(false, forKey: "isBackground")
+
                 viewStore.send(.onAppear(self.locationManager))
                 
-            }.searchable(text: $text, placement: .navigationBarDrawer(displayMode: .automatic)).onSubmit( of: .search ) {
+            }
+            .mapControls {
+                MapUserLocationButton()
+                
+            }
+            
+            .searchable(text: $text, placement: .navigationBarDrawer(displayMode: .automatic)).onSubmit( of: .search ) {
                 viewStore.send(.resultText(text))
             }
             
@@ -120,7 +146,7 @@ struct AppleMapView: View {
     }
     
     
-          
+    
 }
 //#Preview {
 //    AppleMapView(

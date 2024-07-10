@@ -8,6 +8,7 @@ import UserNotifications
 @main
 struct MyApp: App {
     let center = UNUserNotificationCenter.current()
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate 
     // @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @Environment(\.scenePhase) private var scenePhase
     static let store = Store(initialState: RootFeature.State() ) {
