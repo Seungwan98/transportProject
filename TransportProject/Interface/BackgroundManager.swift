@@ -15,15 +15,29 @@ class BackgroundManager {
     static let shared = BackgroundManager()
     
     func scheduleNotification(currentLocation: CLLocation) {
+        
+        let isBackground = UserDefaults.standard.bool(forKey: "isBackground")
+        
+        
+        
+        print("locaiton")
         let content = UNMutableNotificationContent()
-        content.title = "목적지에 도착했습니다"
-        content.body = "Local Notification\(String(describing: currentLocation.coordinate.latitude))"
+        content.title = "Talarm"
+        content.body = "목적지에 도착했습니다"
         content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "alarm.mp3"))
-
-
+        
+        
+        
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-                
-        let request = UNNotificationRequest(identifier: "com.yourapp.notification", content: content, trigger: trigger)
+        
+        var request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+        
+        print("isBackground \(isBackground)")
+        if isBackground {
+            request = UNNotificationRequest(identifier: "com.yourapp.notification", content: content, trigger: trigger)
+            
+        }
+        
         
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {

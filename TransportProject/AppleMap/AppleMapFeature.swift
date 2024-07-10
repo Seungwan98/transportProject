@@ -23,11 +23,17 @@ struct AppleMapFeature {
     @ObservableState
     struct State: Equatable {
         static func == (lhs: AppleMapFeature.State, rhs: AppleMapFeature.State) -> Bool {
-            return lhs.result.count == rhs.result.count
+            return lhs.result == rhs.result &&
+            lhs.firstRoute?.routeResponse.routeBody.routes.route == rhs.firstRoute?.routeResponse.routeBody.routes.route &&
+            lhs.busItem.routeid == rhs.busItem.routeid &&
+            lhs.userLocation .latitude == rhs.userLocation.latitude &&
+            lhs.userLocation .longitude == rhs.userLocation.longitude &&
+            lhs.startPosition == rhs.startPosition &&
+            lhs.destination == rhs.destination
         }
+        var firstRoute: BusRouteDTO?
         var locationManager: LocationManager?
-        
-        let busItem: BusItem
+        var busItem: BusItem
         var result: [BusPicker] = []
         var locations: [CLLocationCoordinate2D] = []
         var cameraPosition: MapCameraPosition = MapCameraPosition.automatic
@@ -51,13 +57,21 @@ struct AppleMapFeature {
         case onAppear(LocationManager)
         
         case requestAPI(String)
+        
+        //      결과 값 State로 추가
         case result(BusRouteDTO)
+        
+        //      처음 모든 루트 저장
+        case setFirstRoute(BusRouteDTO)
         case resultText(String)
         
         
         case alert(PresentationAction<Alert>)
         case alertButtonTapped(BusPicker)
         case resetAlert
+        
+        case resetAll
+        
         @CasePathable
         enum Alert {
             case position(Bool, BusPicker)
@@ -79,6 +93,8 @@ struct AppleMapFeature {
                 state.locationManager = locationManager
                 return .run { [ id = state.busItem.routeid  ] send in
                     let data = try await self.apiClient.fetchRoute(id)
+                    
+                    await send(.setFirstRoute(data))
                     await send(.result(data))
                     
                 }
@@ -89,10 +105,10 @@ struct AppleMapFeature {
                     let data = try await apiClient.fetchRoute(data)
                     await send(.result(data))
                 }
-            case .result(let model):
+            case .result(let dto):
                 var findEnd = false
                 var name: String = ""
-                model.routeResponse.routeBody.routes.route.forEach { route in
+                dto.routeResponse.routeBody.routes.route.forEach { route in
                     
                     if route.nodenm != state.busItem.endnodenm {
                         if findEnd {
@@ -270,6 +286,20 @@ struct AppleMapFeature {
                 
             case .binding(_):
                 return .none
+                
+            case .setFirstRoute(let dto):
+                state.firstRoute = dto
+                return .none
+                
+            case .resetAll:
+                guard let firstRoute = state.firstRoute else  {return .none}
+                state.locationManager = LocationManager()
+               
+                return .run { send in
+                    await send(.result(firstRoute))
+                    
+                }
+                
                 
             }
         }.ifLet(\.$alert, action: \.alert)

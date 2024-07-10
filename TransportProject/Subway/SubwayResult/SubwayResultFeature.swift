@@ -30,7 +30,7 @@ struct SubwayResultFeature {
         var nowSubwayState = ""
     
         var startNm = ""
-        var nextNm = ""
+        var beforeNm = ""
         var pickNm = ""
         
         var timerSec = 0
@@ -44,7 +44,7 @@ struct SubwayResultFeature {
             lhs.startStatnNm == rhs.startStatnNm &&
             lhs.destinationStatnNm == rhs.destinationStatnNm &&
            
-            lhs.nextNm == rhs.nextNm &&
+            lhs.beforeNm == rhs.beforeNm &&
             lhs.nowSubwayState == rhs.nowSubwayState
         }
         
@@ -107,17 +107,17 @@ struct SubwayResultFeature {
             case .setResult(let models):
                 if models.isEmpty {
                     
-                    state.pickNm = state.nextNm
+                    state.pickNm = state.beforeNm
 
                 } else {
                     state.startNm = models.first?.statnNm ?? ""
-                    state.nextNm = models.first?.statnTnm ?? ""
+                    state.beforeNm = models.first?.statnFnm ?? ""
                     state.nowSubwayState = (models.first?.arvlMsg2 ?? "")
 
                     
                 }
                 
-                print("\(state.startNm), \(state.nextNm), \(state.nowSubwayState)")
+                print("\(state.startNm), \(state.beforeNm), \(state.nowSubwayState)")
                 
                 return .none
                 
@@ -137,6 +137,10 @@ struct SubwayResultFeature {
                 
                 return .run { send in
                     guard let data = try await apiClient.fetchSubwayArrive(pickNm) else { return }
+                    
+                    print("pickNm \(pickNm)")
+                    
+                    print(data)
                     
                     let result = data.realtimeArrivalList.map { $0.getModel() }.filter {
                         

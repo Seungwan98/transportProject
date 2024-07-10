@@ -59,15 +59,18 @@ struct SubwayResultView: View {
             Spacer().frame(height: 40)
                    
             HStack {
+                
+                Spacer()
+
+                Text("\(viewStore.beforeNm)")
+
                 Spacer()
                 Text("\(viewStore.startNm)").onChange(of: viewStore.nowSubwayState) {
                     viewStore.send(.changed)
                 }
                 Spacer()
 
-                Text("\(viewStore.nextNm)")
 
-                Spacer()
               
 
             }

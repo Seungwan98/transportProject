@@ -91,6 +91,8 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
         
         
         if destination.distance(from: location.coordinate) > 50 && alarm  {
+            self.locationManager.stopUpdatingLocation()
+
             self.timer = true
             self.alarm = false
             
@@ -98,12 +100,32 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
                 guard let self = self else {return}
                 if !self.timer {
                     timer.invalidate()
+                    print("invalidate")
                     
                     
                 }
                 
-                guard let currentLocation = self.currentLocation else {return}
-                self.scheduleNotification(currentLocation: currentLocation)
+                print("self.timer \(self.timer)")
+                do {
+                    try AVAudioSession.sharedInstance().setCategory(.playback)
+                    try AVAudioSession.sharedInstance().setActive(true)
+                } catch {
+                    print("오디오 세션 설정 실패: \(error)")
+                }
+                if let bundlePath = Bundle.main.path(forResource: "alarm", ofType: "mp3") {
+                       do {
+                           var audioPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: bundlePath))
+                           audioPlayer.prepareToPlay()
+                           audioPlayer.play()
+                       } catch {
+                           print("오디오 파일 로드 실패: \(error)")
+                       }
+                   }
+                
+                
+//
+//                guard let currentLocation = self.currentLocation else {return}
+//                BackgroundManager.shared.scheduleNotification(currentLocation: currentLocation)
                 
             }
             
@@ -170,36 +192,5 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
         var y: Double
     }
     
-    func scheduleNotification(currentLocation: CLLocation) {
-        
-        let isBackground = UserDefaults.standard.bool(forKey: "isBackground")
-        
-        
-        
-        print("locaiton")
-        let content = UNMutableNotificationContent()
-        content.title = "목적지에 도착했습니다"
-        content.body = "목적지에 도착했습니다"
-        content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "alarm.mp3"))
-        
-        
-        
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-        
-        var request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-        
-        print("isBackground \(isBackground)")
-        if isBackground  {
-            request = UNNotificationRequest(identifier: "com.yourapp.notification", content: content, trigger: trigger)
-            
-        }
-        
-        
-        UNUserNotificationCenter.current().add(request) { error in
-            if let error = error {
-                print("Error scheduling notification: \(error.localizedDescription)")
-            }
-        }
-    }
     
 }

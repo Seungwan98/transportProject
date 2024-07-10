@@ -47,13 +47,17 @@ struct SubwayArriveData: Codable {
     func getModel() -> SubwayArriveModel {
         
         var statnTnm = ""
+        var statnFnm = ""
         
         if let name = try? JsonManager.liveValue.getForStatnId( self.statnTid ).first {
             statnTnm = name.statnNm
+        } 
+        if let name = try? JsonManager.liveValue.getForStatnId( self.statnFid ).first {
+            statnFnm = name.statnNm
         }
 
         
-        return SubwayArriveModel.init(beginRow: self.beginRow, endRow: self.endRow, curPage: self.curPage, pageRow: self.pageRow, totalCount: self.totalCount, rowNum: self.rowNum, selectedCount: self.selectedCount, subwayID: self.subwayID, subwayNm: self.subwayNm, updnLine: self.updnLine, trainLineNm: self.trainLineNm, subwayHeading: self.subwayHeading, statnFid: self.statnFid, statnTid: self.statnTid, statnTnm: statnTnm, statnID: self.statnID, statnNm: self.statnNm, trainCo: self.trainCo, trnsitCo: self.trnsitCo, ordkey: self.ordkey, subwayList: self.subwayList, statnList: self.statnList, btrainSttus: self.btrainSttus, barvlDt: self.barvlDt, btrainNo: self.btrainNo, bstatnID: self.bstatnID, bstatnNm: self.bstatnNm, recptnDt: self.recptnDt, arvlMsg2: self.arvlMsg2, arvlMsg3: self.arvlMsg3, arvlCD: self.arvlCD, lstcarAt: self.lstcarAt)
+        return SubwayArriveModel.init(beginRow: self.beginRow, endRow: self.endRow, curPage: self.curPage, pageRow: self.pageRow, totalCount: self.totalCount, rowNum: self.rowNum, selectedCount: self.selectedCount, subwayID: self.subwayID, subwayNm: self.subwayNm, updnLine: self.updnLine, trainLineNm: self.trainLineNm, subwayHeading: self.subwayHeading, statnFid: self.statnFid, statnTid: self.statnTid, statnTnm: statnTnm, statnFnm: statnFnm, statnID: self.statnID, statnNm: self.statnNm, trainCo: self.trainCo, trnsitCo: self.trnsitCo, ordkey: self.ordkey, subwayList: self.subwayList, statnList: self.statnList, btrainSttus: self.btrainSttus, barvlDt: self.barvlDt, btrainNo: self.btrainNo, bstatnID: self.bstatnID, bstatnNm: self.bstatnNm, recptnDt: self.recptnDt, arvlMsg2: self.arvlMsg2, arvlMsg3: self.arvlMsg3, arvlCD: self.arvlCD, lstcarAt: self.lstcarAt)
     }
     
     

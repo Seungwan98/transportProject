@@ -53,12 +53,14 @@ struct Routes: Codable {
 }
 
 // MARK: - Item
-struct Route: Codable {
+struct Route: Codable, Equatable {
     let gpslati, gpslong: Double
     let nodeid, nodenm: String
     let nodeno: Int?
     let nodeord: Int
     let routeid: String
+    
+   
 }
 
 

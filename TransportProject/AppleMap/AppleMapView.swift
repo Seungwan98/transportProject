@@ -41,7 +41,11 @@ struct AppleMapView: View {
         
         WithViewStore(store, observe: { $0 }) { viewStore in
             
+            
+            
+            
             if self.locationManager.resultPositions.first != nil {
+                Spacer().frame(height: 10)
                 HStack(spacing: 20) {
                     Text(self.locationManager.resultPositions.first?.name ?? "")
                     Image(systemName: "arrow.forward")
@@ -117,7 +121,7 @@ struct AppleMapView: View {
             .onAppear {
                 print("onAppear")
                 UserDefaults.standard.set(false, forKey: "isBackground")
-
+                
                 viewStore.send(.onAppear(self.locationManager))
                 
             }
@@ -133,7 +137,7 @@ struct AppleMapView: View {
             if self.locationManager.timer {
                 Button(action: {
                     self.locationManager.timer = false
-                    
+                    viewStore.send(.resetAll)
                 }, label: {
                     
                     Text("알람 종료")
