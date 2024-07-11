@@ -13,6 +13,7 @@ import ComposableArchitecture
 struct JsonManager {
     var getForSubwayNm: (String) async throws -> [SubwayNmModel]
     var getForStatnId: (String) throws -> [SubwayNmModel]
+    var getForThings: (String,String) throws -> [SubwayNmModel]
   
     
 }
@@ -59,6 +60,23 @@ extension JsonManager: DependencyKey {
                 }
             
             
+        }, getForThings: { statnNm, subwayNm in
+            
+            guard let jsonPath = Bundle.main.url(forResource: "subway", withExtension: "json") else {
+                
+                return []  }
+            // 4. 해당 위치의 파일을 Data로 초기화하기
+            let data = try Data(contentsOf: jsonPath)
+            let dto = try JSONDecoder().decode(SubwayNmDTO.self, from: data)
+            
+                
+                
+                return dto.datas.filter {
+                    return String($0.statnNm) == statnNm && $0.subwayNm.rawValue == subwayNm
+                }.map {
+                    $0.getModel()
+                }
+    
         }
         )
     

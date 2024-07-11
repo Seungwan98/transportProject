@@ -66,13 +66,13 @@ struct SubwayListFeature {
         case setResult([SubwayModel])
         case setDestinationResult([String])
         
-        case pushResultView(SubwayModel, SubwayNmModel)
+        case pushResultView(SubwayModel, SubwayNmModel, [String])
         
         case errorAlert
         case alert(PresentationAction<Alert>)
         
         
-        
+        case pop
         @CasePathable
         enum Alert {}
         
@@ -94,12 +94,16 @@ struct SubwayListFeature {
                 } actions: {
                     
                    
+                   
                     ButtonState(role: .cancel) {
                         TextState("확인")
                     }
                 }
 
                 return .none
+            case .pop:
+                return .none
+            
             case .alert:
                 return .none
                 
@@ -118,6 +122,7 @@ struct SubwayListFeature {
                 
             case .setDestinationResult(let result):
                 state.resultDestination = result
+                
                 state.isLineList = 2
 
                 
@@ -151,21 +156,22 @@ struct SubwayListFeature {
                     
                 }
                 
-            case .tappedDestinationList(let destination):
+            case .tappedDestinationList(let statnNm):
                 guard let startPosition = state.startPosition else {return .none}
                 
-                
-               // let data = try await jsonManager.getForSubwayNm(subway.subwayNm.rawValue)
-
+                let subwayNm = state.resultLineName[state.lineNameIdx]
+                let ways = state.resultDestination
                 
                 return .run { send in
                     
+                    let data = try jsonManager.getForThings(statnNm, subwayNm).first!
+
                     
-                    await send(.pushResultView(startPosition, destination))
+                    await send(.pushResultView(startPosition, data, ways))
                     
                 }
                 
-            case .pushResultView(_, _):
+            case .pushResultView(_, _, _):
                 return .none
                 
             }

@@ -14,7 +14,28 @@ import BackgroundTasks
 class BackgroundManager {
     static let shared = BackgroundManager()
     
-    func scheduleNotification(currentLocation: CLLocation) {
+    @Published var timer = true
+    
+    func StartTimer() {
+        self.timer = true
+        _ = Timer.scheduledTimer(withTimeInterval: 4, repeats: true) { [weak self] timer in
+            guard let self = self else {return}
+            if !self.timer {
+                timer.invalidate()
+                print("invalidate")
+                
+                
+            }
+            self.scheduleNotification()
+        }
+    }
+    
+    func stopTime() {
+        self.timer = false
+    }
+    
+    func scheduleNotification() {
+        
         
         let isBackground = UserDefaults.standard.bool(forKey: "isBackground")
         
@@ -48,9 +69,9 @@ class BackgroundManager {
     func scheduleApiFetch(nowState: String) {
         print("notification")
         let content = UNMutableNotificationContent()
-        content.title = "Local Notification\(nowState))"
-        content.body = ""
-        content.sound = .default
+        content.title = "Talarm"
+        content.body = "목적지에 도착했습니다"
+        content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "alarm.mp3"))
         
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)

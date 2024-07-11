@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		600846DF2C3E72B400DE64E2 /* Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600846DE2C3E72B400DE64E2 /* Background.swift */; };
 		600846E22C3F938C00DE64E2 /* SubwayState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600846E12C3F938C00DE64E2 /* SubwayState.swift */; };
+		600846E42C4035B600DE64E2 /* Collection+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600846E32C4035B600DE64E2 /* Collection+.swift */; };
 		605FA8A22C2474E200E32E19 /* BusPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605FA8A12C2474E200E32E19 /* BusPicker.swift */; };
 		605FA8A62C24B57500E32E19 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605FA8A52C24B57500E32E19 /* SceneDelegate.swift */; };
 		605FA8AF2C2861D000E32E19 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 605FA8AE2C2861D000E32E19 /* .swiftlint.yml */; };
@@ -64,6 +65,7 @@
 		600846DD2C3E691E00DE64E2 /* TransportProject.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TransportProject.entitlements; sourceTree = "<group>"; };
 		600846DE2C3E72B400DE64E2 /* Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
 		600846E12C3F938C00DE64E2 /* SubwayState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubwayState.swift; sourceTree = "<group>"; };
+		600846E32C4035B600DE64E2 /* Collection+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+.swift"; sourceTree = "<group>"; };
 		605FA8A12C2474E200E32E19 /* BusPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusPicker.swift; sourceTree = "<group>"; };
 		605FA8A52C24B57500E32E19 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		605FA8AE2C2861D000E32E19 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 				605FA8B12C2888CE00E32E19 /* CLLocation+.swift */,
 				60700FDD2C33F129007767C3 /* DataFormatter.swift */,
 				600846DE2C3E72B400DE64E2 /* Background.swift */,
+				600846E32C4035B600DE64E2 /* Collection+.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -567,6 +570,7 @@
 				60C392212C0993DF00465156 /* App.swift in Sources */,
 				60700FE02C33FEF2007767C3 /* SubwayModel.swift in Sources */,
 				60700FDE2C33F129007767C3 /* DataFormatter.swift in Sources */,
+				600846E42C4035B600DE64E2 /* Collection+.swift in Sources */,
 				6093DB122C1B5DE90078CAC6 /* BusRouteDTO.swift in Sources */,
 				600846DF2C3E72B400DE64E2 /* Background.swift in Sources */,
 				605FA8A62C24B57500E32E19 /* SceneDelegate.swift in Sources */,

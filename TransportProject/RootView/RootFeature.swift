@@ -29,14 +29,15 @@ struct RootFeature {
                 
             case let .path(action):
                 switch action {
+                    
                 case .element(id: _, action: .bus(.tappedList(let busItem))):
                     
                     state.path.append(.detailScene(BusMapFeature.State(busItem: busItem)))
                     return .none
                     
-                case .element(id: _, action: .subway(.pushResultView(let startPosition, let destination))):
+                case .element(id: _, action: .subway(.pushResultView(let startPosition, let destination, let ways))):
                     print("들옴?")
-                    state.path.append(.subwayResultScene(SubwayResultFeature.State(startPosition: startPosition, destination: destination)))
+                    state.path.append(.subwayResultScene(SubwayResultFeature.State(startPosition: startPosition, destination: destination, ways: ways)))
                     return .none
                     
                 default:

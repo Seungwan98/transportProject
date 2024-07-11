@@ -88,10 +88,12 @@ extension ApiClient: DependencyKey {
             var nextValue = ""
             print("\(nextValue) enxtNval")
             let parameters: [String: Any] = ["query": ""]
-            let url = "http://swopenapi.seoul.go.kr/api/subway/71416e504973696e35354d774c4f73/json/realtimePosition/0/1000/\(value)"
+            let url =  "http://swopenapi.seoul.go.kr/api/subway/726773506b73696e37354f6e517353/json/realtimePosition/0/1000/\(value)"
+
+            
+//            "http://swopenapi.seoul.go.kr/api/subway/71416e504973696e35354d774c4f73/json/realtimePosition/0/1000/\(value)"
             
             
-            //            "http://swopenapi.seoul.go.kr/api/subway/726773506b73696e37354f6e517353/json/realtimePosition/0/1000/\(value)"
             
             return try await withCheckedThrowingContinuation { continuation in
                 AF.request(url, parameters: parameters).responseData { response in
@@ -122,8 +124,10 @@ extension ApiClient: DependencyKey {
             
             
             let parameters: [String: Any] = ["query": ""]
-            let url = "http://swopenAPI.seoul.go.kr/api/subway/71416e504973696e35354d774c4f73/json/realtimeStationArrival/0/1000/\(value)"
-            //            "http://swopenAPI.seoul.go.kr/api/subway/726773506b73696e37354f6e517353/json/realtimeStationArrival/0/1000/\(value)"
+            let url = "http://swopenAPI.seoul.go.kr/api/subway/726773506b73696e37354f6e517353/json/realtimeStationArrival/0/1000/\(value)"
+
+            
+//            "http://swopenAPI.seoul.go.kr/api/subway/71416e504973696e35354d774c4f73/json/realtimeStationArrival/0/1000/\(value)"
             
             return try await withCheckedThrowingContinuation { continuation in
                 AF.request(url, parameters: parameters).responseData { response in
