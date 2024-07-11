@@ -8,11 +8,11 @@
 import Foundation
 import SwiftUI
 import ComposableArchitecture
-struct BusView: View {
-    @Bindable var store: StoreOf<BusFeature>
+struct BusListView: View {
+    @Bindable var store: StoreOf<BusListFeature>
     @State private var text = ""
     
-    init(store: StoreOf<BusFeature>) {
+    init(store: StoreOf<BusListFeature>) {
         self.store = store
         
     }

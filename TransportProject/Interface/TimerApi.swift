@@ -17,7 +17,7 @@ struct TimerApi {
     
     
     func fetchApi(subwayNmModel: SubwayNmModel, statnNm: String) async throws -> String {
-         let data = try await apiClient.fetchSubway(subwayNmModel.subwayNm.rawValue)
+        let data = try await apiClient.fetchSubway(subwayNmModel.subwayNm.rawValue)
         var result = ""
         _ = data?.realtimePositionList.map { data in
             if data.statnNm == statnNm {

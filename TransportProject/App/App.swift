@@ -75,7 +75,7 @@ struct MyApp: App {
     }
     func requestAuthNotification() {
         let notificationAuthOptions = UNAuthorizationOptions(arrayLiteral: [.alert, .badge, .sound])
-        center.requestAuthorization(options: notificationAuthOptions) { success, error in
+        center.requestAuthorization(options: notificationAuthOptions) { _, error in
             if let error = error {
                 print("Error: \(error.localizedDescription)")
             }

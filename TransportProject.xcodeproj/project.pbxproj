@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		600846DF2C3E72B400DE64E2 /* Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600846DE2C3E72B400DE64E2 /* Background.swift */; };
+		600846E22C3F938C00DE64E2 /* SubwayState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600846E12C3F938C00DE64E2 /* SubwayState.swift */; };
 		605FA8A22C2474E200E32E19 /* BusPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605FA8A12C2474E200E32E19 /* BusPicker.swift */; };
 		605FA8A62C24B57500E32E19 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605FA8A52C24B57500E32E19 /* SceneDelegate.swift */; };
 		605FA8AF2C2861D000E32E19 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 605FA8AE2C2861D000E32E19 /* .swiftlint.yml */; };
@@ -34,15 +35,15 @@
 		6084BFB92C3C5DF3002FA0FC /* alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6084BFB82C3C5DF3002FA0FC /* alarm.mp3 */; };
 		6084BFBC2C3C637C002FA0FC /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6084BFBB2C3C637C002FA0FC /* SettingView.swift */; };
 		6084BFBE2C3C63BD002FA0FC /* SettingFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6084BFBD2C3C63BD002FA0FC /* SettingFeature.swift */; };
-		6093DB0C2C1B5CEB0078CAC6 /* AppleMapFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6093DB0B2C1B5CEB0078CAC6 /* AppleMapFeature.swift */; };
-		6093DB0F2C1B5D0B0078CAC6 /* AppleMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6093DB0E2C1B5D0B0078CAC6 /* AppleMapView.swift */; };
+		6093DB0C2C1B5CEB0078CAC6 /* BusMapFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6093DB0B2C1B5CEB0078CAC6 /* BusMapFeature.swift */; };
+		6093DB0F2C1B5D0B0078CAC6 /* BusMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6093DB0E2C1B5D0B0078CAC6 /* BusMapView.swift */; };
 		6093DB122C1B5DE90078CAC6 /* BusRouteDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6093DB112C1B5DE90078CAC6 /* BusRouteDTO.swift */; };
 		60C392212C0993DF00465156 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C392202C0993DF00465156 /* App.swift */; };
 		60C392252C0993E000465156 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 60C392242C0993E000465156 /* Assets.xcassets */; };
 		60C392282C0993E000465156 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 60C392272C0993E000465156 /* Preview Assets.xcassets */; };
 		60C392322C0AFAB300465156 /* RootFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C392312C0AFAB300465156 /* RootFeature.swift */; };
-		60CB78302C123EF100BEA49B /* BusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60CB782F2C123EF100BEA49B /* BusView.swift */; };
-		60CB78322C12BB8F00BEA49B /* BusFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60CB78312C12BB8F00BEA49B /* BusFeature.swift */; };
+		60CB78302C123EF100BEA49B /* BusListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60CB782F2C123EF100BEA49B /* BusListView.swift */; };
+		60CB78322C12BB8F00BEA49B /* BusListFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60CB78312C12BB8F00BEA49B /* BusListFeature.swift */; };
 		60CB78342C12CBE600BEA49B /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60CB78332C12CBE600BEA49B /* RootView.swift */; };
 		60CB783A2C12DE6400BEA49B /* BusDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60CB78392C12DE6400BEA49B /* BusDTO.swift */; };
 		60CB783C2C134D9800BEA49B /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60CB783B2C134D9800BEA49B /* ApiClient.swift */; };
@@ -62,6 +63,7 @@
 /* Begin PBXFileReference section */
 		600846DD2C3E691E00DE64E2 /* TransportProject.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TransportProject.entitlements; sourceTree = "<group>"; };
 		600846DE2C3E72B400DE64E2 /* Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
+		600846E12C3F938C00DE64E2 /* SubwayState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubwayState.swift; sourceTree = "<group>"; };
 		605FA8A12C2474E200E32E19 /* BusPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusPicker.swift; sourceTree = "<group>"; };
 		605FA8A52C24B57500E32E19 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		605FA8AE2C2861D000E32E19 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
@@ -88,16 +90,16 @@
 		6084BFB82C3C5DF3002FA0FC /* alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = alarm.mp3; sourceTree = "<group>"; };
 		6084BFBB2C3C637C002FA0FC /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		6084BFBD2C3C63BD002FA0FC /* SettingFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingFeature.swift; sourceTree = "<group>"; };
-		6093DB0B2C1B5CEB0078CAC6 /* AppleMapFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMapFeature.swift; sourceTree = "<group>"; };
-		6093DB0E2C1B5D0B0078CAC6 /* AppleMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMapView.swift; sourceTree = "<group>"; };
+		6093DB0B2C1B5CEB0078CAC6 /* BusMapFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusMapFeature.swift; sourceTree = "<group>"; };
+		6093DB0E2C1B5D0B0078CAC6 /* BusMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusMapView.swift; sourceTree = "<group>"; };
 		6093DB112C1B5DE90078CAC6 /* BusRouteDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusRouteDTO.swift; sourceTree = "<group>"; };
 		60C3921D2C0993DF00465156 /* TransportProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TransportProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		60C392202C0993DF00465156 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		60C392242C0993E000465156 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		60C392272C0993E000465156 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		60C392312C0AFAB300465156 /* RootFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootFeature.swift; sourceTree = "<group>"; };
-		60CB782F2C123EF100BEA49B /* BusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusView.swift; sourceTree = "<group>"; };
-		60CB78312C12BB8F00BEA49B /* BusFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusFeature.swift; sourceTree = "<group>"; };
+		60CB782F2C123EF100BEA49B /* BusListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusListView.swift; sourceTree = "<group>"; };
+		60CB78312C12BB8F00BEA49B /* BusListFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusListFeature.swift; sourceTree = "<group>"; };
 		60CB78332C12CBE600BEA49B /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		60CB78392C12DE6400BEA49B /* BusDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusDTO.swift; sourceTree = "<group>"; };
 		60CB783B2C134D9800BEA49B /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
@@ -133,6 +135,15 @@
 				A97DD7207BC96ED722B0A507 /* Pods_runningProject.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		600846E02C3F7DC100DE64E2 /* BusMap */ = {
+			isa = PBXGroup;
+			children = (
+				6093DB0E2C1B5D0B0078CAC6 /* BusMapView.swift */,
+				6093DB0B2C1B5CEB0078CAC6 /* BusMapFeature.swift */,
+			);
+			path = BusMap;
 			sourceTree = "<group>";
 		};
 		605FA8B02C2888B600E32E19 /* Custom */ = {
@@ -171,6 +182,7 @@
 				60700FE32C3467E1007767C3 /* JsonManager.swift */,
 				60700FFF2C35166E007767C3 /* BackgroundManager.swift */,
 				606961CC2C2A7A6300B3008A /* LocationManager.swift */,
+				600846E12C3F938C00DE64E2 /* SubwayState.swift */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -178,8 +190,8 @@
 		60700FD42C32C6D6007767C3 /* Subway */ = {
 			isa = PBXGroup;
 			children = (
-				607010042C35B1B5007767C3 /* SubwayResult */,
 				607010032C35B1AC007767C3 /* SubwayList */,
+				607010042C35B1B5007767C3 /* SubwayResult */,
 			);
 			path = Subway;
 			sourceTree = "<group>";
@@ -249,13 +261,13 @@
 			path = Setting;
 			sourceTree = "<group>";
 		};
-		6093DB0D2C1B5CFA0078CAC6 /* AppleMap */ = {
+		6093DB0D2C1B5CFA0078CAC6 /* Bus */ = {
 			isa = PBXGroup;
 			children = (
-				6093DB0E2C1B5D0B0078CAC6 /* AppleMapView.swift */,
-				6093DB0B2C1B5CEB0078CAC6 /* AppleMapFeature.swift */,
+				600846E02C3F7DC100DE64E2 /* BusMap */,
+				60CB78362C12D99000BEA49B /* BusList */,
 			);
-			path = AppleMap;
+			path = Bus;
 			sourceTree = "<group>";
 		};
 		6093DB102C1B5DDB0078CAC6 /* Dtos */ = {
@@ -300,9 +312,8 @@
 				605FA8BC2C2897AE00E32E19 /* Models */,
 				605FA8B92C28978300E32E19 /* App */,
 				605FA8B02C2888B600E32E19 /* Custom */,
-				6093DB0D2C1B5CFA0078CAC6 /* AppleMap */,
+				6093DB0D2C1B5CFA0078CAC6 /* Bus */,
 				60700FD42C32C6D6007767C3 /* Subway */,
-				60CB78362C12D99000BEA49B /* BusView */,
 				60CB78352C12D93300BEA49B /* RootView */,
 				6084BFBA2C3C635C002FA0FC /* Setting */,
 				60700FE12C3467C5007767C3 /* subway.json */,
@@ -328,13 +339,13 @@
 			path = RootView;
 			sourceTree = "<group>";
 		};
-		60CB78362C12D99000BEA49B /* BusView */ = {
+		60CB78362C12D99000BEA49B /* BusList */ = {
 			isa = PBXGroup;
 			children = (
-				60CB782F2C123EF100BEA49B /* BusView.swift */,
-				60CB78312C12BB8F00BEA49B /* BusFeature.swift */,
+				60CB782F2C123EF100BEA49B /* BusListView.swift */,
+				60CB78312C12BB8F00BEA49B /* BusListFeature.swift */,
 			);
-			path = BusView;
+			path = BusList;
 			sourceTree = "<group>";
 		};
 		A6143D73D02C3FDAEE073E51 /* Pods */ = {
@@ -535,6 +546,7 @@
 				6084BFB42C3BE529002FA0FC /* SubwayArriveDTO.swift in Sources */,
 				60700FFE2C34FFC0007767C3 /* SubwayResultFeature.swift in Sources */,
 				60700FD82C32D9CD007767C3 /* SubwayListView.swift in Sources */,
+				600846E22C3F938C00DE64E2 /* SubwayState.swift in Sources */,
 				60700FF42C346BB6007767C3 /* SubwayNmDTO.swift in Sources */,
 				60700FFC2C34FF8C007767C3 /* SubwayResultView.swift in Sources */,
 				60700FF62C347CC3007767C3 /* SubwayNmModel.swift in Sources */,
@@ -547,10 +559,10 @@
 				60CB783A2C12DE6400BEA49B /* BusDTO.swift in Sources */,
 				605FA8A22C2474E200E32E19 /* BusPicker.swift in Sources */,
 				60700FDA2C32DA4D007767C3 /* SubwayDTO.swift in Sources */,
-				60CB78302C123EF100BEA49B /* BusView.swift in Sources */,
-				6093DB0C2C1B5CEB0078CAC6 /* AppleMapFeature.swift in Sources */,
-				60CB78322C12BB8F00BEA49B /* BusFeature.swift in Sources */,
-				6093DB0F2C1B5D0B0078CAC6 /* AppleMapView.swift in Sources */,
+				60CB78302C123EF100BEA49B /* BusListView.swift in Sources */,
+				6093DB0C2C1B5CEB0078CAC6 /* BusMapFeature.swift in Sources */,
+				60CB78322C12BB8F00BEA49B /* BusListFeature.swift in Sources */,
+				6093DB0F2C1B5D0B0078CAC6 /* BusMapView.swift in Sources */,
 				6084BFBE2C3C63BD002FA0FC /* SettingFeature.swift in Sources */,
 				60C392212C0993DF00465156 /* App.swift in Sources */,
 				60700FE02C33FEF2007767C3 /* SubwayModel.swift in Sources */,

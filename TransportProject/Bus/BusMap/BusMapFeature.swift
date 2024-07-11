@@ -13,7 +13,7 @@ import MapKit
 import CoreLocation
 import BackgroundTasks
 @Reducer
-struct AppleMapFeature {
+struct BusMapFeature {
     @Dependency(\.apiClient) var apiClient
     //    @Dependency(\.locationManaging) var locationManaging
     
@@ -22,7 +22,7 @@ struct AppleMapFeature {
     
     @ObservableState
     struct State: Equatable {
-        static func == (lhs: AppleMapFeature.State, rhs: AppleMapFeature.State) -> Bool {
+        static func == (lhs: BusMapFeature.State, rhs: BusMapFeature.State) -> Bool {
             return lhs.result == rhs.result &&
             lhs.firstRoute?.routeResponse.routeBody.routes.route == rhs.firstRoute?.routeResponse.routeBody.routes.route &&
             lhs.busItem.routeid == rhs.busItem.routeid &&
@@ -154,7 +154,7 @@ struct AppleMapFeature {
             case .alert(.presented(.position(let isDestination, let position))):
                 
                 
-                print("position \(position)")
+                print("position \(position) isDestination \(isDestination)")
                 if isDestination {
                     state.destination = position
                 } else {
@@ -178,9 +178,9 @@ struct AppleMapFeature {
                 
                 
                 if !state.destination.name.isEmpty && !state.startPosition.name.isEmpty {
-                    //                    state.cameraPosition = MapCameraPosition.region(MKCoordinateRegion(center: betaPosition.location, span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)))
+                   
                     
-                    var behind = true
+                    var behind = false
                     var startIndex: Int?
                     var lastIndex: Int?
                     
@@ -199,6 +199,7 @@ struct AppleMapFeature {
                         }
                         
                     }
+                    
                     
                     if let startIndex = startIndex, let lastIndex = lastIndex {
                         
@@ -233,10 +234,6 @@ struct AppleMapFeature {
                     }
                     
                     
-                    
-                } else {
-                    
-                    print("why here")
                     
                 }
                 
@@ -279,11 +276,7 @@ struct AppleMapFeature {
                 }
                 
                 return .none
-                
-                
-                
-                
-                
+  
             case .binding(_):
                 return .none
                 
@@ -292,7 +285,7 @@ struct AppleMapFeature {
                 return .none
                 
             case .resetAll:
-                guard let firstRoute = state.firstRoute else  {return .none}
+                guard let firstRoute = state.firstRoute else {return .none}
                 state.locationManager = LocationManager()
                
                 return .run { send in

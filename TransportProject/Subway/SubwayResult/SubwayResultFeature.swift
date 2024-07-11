@@ -34,6 +34,7 @@ struct SubwayResultFeature {
         var pickNm = ""
         
         var timerSec = 0
+        
 
         
         
@@ -60,6 +61,7 @@ struct SubwayResultFeature {
         
         case ownSubway
         
+        case cancel
         
                 
         
@@ -82,17 +84,13 @@ struct SubwayResultFeature {
                 state.destinationStatnNm = state.destination?.statnNm ?? ""
                 
                 
-                guard let subwayNmModel = state.destination, let startPosition = state.startPosition else {
-                    print("startPosition is Nil")
-                    return .none}
                 
                 
                 
                 return .run { send in
                     while true {
                         
-                        print("while")
-
+                        
                         await send(.ownSubway)
                         
                         try await Task.sleep(for: .seconds(10))
@@ -137,10 +135,7 @@ struct SubwayResultFeature {
                 
                 return .run { send in
                     guard let data = try await apiClient.fetchSubwayArrive(pickNm) else { return }
-                    
-                    print("pickNm \(pickNm)")
-                    
-                    print(data)
+
                     
                     let result = data.realtimeArrivalList.map { $0.getModel() }.filter {
                         
@@ -152,6 +147,8 @@ struct SubwayResultFeature {
                     
                 }
                 
+            case .cancel:
+                return .cancel(id: CancelID.timer)
                 
                 
                 

@@ -44,7 +44,7 @@ struct SubwayListView: View {
                             HStack {
                                 VStack {
                                     HStack {
-                                        Text("\(model.statnNm) \(model.getWay())")
+                                        Text("\(model.statnNm) \(model.statnTnm)행")
                                         Spacer()
                                     }
                                     HStack {
@@ -68,12 +68,12 @@ struct SubwayListView: View {
                 
             case 2:
                 List {
-                    ForEach(viewStore.state.resultDestination, id: \.id) { model in
+                    ForEach(viewStore.state.resultDestination, id: \.self) { statnNm in
                         
                         Button(action: {
-                            viewStore.send(.tappedDestinationList(model))
+                            viewStore.send(.tappedDestinationList(statnNm))
                         }, label: {
-                            Text("\(model.statnNm)")
+                            Text("\(statnNm)")
                             
                         })
                         

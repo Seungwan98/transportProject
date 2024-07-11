@@ -35,7 +35,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
     
     
     
-    var store: AppleMapFeature.Action?
+    var store: BusMapFeature.Action?
     private var anyCancelled = Set<AnyCancellable>()
     private var locationManager: CLLocationManager
     @Published var currentLocation: CLLocation?
@@ -90,13 +90,13 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
         
         
         
-        if destination.distance(from: location.coordinate) > 50 && alarm  {
+        if destination.distance(from: location.coordinate) < 50 && alarm {
             self.locationManager.stopUpdatingLocation()
 
             self.timer = true
             self.alarm = false
             
-            let timer = Timer.scheduledTimer(withTimeInterval: 4.5, repeats: true) { [weak self] timer in
+            _ = Timer.scheduledTimer(withTimeInterval: 4, repeats: true) { [weak self] timer in
                 guard let self = self else {return}
                 if !self.timer {
                     timer.invalidate()
@@ -105,27 +105,13 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
                     
                 }
                 
-                print("self.timer \(self.timer)")
-                do {
-                    try AVAudioSession.sharedInstance().setCategory(.playback)
-                    try AVAudioSession.sharedInstance().setActive(true)
-                } catch {
-                    print("오디오 세션 설정 실패: \(error)")
-                }
-                if let bundlePath = Bundle.main.path(forResource: "alarm", ofType: "mp3") {
-                       do {
-                           var audioPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: bundlePath))
-                           audioPlayer.prepareToPlay()
-                           audioPlayer.play()
-                       } catch {
-                           print("오디오 파일 로드 실패: \(error)")
-                       }
-                   }
+              
+             
                 
                 
-//
-//                guard let currentLocation = self.currentLocation else {return}
-//                BackgroundManager.shared.scheduleNotification(currentLocation: currentLocation)
+
+                guard let currentLocation = self.currentLocation else {return}
+                BackgroundManager.shared.scheduleNotification(currentLocation: currentLocation)
                 
             }
             

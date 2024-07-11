@@ -31,7 +31,7 @@ struct RootFeature {
                 switch action {
                 case .element(id: _, action: .bus(.tappedList(let busItem))):
                     
-                    state.path.append(.detailScene(AppleMapFeature.State(busItem: busItem)))
+                    state.path.append(.detailScene(BusMapFeature.State(busItem: busItem)))
                     return .none
                     
                 case .element(id: _, action: .subway(.pushResultView(let startPosition, let destination))):
@@ -59,25 +59,25 @@ extension RootFeature {
         
         @ObservableState
         enum State: Equatable {
-            case busScene(BusFeature.State = .init())
+            case busScene(BusListFeature.State = .init())
             case subwayScene(SubwayListFeature.State = .init())
-            case detailScene(AppleMapFeature.State)
+            case detailScene(BusMapFeature.State)
             case subwayResultScene(SubwayResultFeature.State )
         }
         
         enum Action {
-            case bus(BusFeature.Action)
-            case detail(AppleMapFeature.Action)
+            case bus(BusListFeature.Action)
+            case detail(BusMapFeature.Action)
             case subway(SubwayListFeature.Action)
             case subwayResult(SubwayResultFeature.Action)
             
         }
         var body: some ReducerOf<Self> {
             Scope(state: \.busScene, action: \.bus ) {
-                BusFeature()
+                BusListFeature()
             }
             Scope(state: \.detailScene, action: \.detail ) {
-                AppleMapFeature()
+                BusMapFeature()
             }
             Scope(state: \.subwayScene, action: \.subway ) {
                 SubwayListFeature()

@@ -32,7 +32,6 @@ class BackgroundManager {
         
         var request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
         
-        print("isBackground \(isBackground)")
         if isBackground {
             request = UNNotificationRequest(identifier: "com.yourapp.notification", content: content, trigger: trigger)
             

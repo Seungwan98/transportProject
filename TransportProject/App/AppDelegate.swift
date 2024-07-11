@@ -5,8 +5,7 @@ import CoreLocation
 class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     var locationManager: LocationManager?
     
-    func application(_ application: UIApplication,
-                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         
         // 앱 실행 시 사용자에게 알림 허용 권한을 받음
         UNUserNotificationCenter.current().delegate = self
@@ -65,5 +64,3 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     //        task.setTaskCompleted(success: true)
     //    }
 }
-
-

@@ -74,9 +74,8 @@ enum BtrainSttus: String, Codable {
 }
 
 enum UpdnLine: String, Codable {
-    case 내선 = "내선"
-    case 상행 = "상행"
-    case 외선 = "외선"
-    case 하행 = "하행"
+    case 내선
+    case 상행
+    case 외선
+    case 하행
 }
-

@@ -11,13 +11,13 @@ import MapKit
 import ComposableArchitecture
 import Combine
 
-struct AppleMapView: View {
+struct BusMapView: View {
     
     @Environment(\.scenePhase) var phase
     
     
     @StateObject var locationManager: LocationManager = LocationManager()
-    @Bindable var store: StoreOf<AppleMapFeature>
+    @Bindable var store: StoreOf<BusMapFeature>
     
     
     @State private var text = ""
@@ -31,7 +31,7 @@ struct AppleMapView: View {
     
     
     
-    init(store: StoreOf<AppleMapFeature> ) {
+    init(store: StoreOf<BusMapFeature> ) {
         self.store = store
         
     }

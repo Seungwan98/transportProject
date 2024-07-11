@@ -16,6 +16,7 @@ import Alamofire
 struct SubwayListFeature {
     @Dependency(\.apiClient) var apiClient
     @Dependency(\.jsonManager) var jsonManager
+    @Dependency(\.subwayState) var subwayState
     
     
     
@@ -41,7 +42,7 @@ struct SubwayListFeature {
         var resultDetail: [SubwayModel] = []
         
         // 목적지 모델 리스트
-        var resultDestination: [SubwayNmModel] = []
+        var resultDestination: [String] = []
         
         // 디테일 리스트 판별 변수
         var isLineList: Int = 0
@@ -49,6 +50,7 @@ struct SubwayListFeature {
         // 시작점 모델
         var startPosition: SubwayModel?
    
+        var lineNameIdx = 99
         
         // AlertState
         @Presents var alert: AlertState<Action.Alert>?
@@ -59,10 +61,10 @@ struct SubwayListFeature {
         
         case tappedList(String)
         case tappedDetailList(SubwayModel)
-        case tappedDestinationList(SubwayNmModel)
+        case tappedDestinationList(String)
         
         case setResult([SubwayModel])
-        case setDestinationResult([SubwayNmModel])
+        case setDestinationResult([String])
         
         case pushResultView(SubwayModel, SubwayNmModel)
         
@@ -103,7 +105,7 @@ struct SubwayListFeature {
                 
 
             case .setResult(let subwayModels):
-                print("In setResult")
+                
                 state.resultDetail = subwayModels.sorted(by: { $1.statnNm > $0.statnNm })
                 state.isLineList = 1
                 return .none
@@ -123,8 +125,7 @@ struct SubwayListFeature {
                 
                 
             case .tappedList(let line):
-                
-                
+                state.lineNameIdx = state.resultLineName.firstIndex(of: line)!
                 return .run { send in
                     guard let data = try await apiClient.fetchSubway(line) else {
                         
@@ -137,16 +138,26 @@ struct SubwayListFeature {
                 
             case .tappedDetailList(let subway):
                 state.startPosition = subway
+                let lineNameIdx = state.lineNameIdx
+
+                
                 return .run { send in
-                    let data = try await jsonManager.getForSubwayNm(subway.subwayNm.rawValue)
                     
-                    await send(.setDestinationResult(data))
+                    let pickDesList = try subwayState.getWay(subway.statnNm, subway.statnTnm, lineNameIdx)
+
+                    
+                    await send(.setDestinationResult(pickDesList))
                     
                     
                 }
                 
             case .tappedDestinationList(let destination):
                 guard let startPosition = state.startPosition else {return .none}
+                
+                
+               // let data = try await jsonManager.getForSubwayNm(subway.subwayNm.rawValue)
+
+                
                 return .run { send in
                     
                     
@@ -154,7 +165,7 @@ struct SubwayListFeature {
                     
                 }
                 
-            case .pushResultView(let startPosition, let destination):
+            case .pushResultView(_, _):
                 return .none
                 
             }

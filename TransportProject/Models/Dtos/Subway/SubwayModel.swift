@@ -41,6 +41,9 @@ struct SubwayModel: Identifiable, Equatable {
     
     func getWay() -> String {
         var result = ""
+        
+        
+        
         switch updnLine {
         case "0":
             result = "상행"

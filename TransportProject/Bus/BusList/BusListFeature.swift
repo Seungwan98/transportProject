@@ -11,13 +11,13 @@ import Combine
 import SwiftUI
 
 @Reducer
-struct BusFeature {
+struct BusListFeature {
     @Dependency(\.apiClient) var apiClient
 
     
     @ObservableState
     struct State: Equatable {
-        static func == (lhs: BusFeature.State, rhs: BusFeature.State) -> Bool {
+        static func == (lhs: BusListFeature.State, rhs: BusListFeature.State) -> Bool {
             return lhs.result.count == rhs.result.count
         }
         var routeid: String = ""
@@ -26,7 +26,7 @@ struct BusFeature {
         
     }
     enum Action: Equatable {
-        static func == (lhs: BusFeature.Action, rhs: BusFeature.Action) -> Bool {
+        static func == (lhs: BusListFeature.Action, rhs: BusListFeature.Action) -> Bool {
             return true
         }
         

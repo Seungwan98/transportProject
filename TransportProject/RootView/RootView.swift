@@ -53,12 +53,12 @@ struct RootView: View {
             case .busScene:
                 if let store = store.scope(state: \.busScene, action: \.bus ) {
                     
-                    BusView(store: store)
+                    BusListView(store: store)
                     
                 }
             case .detailScene:
                 if let store = store.scope(state: \.detailScene, action: \.detail) {
-                    AppleMapView(store: store)
+                    BusMapView(store: store)
                     
                 }
             case .subwayScene:
