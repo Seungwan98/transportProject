@@ -30,6 +30,11 @@ struct RootFeature {
             case let .path(action):
                 switch action {
                     
+                case .element(id: _, action: .subwayResult(.pop)):
+                    state.path.removeLast()
+                    return .none
+    
+                    
                 case .element(id: _, action: .bus(.tappedList(let busItem))):
                     
                     state.path.append(.detailScene(BusMapFeature.State(busItem: busItem)))
@@ -67,6 +72,7 @@ extension RootFeature {
         }
         
         enum Action {
+            
             case bus(BusListFeature.Action)
             case detail(BusMapFeature.Action)
             case subway(SubwayListFeature.Action)
@@ -85,7 +91,8 @@ extension RootFeature {
             }
             Scope(state: \.subwayResultScene, action: \.subwayResult) {
                 SubwayResultFeature()
-            }
+            } 
+       
             
         }
         

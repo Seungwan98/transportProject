@@ -90,7 +90,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
         
         
         
-        if destination.distance(from: location.coordinate) > 50 && alarm {
+        if destination.distance(from: location.coordinate) < 50 && alarm {
             self.locationManager.stopUpdatingLocation()
 
             self.timer = true
@@ -110,7 +110,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
                 
                 
 
-                guard let currentLocation = self.currentLocation else {return}
+                guard self.currentLocation != nil else {return}
                 BackgroundManager.shared.scheduleNotification()
                 
             }

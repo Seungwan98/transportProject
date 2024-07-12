@@ -69,6 +69,7 @@ struct RootView: View {
                 if let store = store.scope(state: \.subwayResultScene, action: \.subwayResult) {
                     SubwayResultView(store: store)
                 }
+            
             }
         }
     }

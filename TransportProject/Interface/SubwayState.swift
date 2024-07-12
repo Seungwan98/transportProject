@@ -147,7 +147,7 @@ extension SubwayState: DependencyKey {
                 if line.contains(start) && line.contains(destination) {
                     result = getDirection(start: start, destination: destination, line: line)
                     return
-
+                    
                     
                     
                 } else {

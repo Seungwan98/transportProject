@@ -74,13 +74,16 @@ struct SubwayResultFeature {
         case stopAlarm
         
         case resetAlert
-
+        
+        case pop
         
         case alert(PresentationAction<Alert>)
         
         
         @CasePathable
-        enum Alert {}
+        enum Alert {
+            case pop
+        }
         
         
         
@@ -96,13 +99,20 @@ struct SubwayResultFeature {
         
         Reduce { state, action in
             switch action {
+                
+            case .alert(.presented(.pop)):
+                
+                return .send(.pop)
             case .resetAlert:
                 state.alert = AlertState {
                     
                     TextState("다른 경로를 선택하여 주세요")
                 } actions: {
                     
-                   
+                    ButtonState(action: .send(.pop), label: {
+                        TextState("pop")
+                    })
+                    
                     ButtonState(role: .cancel) {
                         TextState("확인")
                     }
@@ -120,10 +130,11 @@ struct SubwayResultFeature {
                 if let ways = state.ways {
                     print("ways \(ways)")
                     guard let idx = ways.firstIndex(of: state.startStatnNm) else {return .send(.resetAlert)}
+                    // 수정
                     guard let nextPickNm = ways[safe: idx + 1000] else {return .send(.resetAlert)}
-            
+                    
                     state.nextPickNm = nextPickNm
-               
+                    
                     print("stateNextNm \(state.nextNm)")
                     
                 }
@@ -236,9 +247,13 @@ struct SubwayResultFeature {
                 
                 
                 
-          
+                
                 
             case .alert(_):
+                return .none
+            case .pop:
+                
+                print("is Poped")
                 return .none
             }
             

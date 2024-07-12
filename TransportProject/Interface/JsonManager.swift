@@ -13,8 +13,8 @@ import ComposableArchitecture
 struct JsonManager {
     var getForSubwayNm: (String) async throws -> [SubwayNmModel]
     var getForStatnId: (String) throws -> [SubwayNmModel]
-    var getForThings: (String,String) throws -> [SubwayNmModel]
-  
+    var getForThings: (String, String) throws -> [SubwayNmModel]
+    
     
 }
 
@@ -27,13 +27,13 @@ extension DependencyValues {
 extension JsonManager: DependencyKey {
     static var liveValue = Self(
         getForSubwayNm: { subwayNm in
-        guard let jsonPath = Bundle.main.url(forResource: "subway", withExtension: "json") else {
+            guard let jsonPath = Bundle.main.url(forResource: "subway", withExtension: "json") else {
+                
+                return []  }
+            // 4. 해당 위치의 파일을 Data로 초기화하기
+            let data = try Data(contentsOf: jsonPath)
+            let dto = try JSONDecoder().decode(SubwayNmDTO.self, from: data)
             
-            return []  }
-        // 4. 해당 위치의 파일을 Data로 초기화하기
-        let data = try Data(contentsOf: jsonPath)
-        let dto = try JSONDecoder().decode(SubwayNmDTO.self, from: data)
-        
             
             
             return dto.datas.filter {
@@ -41,8 +41,8 @@ extension JsonManager: DependencyKey {
             }.map {
                 $0.getModel()
             }
-        
-        
+            
+            
         }, getForStatnId: { statnId in
             guard let jsonPath = Bundle.main.url(forResource: "subway", withExtension: "json") else {
                 
@@ -51,17 +51,18 @@ extension JsonManager: DependencyKey {
             let data = try Data(contentsOf: jsonPath)
             let dto = try JSONDecoder().decode(SubwayNmDTO.self, from: data)
             
-                
-                
-                return dto.datas.filter {
-                    return String($0.statnID) == statnId
-                }.map {
-                    $0.getModel()
-                }
+            
+            
+            return dto.datas.filter {
+                return String($0.statnID) == statnId
+            }.map {
+                $0.getModel()
+            }
             
             
         }, getForThings: { statnNm, subwayNm in
             
+            print("\(statnNm), \(subwayNm)")
             guard let jsonPath = Bundle.main.url(forResource: "subway", withExtension: "json") else {
                 
                 return []  }
@@ -69,16 +70,24 @@ extension JsonManager: DependencyKey {
             let data = try Data(contentsOf: jsonPath)
             let dto = try JSONDecoder().decode(SubwayNmDTO.self, from: data)
             
-                
-                
-                return dto.datas.filter {
-                    return String($0.statnNm) == statnNm && $0.subwayNm.rawValue == subwayNm
-                }.map {
-                    $0.getModel()
+            
+            
+            return dto.datas.filter { data in
+                var statnNm = data.statnNm
+                var subwayNm = data.subwayNm.rawValue
+                if let range0 = statnNm.range(of: "(") {
+                    let startWord = statnNm[range0].startIndex
+                    
+                    statnNm = String(statnNm[statnNm.startIndex ..< startWord])
+                    
                 }
-    
+                return statnNm == statnNm && subwayNm == subwayNm
+            }.map {
+                $0.getModel()
+            }
+            
         }
-        )
+    )
     
-   
+    
 }
