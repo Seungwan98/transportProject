@@ -16,7 +16,7 @@ import Alamofire
 struct SubwayListFeature {
     @Dependency(\.apiClient) var apiClient
     @Dependency(\.jsonManager) var jsonManager
-    @Dependency(\.subwayState) var subwayState
+    @Dependency(\.subwayStateManager) var subwayState
     
     
     
@@ -66,6 +66,8 @@ struct SubwayListFeature {
         case setResult([SubwayModel])
         case setDestinationResult([String])
         
+        case search(String)
+        
         case pushResultView(SubwayModel, SubwayNmModel, [String])
         
         case errorAlert
@@ -73,6 +75,7 @@ struct SubwayListFeature {
         
         
         case pop
+        
         @CasePathable
         enum Alert {}
         
@@ -92,9 +95,7 @@ struct SubwayListFeature {
                 state.alert = AlertState {
                     TextState("현재 운행중인 열차가 없습니다")
                 } actions: {
-                    
-                   
-                   
+          
                     ButtonState(role: .cancel) {
                         TextState("확인")
                     }
@@ -112,6 +113,7 @@ struct SubwayListFeature {
                 
                 state.resultDetail = subwayModels.sorted(by: { $1.statnNm > $0.statnNm })
                 state.isLineList = 1
+                
                 return .none
                 
                 
@@ -121,11 +123,10 @@ struct SubwayListFeature {
                 
                 
             case .setDestinationResult(let result):
-                state.resultDestination = result
                 
+                state.resultDestination = result
                 state.isLineList = 2
 
-                
                 return .none
                 
                 
@@ -150,10 +151,8 @@ struct SubwayListFeature {
                     
                     let pickDesList = try subwayState.getWay(subway.statnNm, subway.statnTnm, lineNameIdx)
 
-                    
                     await send(.setDestinationResult(pickDesList))
-                    
-                    
+
                 }
                 
             case .tappedDestinationList(let statnNm):
@@ -172,6 +171,10 @@ struct SubwayListFeature {
                 }
                 
             case .pushResultView(_, _, _):
+                return .none
+                
+            case .search(let text):
+                
                 return .none
                 
             }

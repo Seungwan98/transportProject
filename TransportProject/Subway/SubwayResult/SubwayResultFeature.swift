@@ -70,7 +70,6 @@ struct SubwayResultFeature {
         
         case cancel
         
-        
         case stopAlarm
         
         case resetAlert
@@ -110,16 +109,15 @@ struct SubwayResultFeature {
                 } actions: {
                     
                     ButtonState(action: .send(.pop), label: {
-                        TextState("pop")
+                        TextState("확인")
                     })
                     
-                    ButtonState(role: .cancel) {
-                        TextState("확인")
-                    }
+             
                 }
                 return .none
                 
             case .onAppear:
+                
                 state.startStatnNm = state.startPosition?.statnNm ?? ""
                 state.destinationStatnNm = state.destination?.statnNm ?? ""
                 
@@ -130,38 +128,29 @@ struct SubwayResultFeature {
                 if let ways = state.ways {
                     print("ways \(ways)")
                     guard let idx = ways.firstIndex(of: state.startStatnNm) else {return .send(.resetAlert)}
+                    
                     // 수정
-                    guard let nextPickNm = ways[safe: idx + 1000] else {return .send(.resetAlert)}
+                    guard let nextPickNm = ways[safe: idx + 1] else {return .send(.resetAlert)}
                     
                     state.nextPickNm = nextPickNm
                     
-                    print("stateNextNm \(state.nextNm)")
                     
                 }
-                
-                
-                
-                
-                
-                
+   
                 return .run { send in
                     while true {
-                        
-                        
+       
                         await send(.ownSubway)
                         
                         try await Task.sleep(for: .seconds(10))
-                        
-                        
-                        
-                        
+      
                     }
                 }.cancellable(id: CancelID.timer)
                 
                 
             case .setResult(let models):
                 
-                
+                print("\(models.count) modelsCount")
                 
                 if let model = models.first {
                     
@@ -227,9 +216,11 @@ struct SubwayResultFeature {
                     
                     let result = data.realtimeArrivalList.map { $0.getModel() }.filter {
                         
+                        
                         return $0.btrainNo == startPosition?.trainNo
                         
                     }
+                    print("result \(result)")
                     
                     await send(.setResult(result))
                     

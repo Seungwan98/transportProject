@@ -9,28 +9,28 @@ import Foundation
 import ComposableArchitecture
 
 @DependencyClient
-struct SubwayState {
+struct SubwayStateManager {
     
-    var getWay: (String,String,Int) throws -> [String]
+    var getWay: (String, String, Int) throws -> [String]
 }
 extension DependencyValues {
-    var subwayState: SubwayState {
-        get { self[SubwayState.self] }
-        set { self[SubwayState.self] = newValue }
+    var subwayStateManager: SubwayStateManager {
+        get { self[SubwayStateManager.self] }
+        set { self[SubwayStateManager.self] = newValue }
     }
 }
 
-extension SubwayState: DependencyKey {
+extension SubwayStateManager: DependencyKey {
+    
     static var liveValue = Self(
         
         getWay: { start, destination, lineNum  in
-            
-            
-            
+            @Dependency(\.apiClient) var apiClient
+
             // 서울 지하철 1호선
             let line1_sinchang = ["연천", "진곡", "청산", "소요산", "동두천", "보산", "동두천중앙", "지행", "덕정", "덕계", "양주", "녹양", "가능", "의정부", "회룡", "망월사", "도봉산", "도봉", "방학", "창동", "녹천", "월계", "광운대", "석계", "신이문", "외대앞", "회기", "청량리", "제기동", "신설동", "동묘앞", "동대문", "종로5가", "종로3가", "종각", "시청", "서울", "남영", "용산", "노량진", "대방", "신길", "영등포", "신도림", "구로", "가산디지털단지", "독산", "금천구청", "석수", "관악", "안양", "명학", "금정", "군포", "당정", "의왕", "성균관대", "화서", "수원", "세류", "병점", "세마", "오산대", "오산", "진위", "송탄", "서정리", "지제", "평택", "성환", "직산", "두정", "천안", "봉명", "쌍용", "아산", "탕정", "배방", "온양온천", "신창"]
             
-            let line1_incheon = ["연천", "진곡", "청산","소요산", "동두천", "보산", "동두천중앙", "지행", "덕정", "덕계", "양주", "녹양", "가능", "의정부", "회룡", "망월사", "도봉산", "도봉", "방학", "창동", "녹천", "월계", "광운대", "석계", "신이문", "외대앞", "회기", "청량리", "제기동", "신설동", "동묘앞", "동대문", "종로5가", "종로3가", "종각", "시청", "서울", "남영", "용산", "노량진", "대방", "신길", "영등포", "신도림", "구로", "구일", "개봉", "오류동", "온수", "역곡", "소사", "부천", "중동", "송내", "부개", "부평", "백운", "동암", "간석", "주안", "도화", "제물포", "도원", "동인천", "인천"]
+            let line1_incheon = ["연천", "진곡", "청산", "소요산", "동두천", "보산", "동두천중앙", "지행", "덕정", "덕계", "양주", "녹양", "가능", "의정부", "회룡", "망월사", "도봉산", "도봉", "방학", "창동", "녹천", "월계", "광운대", "석계", "신이문", "외대앞", "회기", "청량리", "제기동", "신설동", "동묘앞", "동대문", "종로5가", "종로3가", "종각", "시청", "서울", "남영", "용산", "노량진", "대방", "신길", "영등포", "신도림", "구로", "구일", "개봉", "오류동", "온수", "역곡", "소사", "부천", "중동", "송내", "부개", "부평", "백운", "동암", "간석", "주안", "도화", "제물포", "도원", "동인천", "인천"]
             
             // 서울 지하철 2호선 (순환선)
             let line2_inner = ["시청", "을지로입구", "을지로3가", "을지로4가", "동대문역사문화공원", "신당", "상왕십리", "왕십리", "한양대", "뚝섬", "성수", "건대입구", "구의", "강변", "잠실나루", "잠실", "신천", "종합운동장", "삼성", "선릉", "역삼", "강남", "교대", "서초", "방배", "사당", "낙성대", "서울대입구", "봉천", "신림", "신대방", "구로디지털단지", "대림", "신도림", "문래", "영등포구청", "당산", "합정", "홍대입구", "신촌", "이대", "아현", "충정로"]
@@ -92,7 +92,7 @@ extension SubwayState: DependencyKey {
             // 모든 노선 배열
             lazy var allLines: [[String]] = [line1_sinchang, line1_incheon, line2_inner, line2_sinseol, line2_guro, line3, line4, line5_banghwa, line5_macheon, line6, line7, line8, line9_gaehwa, gyeonguiJungang, gyeongchun, airportRailroad, shinbundang, uisinseol, gyeonggang, seohae, suinbundang]
             
-            var resultLineName: [String] = ["1호선", "2호선", "3호선", "4호선", "5호선", "6호선", "7호선", "8호선", "9호선", "경의중앙선", "경춘선", "공항철도", "신분당선", "우이신설선", "경강선", "서해선", "수인분당선"]
+           
             
             
             var lines: [[String]] = []
@@ -143,6 +143,7 @@ extension SubwayState: DependencyKey {
             lines.forEach { line in
                 
                 
+                
                 print("\(line.contains(start)) ,  \(line.contains(destination))")
                 if line.contains(start) && line.contains(destination) {
                     result = getDirection(start: start, destination: destination, line: line)
@@ -150,10 +151,12 @@ extension SubwayState: DependencyKey {
                     
                     
                     
-                } else {
-                    result = line
                 }
                 
+            }
+            
+            if result.isEmpty {
+                result = lines.first!
             }
             
             

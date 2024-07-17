@@ -62,9 +62,10 @@ struct SubwayListView: View {
                     }
                     
                 }.listStyle(.plain)
-                    .navigationTitle("탑승 지하철 선택").searchable(text: $text).onSubmit(of: .search) {
-                        //   viewStore.send(.search(text))
-                    }
+                    .navigationTitle("탑승 지하철 선택")
+//                    .searchable(text: $text).onSubmit(of: .search) {
+//                        //   viewStore.send(.search(text))
+//                    }
                 
             case 2:
                 List {
@@ -80,9 +81,10 @@ struct SubwayListView: View {
                     }
                     
                 }.listStyle(.plain)
-                    .navigationTitle("목적지 선택").searchable(text: $text).onSubmit(of: .search) {
-                        //   viewStore.send(.search(text))
-                    }
+                    .navigationTitle("목적지 선택")
+//                    .searchable(text: $text).onSubmit(of: .search) {
+//                           viewStore.send(.search(text))
+//                    }
             default:
                 Text("err")
                 

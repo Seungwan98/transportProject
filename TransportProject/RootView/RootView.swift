@@ -12,7 +12,11 @@ struct RootView: View {
     var body: some View {
         
         NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
+
             VStack {
+                
+                Spacer().frame(height: 40)
+
                 Text("이용하시는 서비스를").font(.system(size: 36).bold()).offset(x: 10)
                 Text("선택해주세요").font(.system(size: 36).bold()).offset(x: 10)
                 Spacer()
@@ -38,13 +42,6 @@ struct RootView: View {
                 
                 
                 Spacer().frame(height: 250)
-            }.toolbar {
-                Button(action: {
-                    
-                }, label: {
-                    Image(systemName: "gearshape")
-                })
-
             }
             
             

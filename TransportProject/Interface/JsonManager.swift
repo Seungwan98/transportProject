@@ -73,15 +73,17 @@ extension JsonManager: DependencyKey {
             
             
             return dto.datas.filter { data in
-                var statnNm = data.statnNm
-                var subwayNm = data.subwayNm.rawValue
-                if let range0 = statnNm.range(of: "(") {
-                    let startWord = statnNm[range0].startIndex
+                var dataStatnNm = data.statnNm
+                var dataSubwayNm = data.subwayNm.rawValue
+                if let range0 = dataStatnNm.range(of: "(") {
+                    let startWord = dataStatnNm[range0].startIndex
                     
-                    statnNm = String(statnNm[statnNm.startIndex ..< startWord])
+                    dataStatnNm = String(dataStatnNm[statnNm.startIndex ..< startWord])
                     
                 }
-                return statnNm == statnNm && subwayNm == subwayNm
+                
+                
+                return statnNm == dataStatnNm && subwayNm == dataSubwayNm
             }.map {
                 $0.getModel()
             }

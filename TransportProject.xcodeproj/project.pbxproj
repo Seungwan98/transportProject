@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		600846DF2C3E72B400DE64E2 /* Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600846DE2C3E72B400DE64E2 /* Background.swift */; };
-		600846E22C3F938C00DE64E2 /* SubwayState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600846E12C3F938C00DE64E2 /* SubwayState.swift */; };
+		600846E22C3F938C00DE64E2 /* SubwayStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600846E12C3F938C00DE64E2 /* SubwayStateManager.swift */; };
 		600846E42C4035B600DE64E2 /* Collection+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600846E32C4035B600DE64E2 /* Collection+.swift */; };
 		605FA8A22C2474E200E32E19 /* BusPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605FA8A12C2474E200E32E19 /* BusPicker.swift */; };
 		605FA8A62C24B57500E32E19 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605FA8A52C24B57500E32E19 /* SceneDelegate.swift */; };
@@ -64,7 +64,7 @@
 /* Begin PBXFileReference section */
 		600846DD2C3E691E00DE64E2 /* TransportProject.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TransportProject.entitlements; sourceTree = "<group>"; };
 		600846DE2C3E72B400DE64E2 /* Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
-		600846E12C3F938C00DE64E2 /* SubwayState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubwayState.swift; sourceTree = "<group>"; };
+		600846E12C3F938C00DE64E2 /* SubwayStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubwayStateManager.swift; sourceTree = "<group>"; };
 		600846E32C4035B600DE64E2 /* Collection+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+.swift"; sourceTree = "<group>"; };
 		605FA8A12C2474E200E32E19 /* BusPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusPicker.swift; sourceTree = "<group>"; };
 		605FA8A52C24B57500E32E19 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -185,7 +185,7 @@
 				60700FE32C3467E1007767C3 /* JsonManager.swift */,
 				60700FFF2C35166E007767C3 /* BackgroundManager.swift */,
 				606961CC2C2A7A6300B3008A /* LocationManager.swift */,
-				600846E12C3F938C00DE64E2 /* SubwayState.swift */,
+				600846E12C3F938C00DE64E2 /* SubwayStateManager.swift */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -549,7 +549,7 @@
 				6084BFB42C3BE529002FA0FC /* SubwayArriveDTO.swift in Sources */,
 				60700FFE2C34FFC0007767C3 /* SubwayResultFeature.swift in Sources */,
 				60700FD82C32D9CD007767C3 /* SubwayListView.swift in Sources */,
-				600846E22C3F938C00DE64E2 /* SubwayState.swift in Sources */,
+				600846E22C3F938C00DE64E2 /* SubwayStateManager.swift in Sources */,
 				60700FF42C346BB6007767C3 /* SubwayNmDTO.swift in Sources */,
 				60700FFC2C34FF8C007767C3 /* SubwayResultView.swift in Sources */,
 				60700FF62C347CC3007767C3 /* SubwayNmModel.swift in Sources */,
@@ -774,7 +774,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.wan.TransportProject;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wan.TAlarm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -811,7 +811,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.wan.TransportProject;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wan.TAlarm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
